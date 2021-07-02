@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import loginIcon from '../assets/images/lagomall.jpeg'
+import lagoMall from '../assets/images/lagomallcc.jpg'
+
 // import uiImg from '../../images/login.svg';
 import '../assets/css/login.css';
 
@@ -10,7 +12,7 @@ export default class Login extends Component {
             <div>
                 <Container className="mt-5">
                     <Row>
-                        <Col lg={4} md={6} sm={12} className="text-center mt-5 p-3">
+                        <Col xs={5} className="text-center mt-5">
                             { <img className="icon-img" src={loginIcon} alt="icon" /> }
                             <Form>
                                 <Form.Group controlId="formBasicUsername">
@@ -26,8 +28,8 @@ export default class Login extends Component {
                             </Form>
                         </Col>
 
-                        <Col lg={8} md={6} sm={12}>
-                             {/* <img className="w-100" src={loginIcon} alt="" />  */}
+                        <Col xs={4} className="lgContainer">
+                             { <img className="lagomall" src={lagoMall} alt="" />  }
                         </Col>
                     </Row>
                 </Container>

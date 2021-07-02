@@ -11,3 +11,27 @@
 .reset{
     color: black;
 }
+
+.lagomall{
+    border-radius: 100%;
+    width: 600px;
+    height: 485px;    
+}
+
+@media only screen and (max-width:1080px) {
+
+    .lagomall{
+        width: 500px;
+        height: 404px;    
+    }
+
+}
+
+@media only screen and (max-width:920px) {
+
+    .lagomall{
+        width: 450px;
+        height: 364px;    
+    }
+
+}

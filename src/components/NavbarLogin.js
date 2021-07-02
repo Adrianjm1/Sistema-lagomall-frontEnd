@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Navbar,  Container,  Row} from "react-bootstrap";
+import {Navbar,  Container } from "react-bootstrap";
 import '../assets/css/navbarLogin.css'
 
 
@@ -10,8 +10,7 @@ export default class NavbarLogin extends Component {
                 <Navbar className="color-nav"  variant="dark">
                     <Container>
                         <Navbar.Brand href="#home">
-
-                            Control de cobranzas Lago Mall
+                            <b className="nav">Control de cobranzas Lago Mall</b>
                         </Navbar.Brand>
                     </Container>
                 </Navbar>
