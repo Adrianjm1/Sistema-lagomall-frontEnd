@@ -7,6 +7,7 @@ import NavbarLogin from './components/NavbarLogin'
 import Footer from './components/Footer'
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.css";
+import getPayments from './components/getPayments';
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
 
       <Route path="/login" exact component={Login} />
       <Route path="/locales" component={GetLocales} />
+      <Route path="/payments" component={getPayments} />
+
+
       <Footer/>
 
     </Router>
