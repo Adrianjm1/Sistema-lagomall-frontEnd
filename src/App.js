@@ -12,11 +12,12 @@ function App() {
   return (
     <Router>
       <NavbarLogin/>
-      <Login/>
-      <Footer/>
+
 
       <Route path="/login" exact component={Login} />
       <Route path="/locales" component={GetLocales} />
+      <Footer/>
+
     </Router>
   );
 } 
