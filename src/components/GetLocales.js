@@ -1,48 +1,60 @@
 import React, { Component } from 'react'
 import axios, { generateToken } from '../config/axios'
-import {ListGroup } from "react-bootstrap";
+import { Table, Container, Button} from "react-bootstrap";
+import '../assets/css/locales.css';
 
 
 export default class GetLocales extends Component {
 
     state = {
-        data: []
+        datos: []
     }
 
     componentDidMount() {
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI1MjQ5Mzg1LCJleHAiOjE2MjUyNjczODV9.FnWavwXN2AnsbNiBmelhNJIs97QFIYfUno8lHY9MS7k')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImFuZHJlc2d1YW5pcGEiLCJwYXNzd29yZCI6bnVsbCwiY3JlYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIn0sImlhdCI6MTYyNTQxNjYxNCwiZXhwIjoxNjI1NDM0NjE0fQ.e5nMO-Y1PoOu4AlhX59ZqWSm-lXxpZDIo7izNZK9My0')  // for all requests
 
-
-        axios.get('/admin/')
+        axios.get('/local/table')
             .then((res) => {
-                console.log(res.data)
+                this.setState({ datos: res.data })
 
-
-                this.setState({ data: res.data.username })
             })
             .catch((error) =>
                 console.log(error)
             )
-
-
     }
-
 
     render() {
         return (
-            <div>
-                Todos los locales
-                <p>{this.state.data}</p>
+
+            <Container>
+                <Table striped bordered hover size="sm">
+                    <thead>
+                        <tr>
+                            <th>Locales</th>
+                            <th>Propietarios</th>
+                            <th>% Según documento de condominio</th>
+                            <th>Cuota total en $</th>
+                            <th>Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            this.state.datos.map(data => (
+                                <tr key={data.code}>
+                                <td>{data.code}</td>
+                                <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
+                                <td>{data.percentageOfCC}</td>
+                                <td>{data.monthlyUSD}</td>
+                                <td>{data.balance}</td>
+                                <td className="text-center"><Button className="see">Ver detalle</Button></td>
+                            </tr>
+                            ))
+                        }
+                    </tbody>
+                </Table>
+            </Container>
 
 
-                <ListGroup>
-                    <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                    <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                    <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-                    <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-                    <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-                </ListGroup>
-            </div>
         )
     }
 }

@@ -8,9 +8,9 @@ const client = axios.create({
 
 export const generateToken = token => {
     if(token){
-      client.defaults.headers.common['x-auth'] = token;
+      client.defaults.headers.common['token'] = token;
     } else {
-      delete client.defaults.headers.common['x-auth'];
+      delete client.defaults.headers.common['token'];
     }
   }
 
