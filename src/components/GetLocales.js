@@ -1,10 +1,21 @@
 import React, { Component } from 'react'
 import axios, { generateToken } from '../config/axios'
-import { Table, Container, Button} from "react-bootstrap";
+import { Link } from 'react-router-dom';
+import { Table, Container, Button } from "react-bootstrap";
 import '../assets/css/locales.css';
 
 
 export default class GetLocales extends Component {
+
+
+    // changeRoute = ()=>{
+
+    //     const history = useHistory();
+
+    //     const handleHistory = ()=>{
+    //         history.push(`/${code}`)
+    //     }
+    // }
 
 
 
@@ -28,10 +39,14 @@ export default class GetLocales extends Component {
     render() {
         return (
 
+
+
             <Container>
+
+                <br></br>
                 <Table striped bordered hover size="sm">
                     <thead>
-                        <tr>
+                        <tr className='first'>
                             <th>Locales</th>
                             <th>Propietarios</th>
                             <th>% Según documento de condominio</th>
@@ -43,14 +58,17 @@ export default class GetLocales extends Component {
                         {
                             this.state.datos.map(data => (
                                 <tr key={data.code}>
-                                <td>{data.code}</td>
-                                <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
-                                <td>{data.percentageOfCC}</td>
-                                <td>{data.monthlyUSD}</td>
-                                <td>{data.balance}</td>
-                                <td className="text-center"><Button className="see">Ver detalle</Button></td>
-                            </tr>
+                                    <td>{data.code}</td>
+                                    <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
+                                    <td>{data.percentageOfCC}</td>
+                                    <td>{data.monthlyUSD}</td>
+                                    <td>{data.balance}</td>
+                                    <td className="btn"><Link to={`/payments/${data.code}`}> <Button className="see">Ver detalles</Button></Link></td>
+
+                                </tr>
+
                             ))
+
                         }
                     </tbody>
                 </Table>

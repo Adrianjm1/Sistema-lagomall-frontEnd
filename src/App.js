@@ -6,9 +6,10 @@ import Login from './components/Login';
 import NavbarLogin from './components/NavbarLogin';
 import NavbarLoged from './components/NavbarLoged';
 import Footer from './components/Footer'
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route,} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.css";
-import getPayments from './components/getPayments';
+// import getPayments from './components/getPayments';
+import PaymentsDetails from './components/PaymentsDetails';
 
 function App() {
   return (
@@ -21,7 +22,14 @@ function App() {
       <Route path="/locales" component={GetLocales} />
 
 
-      <Route path="/payments" component={getPayments} />
+      <Route path="/payments" component={NavbarLoged} />
+      <br/>
+      <br/>
+      <Route path="/payments/:code" component={PaymentsDetails} />
+
+
+
+ 
 
 
       <Footer/>
