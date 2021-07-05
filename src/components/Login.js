@@ -10,7 +10,7 @@ export default class Login extends Component {
     render() {
         return (
             <div>
-                <Container className="mt-5">
+                <Container className="mt-5" >
                     <Row>
                         <Col xs={5} className="text-center mt-5">
                             { <img className="icon-img" src={loginIcon} alt="icon" /> }

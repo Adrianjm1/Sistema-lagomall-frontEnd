@@ -18,6 +18,12 @@
     height: 485px;    
 }
 
+/* .text-center{
+
+    background: rgb(252,156,7);
+    background: linear-gradient(360deg, rgba(252,156,7,1) 6%, rgba(1,62,124,1) 100%);
+} */
+
 @media only screen and (max-width:1080px) {
 
     .lagomall{
