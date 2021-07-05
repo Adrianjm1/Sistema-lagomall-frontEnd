@@ -6,16 +6,26 @@ import Login from './components/Login';
 import NavbarLogin from './components/NavbarLogin';
 import NavbarLoged from './components/NavbarLoged';
 import Footer from './components/Footer'
-import {BrowserRouter as Router, Route,} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.css";
 // import getPayments from './components/getPayments';
 import PaymentsDetails from './components/PaymentsDetails';
+import LagoMallDataMaster from './components/LagoMallDataMaster';
+import LagoMallData from './components/LagoMallData';
+
 
 function App() {
   return (
     <Router>
       <Route path="/login" exact component={NavbarLogin} />
       <Route path="/login" exact component={Login} />
+
+
+      <Route path="/master" component={NavbarLoged} />
+      <Route path="/master" component={LagoMallDataMaster} />
+
+      <Route path="/home" component={NavbarLoged} />
+      <Route path="/home" component={LagoMallData} />
 
 
       <Route path="/locales" component={NavbarLoged} />
