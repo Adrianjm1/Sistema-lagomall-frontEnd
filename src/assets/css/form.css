@@ -1,0 +1,23 @@
+body{
+    min-width: 1000px;
+}
+
+.form{
+    font-size: 120%;
+}
+
+.edit{
+    bottom: 0;
+}
+
+.edit:hover{
+    color: hsl(210, 50%, 43%);
+    cursor: pointer;
+}
+
+.discount{
+    background-color: rgb(255, 188, 112) !important;
+    border: 1px solid #000;
+    color:black;
+
+}

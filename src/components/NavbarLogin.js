@@ -4,6 +4,7 @@ import '../assets/css/navbar.css'
 
 
 export default class NavbarLogin extends Component {
+
     render() {
         return (
             <>
