@@ -24,7 +24,7 @@ export default class GetLocales extends Component {
     }
 
     componentDidMount() {
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImFuZHJlc2d1YW5pcGEiLCJwYXNzd29yZCI6bnVsbCwiY3JlYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIn0sImlhdCI6MTYyNTQxNjYxNCwiZXhwIjoxNjI1NDM0NjE0fQ.e5nMO-Y1PoOu4AlhX59ZqWSm-lXxpZDIo7izNZK9My0')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI1NTIwODgwLCJleHAiOjE2MjU1Mzg4ODB9._Y13mDCko3G5T7N0yq9ooeziCR3Ku65fh1yFvdHbh84')  // for all requests
 
         axios.get('/local/table')
             .then((res) => {
@@ -62,10 +62,11 @@ export default class GetLocales extends Component {
                                     <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
                                     <td>{data.percentageOfCC}</td>
                                     <td>{data.monthlyUSD}</td>
-                                    <td>{data.balance}</td>
-                                    <td className="btn"><Link to={`/payments/${data.code}`}> <Button className="see">Ver detalles</Button></Link></td>
+                                    <td>{data.balance}</td>,
+                                    <Link className="btn" to={`/payments/${data.code}`}> <Button className="see">Ver detalles</Button></Link>
 
                                 </tr>
+
 
                             ))
 

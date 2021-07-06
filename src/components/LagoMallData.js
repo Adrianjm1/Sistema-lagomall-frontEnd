@@ -30,12 +30,12 @@ export default class LagoMallData extends Component {
                         </Col>
                     </Form.Group>
 
-                    <Form.Group as={Row} controlId="formCondominio">
+                    <Form.Group as={Row} className="condomi" controlId="formCondominio">
                         <Form.Label column sm={4}>
                             <b>Cuota total del condominio</b>
                         </Form.Label>
                         <Col sm={2}>
-                            <Form.Control type="text" value="2" name="condominio" disabled/>
+                            <Form.Control type="text" className="ctotalc" value="2" name="condominio" disabled/>
                         </Col>
                         <Col sm={1}>
                             <Form.Control className="discount" type="text" value="80" disabled />

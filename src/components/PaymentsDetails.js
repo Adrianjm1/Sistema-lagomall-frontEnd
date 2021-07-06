@@ -5,7 +5,6 @@ import { withRouter } from "react-router";
 import { Table, Container, Button } from "react-bootstrap";
 import '../assets/css/paymentsDetails.css';
 
-
 class PaymentsDetails extends Component {
 
     state = {
@@ -15,7 +14,7 @@ class PaymentsDetails extends Component {
 
     componentDidMount() {
         const code = this.props.match.params.code;
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImFuZHJlc2d1YW5pcGEiLCJwYXNzd29yZCI6bnVsbCwiY3JlYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIn0sImlhdCI6MTYyNTQ5OTMxNiwiZXhwIjoxNjI1NTE3MzE2fQ._-4t0sQ4c-J7m1cea-cb1XmLhy1HCHsF3uct9x1oRis')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI1NTIwODgwLCJleHAiOjE2MjU1Mzg4ODB9._Y13mDCko3G5T7N0yq9ooeziCR3Ku65fh1yFvdHbh84')  // for all requests
 
         axios.get(`/payments/${code}`)
             .then((res) => {
@@ -48,7 +47,7 @@ class PaymentsDetails extends Component {
                             this.state.datos.map(data => (
                                 <tr key={data.id}>
                                     <td>{`${data.locale.code}`}</td>
-                                    <td>{data.createdAt.substring(0,10)}</td>
+                                    <td>{data.createdAt}</td>
                                     <td>{data.amountUSD}</td>
                                     <td>{data.amountBS}</td>
                                     <td>{data.referenceNumber}</td>

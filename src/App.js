@@ -23,13 +23,14 @@ function App() {
 
       <Route path="/master" component={NavbarLoged} />
       <Route path="/master" component={LagoMallDataMaster} />
+      <Route path="/master" component={GetLocales} />
+
+      {/* <Route path="/home" component={NavbarLoged} /> */}
+
 
       <Route path="/home" component={NavbarLoged} />
       <Route path="/home" component={LagoMallData} />
-
-
-      <Route path="/locales" component={NavbarLoged} />
-      <Route path="/locales" component={GetLocales} />
+      <Route path="/home" component={GetLocales} />
 
 
       <Route path="/payments" component={NavbarLoged} />

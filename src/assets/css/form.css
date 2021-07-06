@@ -1,13 +1,23 @@
 body{
+    margin: 0;
     min-width: 1000px;
 }
 
 .form{
     font-size: 120%;
+
+
 }
+
 
 .edit{
     bottom: 0;
+}
+
+
+.form-group {
+    position: relative;
+    left: 210px;
 }
 
 .edit:hover{
