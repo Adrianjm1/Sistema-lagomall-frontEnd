@@ -10,6 +10,8 @@ export default class LagoMallDataMaster extends Component {
     state = {
         breakeven: true,
         discount: true,
+        breakevenInput: '2',
+        discountInput: '85',
         clase: 'discount'
     }
 
@@ -23,6 +25,14 @@ export default class LagoMallDataMaster extends Component {
 
         this.setState({discount: false, clase: ''});
     
+    }
+
+    onInputChange = (e) =>{
+
+        this.setState({
+            [e.target.name]: e.target.value
+
+        })
     }
 
 
@@ -47,7 +57,7 @@ export default class LagoMallDataMaster extends Component {
                             <b>Punto de Equilibrio</b>
                         </Form.Label>
                         <Col sm={2}>
-                            <Form.Control type="text" value="2" disabled={this.state.breakeven} />
+                            <Form.Control type="text" value={this.state.breakevenInput} name="breakevenInput" onChange={this.onInputChange} disabled={this.state.breakeven} />
                         </Col>
                         <Col>
                             <FontAwesomeIcon color="#013E7C" onClick={this.onClickBreakeven} className="edit" icon={faEdit} size="lg" />
@@ -62,7 +72,7 @@ export default class LagoMallDataMaster extends Component {
                             <Form.Control type="text" value="2" name="condominio" disabled/>
                         </Col>
                         <Col sm={1}>
-                            <Form.Control type="text" className={this.state.clase} value="80" disabled={this.state.discount} />
+                            <Form.Control type="text" name="discountInput" className={this.state.clase} onChange={this.onInputChange} value={this.state.discountInput} disabled={this.state.discount} />
                         </Col>     
                         <Col>
                             <FontAwesomeIcon onClick={this.onClickDiscount} color="#013E7C" className="edit" icon={faEdit} size="lg" />

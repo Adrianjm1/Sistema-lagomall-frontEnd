@@ -12,6 +12,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import PaymentsDetails from './components/PaymentsDetails';
 import LagoMallDataMaster from './components/LagoMallDataMaster';
 import LagoMallData from './components/LagoMallData';
+import RegistrarPago from './components/RegistrarPago';
 
 
 function App() {
@@ -19,6 +20,9 @@ function App() {
     <Router>
       <Route path="/login" exact component={NavbarLogin} />
       <Route path="/login" exact component={Login} />
+
+
+      <Route path="/register" exact component={RegistrarPago} />
 
 
       <Route path="/master" component={NavbarLoged} />
