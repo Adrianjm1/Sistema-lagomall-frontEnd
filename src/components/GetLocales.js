@@ -43,9 +43,9 @@ export default class GetLocales extends Component {
 
             <Container>
 
-                <br></br>
                 <Table striped bordered hover size="sm">
                     <thead>
+
                         <tr className='first'>
                             <th>Locales</th>
                             <th>Propietarios</th>
@@ -62,14 +62,10 @@ export default class GetLocales extends Component {
                                     <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
                                     <td>{data.percentageOfCC}</td>
                                     <td>{data.monthlyUSD}</td>
-                                    <td>{data.balance}</td>,
-                                    <Link className="btn" to={`/payments/${data.code}`}> <Button className="see">Ver detalles</Button></Link>
-
+                                    <td>{data.balance}</td>
+                                    <td><Link className="btn"to={`/payments/${data.code}`}><Button className="see">Ver detalles</Button></Link></td>
                                 </tr>
-
-
                             ))
-
                         }
                     </tbody>
                 </Table>

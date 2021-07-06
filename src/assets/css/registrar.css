@@ -1,0 +1,14 @@
+* {
+    margin: 0
+}
+
+.formulario {
+    margin-top: 50px;
+    width: 30%;
+    right: 500px;
+    justify-content: center;
+}
+
+.formregistrar {
+    left: 300px;
+}

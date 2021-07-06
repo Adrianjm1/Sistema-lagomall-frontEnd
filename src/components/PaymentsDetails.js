@@ -14,23 +14,26 @@ class PaymentsDetails extends Component {
 
     componentDidMount() {
         const code = this.props.match.params.code;
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI1NTIwODgwLCJleHAiOjE2MjU1Mzg4ODB9._Y13mDCko3G5T7N0yq9ooeziCR3Ku65fh1yFvdHbh84')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI1NTkyNzQ1LCJleHAiOjE2MjU2MTA3NDV9.XsmD96qoNS5eSfyJTPEakTHSzE6TcFARXZl256nDJjg')  // for all requests
 
         axios.get(`/payments/${code}`)
             .then((res) => {
+                console.log(res.data);
                 this.setState({ datos: res.data })
+
 
             })
             .catch((error) =>
                 console.log(error)
             )
+
     }
 
     render() {
         return (
 
             <Container>
-                <Table striped bordered hover size="sm" >
+                <Table className="margintable" striped bordered hover size="sm" >
                     <thead>
                         <tr className='first'>
                             <th>Codigo de local</th>
@@ -40,6 +43,7 @@ class PaymentsDetails extends Component {
                             <th>Referencia</th>
                             <th>Banco</th>
                             <th>Tasa de cambio</th>
+                            <th>Pago en dolares</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,12 +51,13 @@ class PaymentsDetails extends Component {
                             this.state.datos.map(data => (
                                 <tr key={data.id}>
                                     <td>{`${data.locale.code}`}</td>
-                                    <td>{data.createdAt}</td>
+                                    <td>{data.createdAt.slice(0,10)}</td>
                                     <td>{data.amountUSD}</td>
                                     <td>{data.amountBS}</td>
                                     <td>{data.referenceNumber}</td>
                                     <td>{data.bank}</td>
                                     <td>{data.exchangeRate}</td>
+                                    <td>{`${data.paymentUSD}`}</td>
 
                                 </tr>
                             ))
