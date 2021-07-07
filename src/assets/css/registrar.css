@@ -2,13 +2,21 @@
     margin: 0
 }
 
+body{
+    min-width: 1200px !important;
+}
+
 .formulario {
     margin-top: 50px;
     width: 30%;
-    right: 500px;
-    justify-content: center;
+    margin-bottom: 100px;
 }
 
-.formregistrar {
-    left: 300px;
+.title{
+    color: #013E7C;
 }
+
+/* .formregistrar {
+    left: 300px;
+    
+} */

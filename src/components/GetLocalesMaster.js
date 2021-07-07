@@ -63,7 +63,8 @@ export default class GetLocales extends Component {
                                     <td>{data.percentageOfCC}</td>
                                     <td>{data.monthlyUSD}</td>
                                     <td>{data.balance}</td>
-                                    <td><Link className="btn"to={`/admin/payments/${data.code}`}><Button className="see">Ver detalles</Button></Link></td>
+                                    <td><Link className="btn"to={`/master/payments/${data.code}`}><Button className="see">Ver detalles</Button></Link></td>
+                                    <td><Link className="btn"><Button className="see">Editar</Button></Link></td>
                                 </tr>
                             ))
                         }

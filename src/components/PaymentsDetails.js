@@ -14,7 +14,7 @@ class PaymentsDetails extends Component {
 
     componentDidMount() {
         const code = this.props.match.params.code;
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI1NTkyNzQ1LCJleHAiOjE2MjU2MTA3NDV9.XsmD96qoNS5eSfyJTPEakTHSzE6TcFARXZl256nDJjg')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImFuZHJlc2d1YW5pcGEiLCJwYXNzd29yZCI6bnVsbCwiY3JlYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIn0sImlhdCI6MTYyNTYxNjkxNywiZXhwIjoxNjI1NjM0OTE3fQ.CVAh726IWHvrUuQKmfD_QGlARw9rJ1eVrGB-eW-lnXo')  // for all requests
 
         axios.get(`/payments/${code}`)
             .then((res) => {
@@ -57,7 +57,8 @@ class PaymentsDetails extends Component {
                                     <td>{data.referenceNumber}</td>
                                     <td>{data.bank}</td>
                                     <td>{data.exchangeRate}</td>
-                                    <td>{`${data.paymentUSD}`}</td>
+                                    <td>{data.paymentUSD === false ? 'No' : 'Si'}</td>
+                                    <td><Link className="btn"><Button className="see">Editar</Button></Link></td>
 
                                 </tr>
                             ))

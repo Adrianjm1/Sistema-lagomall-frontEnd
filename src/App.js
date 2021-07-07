@@ -3,9 +3,12 @@ import './App.css';
 import "bootstrap/dist/css/bootstrap.css";
 import React from 'react';
 import GetLocales from './components/GetLocales';
+import GetLocalesMaster from './components/GetLocalesMaster';
+
 import Login from './components/Login';
 import NavbarLogin from './components/NavbarLogin';
 import NavbarLoged from './components/NavbarLoged';
+import NavbarMaster from './components/NavbarMaster';
 import Footer from './components/Footer'
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 // import getPayments from './components/getPayments';
@@ -18,30 +21,36 @@ import RegistrarPago from './components/RegistrarPago';
 function App() {
   return (
     <Router>
-      <Route path="/login" exact component={NavbarLogin} />
-      <Route path="/login" exact component={Login} />
+      <Route path="/" exact component={NavbarLogin} />
+      <Route path="/" exact component={Login} />
 
+      {/* ------------ ADMIN ------------ */}
 
-      <Route path="/register" exact component={RegistrarPago} />
+      <Route path="/admin" exact component={NavbarLoged} />
+      <Route path="/admin" exact component={LagoMallData} />
+      <Route path="/admin" exact component={GetLocales} />
 
+      <Route path="/admin/registrar" exact component={NavbarLoged} />
 
-      <Route path="/master" component={NavbarLoged} />
-      <Route path="/master" component={LagoMallDataMaster} />
-      <Route path="/master" component={GetLocales} />
+      <Route path="/admin/registrar" exact component={RegistrarPago} />
 
-      {/* <Route path="/home" component={NavbarLoged} /> */}
+      <Route path="/admin/payments" exact component={NavbarLoged} />
+      <Route path="/admin/payments/:code" exact component={NavbarLoged} />
+      <Route path="/admin/payments/:code" exact component={PaymentsDetails} />
 
+      {/* ------------ MASTER ------------ */}
 
-      <Route path="/home" component={NavbarLoged} />
-      <Route path="/home" component={LagoMallData} />
-      <Route path="/home" component={GetLocales} />
+      <Route path="/master" exact component={NavbarMaster} />
+      <Route path="/master" exact component={LagoMallDataMaster} />
+      <Route path="/master" exact component={GetLocalesMaster} />
 
-      <Route path="/registrar" component={NavbarLoged} />
-      <Route path ="/registrar" component = {RegistrarPago}/>
+      <Route path="/master/registrar" exact component={NavbarMaster} />
 
-      <Route path="/payments" component={NavbarLoged} />
+      <Route path="/master/registrar" exact component={RegistrarPago} />
 
-      <Route path="/payments/:code" component={PaymentsDetails} />
+      <Route path="/master/payments" exact component={NavbarMaster} />
+      <Route path="/master/payments/:code" exact component={NavbarMaster} />
+      <Route path="/master/payments/:code" exact component={PaymentsDetails} />
 
 
 

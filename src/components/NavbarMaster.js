@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import {Navbar,  Container, Button } from "react-bootstrap";
-import RegistrarPago from './RegistrarPago';
+import {Navbar,  Container} from "react-bootstrap";
 import '../assets/css/navbar.css'
 
 
@@ -20,11 +19,11 @@ export default class NavbarLoged extends Component {
                     </Container>
 
 
-                        <Navbar.Brand href="/admin/registrar">
+                        <Navbar.Brand href="/master/registrar">
                             <b>Registrar pago</b>
                         </Navbar.Brand>
 
-                        <Navbar.Brand href="/admin">
+                        <Navbar.Brand href="/master">
                             <b>Facturas</b>
                         </Navbar.Brand>
                 </Navbar>

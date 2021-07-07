@@ -1,6 +1,6 @@
 import { text } from '@fortawesome/fontawesome-svg-core';
 import React, { Component } from 'react'
-import { Form, Modal, Button } from "react-bootstrap";
+import { Form, Container, Button } from "react-bootstrap";
 import axios, { generateToken } from '../config/axios'
 import '../assets/css/registrar.css'
 
@@ -12,32 +12,24 @@ export default class RegistrarPago extends Component {
         datos: [],
         code: '',
         amount: 0,
-        reference: 0,
+        reference: '',
         bank: '',
         pay: true,
         exchange: 0
 
     }
 
+    onInputChange = (e) => {
 
-    onChangeCode = e => {
-
-        this.setState({ code: e.target.value })
-
-    }
-
-    onChangeAmount = e => {
-
-        this.setState({ amount: e.target.value })
+        this.setState({ [e.target.name]: e.target.value })
 
     }
-
 
     onCheck = e => {
 
-        if (e.target.checked ) {
+        if (e.target.checked) {
             this.setState({ pay: true })
-        
+
         } else {
 
             this.setState({ pay: false })
@@ -46,43 +38,18 @@ export default class RegistrarPago extends Component {
     }
 
 
-
-    onChangeReference = e => {
-
-        this.setState({ reference: e.target.value })
-
-    }
-
-
-    onChangeBank = e => {
-
-        this.setState({ bank: e.target.value })
-
-    }
-
-
-    onChangeExchangeRate = e => {
-
-        this.setState({ exchange: e.target.value })
-
-    }
-
-
-
     onSubmit = async e => {
 
         try {
 
-
             e.preventDefault();
-            console.log('dios');
-            generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI1NjA1MTk5LCJleHAiOjE2MjU2MjMxOTl9.6Km_bDwr3o355JqSKSfYrM7JxHuQie4ufhI_dpXKm9g')  // for all requests
+            generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImFuZHJlc2d1YW5pcGEiLCJwYXNzd29yZCI6bnVsbCwiY3JlYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIn0sImlhdCI6MTYyNTYxNjkxNywiZXhwIjoxNjI1NjM0OTE3fQ.CVAh726IWHvrUuQKmfD_QGlARw9rJ1eVrGB-eW-lnXo')  // for all requests
 
             const res = await axios.post('/payments/make',
                 {
                     code: this.state.code,
                     bank: this.state.bank,
-                    amountUSD:this.state.amount,
+                    amountUSD: this.state.amount,
                     referenceNumber: this.state.reference,
                     exchangeRate: this.state.exchange,
                     paymentUSD: this.state.pay
@@ -102,31 +69,38 @@ export default class RegistrarPago extends Component {
 
     render() {
         return (
-            <>
-                <Form onSubmit={this.onSubmit} className="formulario">
+            <div className="m-0 justify-content-center">
+
+                <Form onSubmit={this.onSubmit} className="col-auto formulario">
+
+                    <Form.Group className="formregistrar" controlId="formBasicEmail">
+                        <h1 className="title"><b>Realizar pago</b></h1>
+                        <br/>   
+                    </Form.Group>
+
                     <Form.Group className="formregistrar" controlId="formBasicEmail">
                         <Form.Label>Codigo de local</Form.Label>
-                        <Form.Control type="text" placeholder="Ingresar codigo" onChange={this.onChangeCode} />
+                        <Form.Control type="text" placeholder="Ingresar codigo" name="code" onChange={this.onInputChange} />
                     </Form.Group>
 
                     <Form.Group className="formregistrar" controlId="formBasicEmail">
                         <Form.Label>Monto en dolares</Form.Label>
-                        <Form.Control type="text" placeholder="Ingresar monto" onChange={this.onChangeAmount} />
+                        <Form.Control type="text" placeholder="Ingresar monto" name="amount" onChange={this.onInputChange} />
                     </Form.Group>
 
                     <Form.Group className="formregistrar" controlId="formBasicEmail">
                         <Form.Label>Numero de referencia</Form.Label>
-                        <Form.Control type="text" placeholder="Ingresar referencia" onChange={this.onChangeReference} />
+                        <Form.Control type="text" placeholder="Ingresar referencia" name="reference" onChange={this.onInputChange} />
                     </Form.Group>
 
                     <Form.Group className="formregistrar" controlId="formBasicEmail">
                         <Form.Label>Banco</Form.Label>
-                        <Form.Control type="text" placeholder="Ingresar banco" onChange={this.onChangeBank} />
+                        <Form.Control type="text" placeholder="Ingresar banco" name="bank" onChange={this.onInputChange} />
                     </Form.Group>
 
                     <Form.Group className="formregistrar" controlId="formBasicEmail">
                         <Form.Label>Tasa de cambio</Form.Label>
-                        <Form.Control type="text" placeholder="Ingresar tasa de cambio" onChange={this.onChangeExchangeRate} />
+                        <Form.Control type="text" placeholder="Ingresar tasa de cambio" name="exchange" onChange={this.onInputChange} />
                     </Form.Group>
 
                     <Form.Group className="formregistrar" className="checkboxes" controlId="formBasicCheckbox">
@@ -134,16 +108,16 @@ export default class RegistrarPago extends Component {
 
                     </Form.Group>
 
-
-                    <Button className="boton" variant="primary" type="submit" >
-                        Procesar pago
-                    </Button>
-
+                    <Form.Group className="formregistrar" className="checkboxes" controlId="formBasicCheckbox">
+                        <Button className="boton" variant="primary" type="submit" >
+                            Procesar pago
+                        </Button>
+                    </Form.Group>
 
 
                 </Form>
 
-            </>
+            </ div>
         )
     }
 }
