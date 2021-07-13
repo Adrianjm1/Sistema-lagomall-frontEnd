@@ -2,25 +2,29 @@ import React, { Component } from 'react'
 import axios, { generateToken } from '../config/axios'
 import { useHistory, useParams, Link } from 'react-router-dom';
 import { withRouter } from "react-router";
-import { Table, Container, Button } from "react-bootstrap";
+import { Table, Container, Button, Card } from "react-bootstrap";
 import '../assets/css/paymentsDetails.css';
 
 class PaymentsDetails extends Component {
 
     state = {
-        datos: []
+        datos: [],
+        name: '',
+
     }
 
 
     componentDidMount() {
         const code = this.props.match.params.code;
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImFuZHJlc2d1YW5pcGEiLCJwYXNzd29yZCI6bnVsbCwiY3JlYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIn0sImlhdCI6MTYyNTYxNjkxNywiZXhwIjoxNjI1NjM0OTE3fQ.CVAh726IWHvrUuQKmfD_QGlARw9rJ1eVrGB-eW-lnXo')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MTEyNjE0LCJleHAiOjE2MjYxMzA2MTR9.vxVljVJcJbPTQAzusTEPY_t87ZIMWMhEgM1rlGzbn_c')  // for all requests
 
         axios.get(`/payments/${code}`)
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 this.setState({ datos: res.data })
-
+                this.setState({ name: res.data[0].locale.name })
+                // console.log(res.data[0].locale.code);
+                
 
             })
             .catch((error) =>
@@ -33,6 +37,10 @@ class PaymentsDetails extends Component {
         return (
 
             <Container>
+
+                 <Card className="titlePayments">
+                    <Card.Body>Detalles de pago del local  {  `${this.props.match.params.code} - ${this.state.name} `   }</Card.Body>
+                </Card> 
                 <Table className="margintable" striped bordered hover size="sm" >
                     <thead>
                         <tr className='first'>
@@ -51,14 +59,14 @@ class PaymentsDetails extends Component {
                             this.state.datos.map(data => (
                                 <tr key={data.id}>
                                     <td>{`${data.locale.code}`}</td>
-                                    <td>{data.createdAt.slice(0,10)}</td>
+                                    <td>{data.createdAt.slice(0, 10)}</td>
                                     <td>{data.amountUSD}</td>
                                     <td>{data.amountBS}</td>
                                     <td>{data.referenceNumber}</td>
                                     <td>{data.bank}</td>
                                     <td>{data.exchangeRate}</td>
-                                    <td>{data.paymentUSD === false ? 'No' : 'Si'}</td>
-                                    <td><Link className="btn"><Button className="see">Editar</Button></Link></td>
+                                    <td>{data.paymentUSD == false ? 'No' : 'Si'}</td>
+                                    {/* <td><Link className="btn"><Button className="see">Editar</Button></Link></td> */}
 
                                 </tr>
                             ))
@@ -73,3 +81,5 @@ class PaymentsDetails extends Component {
 
 
 export default withRouter(PaymentsDetails)
+
+

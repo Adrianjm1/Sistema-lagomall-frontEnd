@@ -7,3 +7,9 @@
     color: white;
 }
 
+
+.table th, .table td {
+   
+     vertical-align: middle; 
+
+}

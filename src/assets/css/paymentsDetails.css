@@ -9,4 +9,11 @@
 
 .margintable {
     margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+.titlePayments {
+    text-align: center;
+    color: black;
+    font-weight: 800;
 }

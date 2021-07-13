@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios, { generateToken } from '../config/axios'
 import { Link } from 'react-router-dom';
-import { Table, Container, Button } from "react-bootstrap";
+import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
 import '../assets/css/locales.css';
 
 
@@ -53,7 +53,15 @@ export default class GetLocales extends Component {
                             <th>Cuota total en $</th>
                             <th>Saldo</th>
                         </tr>
+
+
                     </thead>
+
+
+                    <Form inline>
+                            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                            <Button variant="outline-success">Search</Button>
+                        </Form>
                     <tbody>
                         {
                             this.state.datos.map(data => (
@@ -63,8 +71,9 @@ export default class GetLocales extends Component {
                                     <td>{data.percentageOfCC}</td>
                                     <td>{data.monthlyUSD}</td>
                                     <td>{data.balance}</td>
-                                    <td><Link className="btn"to={`/master/payments/${data.code}`}><Button className="see">Ver detalles</Button></Link></td>
-                                    <td><Link className="btn"><Button className="see">Editar</Button></Link></td>
+                                    <td><Link className="btn" to={`/master/payments/${data.code}`}><Button className="see">Ver detalles</Button></Link> 
+                                     <Link className="btn"><Button className="see">Editar saldo</Button></Link></td>
+                                    <td></td>
                                 </tr>
                             ))
                         }
