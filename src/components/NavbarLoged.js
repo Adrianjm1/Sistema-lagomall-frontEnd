@@ -13,7 +13,7 @@ export default class NavbarLoged extends Component {
             <>
                 <Navbar className="color-nav"  variant="dark">
                     <Container>
-                        <Navbar.Brand href="#home">
+                        <Navbar.Brand href="/admin">
                             <b className="nav">Control de cobranzas Lago Mall. </b>
                             Bienvenido, *user*
                         </Navbar.Brand>
@@ -22,6 +22,10 @@ export default class NavbarLoged extends Component {
 
                         <Navbar.Brand href="/admin/registrar">
                             <b>Registrar pago</b>
+                        </Navbar.Brand>
+
+                        <Navbar.Brand href="/admin/month">
+                            <b>Pagos del mes</b>
                         </Navbar.Brand>
 
                         <Navbar.Brand href="/admin">

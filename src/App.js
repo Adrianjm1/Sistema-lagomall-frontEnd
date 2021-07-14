@@ -16,6 +16,7 @@ import PaymentsDetails from './components/PaymentsDetails';
 import LagoMallDataMaster from './components/LagoMallDataMaster';
 import LagoMallData from './components/LagoMallData';
 import RegistrarPago from './components/RegistrarPago';
+import PaymentsByMonth from './components/PaymentsByMonth';
 
 
 function App() {
@@ -51,6 +52,9 @@ function App() {
       <Route path="/master/payments" exact component={NavbarMaster} />
       <Route path="/master/payments/:code" exact component={NavbarMaster} />
       <Route path="/master/payments/:code" exact component={PaymentsDetails} />
+
+      <Route path="/master/month" exact component={NavbarMaster} />
+      <Route path="/master/month" exact component={PaymentsByMonth} />
 
 
 
