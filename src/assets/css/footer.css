@@ -1,4 +1,9 @@
-.footer-c {
+
+*{
+    margin: 0;
+}
+
+.sty {
     position: fixed;
     bottom: 0;
     width: 100%;

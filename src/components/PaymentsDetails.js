@@ -16,7 +16,7 @@ class PaymentsDetails extends Component {
 
     componentDidMount() {
         const code = this.props.match.params.code;
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MTEyNjE0LCJleHAiOjE2MjYxMzA2MTR9.vxVljVJcJbPTQAzusTEPY_t87ZIMWMhEgM1rlGzbn_c')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MjE0NjA4LCJleHAiOjE2MjYyMzI2MDh9.2AmacbsJCR81sZaq-HPQGf4wMNYSoec0HtUEtHgS1Xk')  // for all requests
 
         axios.get(`/payments/${code}`)
             .then((res) => {
@@ -44,7 +44,7 @@ class PaymentsDetails extends Component {
                 <Table className="margintable" striped bordered hover size="sm" >
                     <thead>
                         <tr className='first'>
-                            <th>Codigo de local</th>
+
                             <th>Fecha</th>
                             <th>Monto en dolares</th>
                             <th>Monto en bolivares</th>
@@ -58,7 +58,6 @@ class PaymentsDetails extends Component {
                         {
                             this.state.datos.map(data => (
                                 <tr key={data.id}>
-                                    <td>{`${data.locale.code}`}</td>
                                     <td>{data.createdAt.slice(0, 10)}</td>
                                     <td>{data.amountUSD}</td>
                                     <td>{data.amountBS}</td>

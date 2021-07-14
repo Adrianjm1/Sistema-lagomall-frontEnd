@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios, { generateToken } from '../config/axios'
 import { Link } from 'react-router-dom';
+import Picker from 'react-month-picker'
+import MonthPicker from './MonthPicker';
 import { Table, Container, Button, Form, FormControl, Dropdown, ButtonGroup, DropdownButton } from "react-bootstrap";
 import '../assets/css/locales.css';
 
@@ -8,21 +10,14 @@ import '../assets/css/locales.css';
 export default class GetLocales extends Component {
 
 
-    // changeRoute = ()=>{
-
-    //     const history = useHistory();
-
-    //     const handleHistory = ()=>{
-    //         history.push(`/${code}`)
-    //     }
-    // }
-
-
-
-    state = {
-        datos: [],
-        busqueda: '',
-        locales: []
+    constructor() {
+        super();
+        this.state = {
+            name: 'React',
+            datos: [],
+            busqueda: '',
+            locales: []
+        };
     }
 
     onChange = async e => {
@@ -44,7 +39,7 @@ export default class GetLocales extends Component {
 
 
     componentDidMount() {
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImFuZHJlc2d1YW5pcGEiLCJwYXNzd29yZCI6bnVsbCwiY3JlYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIn0sImlhdCI6MTYyNTYxNjkxNywiZXhwIjoxNjI1NjM0OTE3fQ.CVAh726IWHvrUuQKmfD_QGlARw9rJ1eVrGB-eW-lnXo')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MjE0NjA4LCJleHAiOjE2MjYyMzI2MDh9.2AmacbsJCR81sZaq-HPQGf4wMNYSoec0HtUEtHgS1Xk')  // for all requests
 
         axios.get('/local/table')
             .then((res) => {
@@ -58,22 +53,22 @@ export default class GetLocales extends Component {
     }
 
     render() {
+
         return (
 
-
-
+            
             <Container>
+                <div>
+                    <MonthPicker name={this.state.name} />
+                    
+                </div>
+
 
                 <Form inline>
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={this.onChange} />
                     <Button className="btnSearch" >Buscar</Button>
                 </Form>
 
-                <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                </DropdownButton>
                 <br></br>
                 <Table striped bordered hover size="sm">
                     <thead>
@@ -113,3 +108,5 @@ export default class GetLocales extends Component {
         )
     }
 }
+
+
