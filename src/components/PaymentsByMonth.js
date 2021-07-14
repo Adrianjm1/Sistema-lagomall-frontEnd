@@ -8,12 +8,18 @@ import '../assets/css/paymentsDetails.css';
 /* import { useHistory, useParams, Link } from 'react-router-dom';
  */
 
+const date = new Date()
+function addZero(n){
+    if(n >= 10) return n;
+    return "0"+n;
+}
+
 class PaymentsByMonth extends Component {
 
     state = {
         datos: [],
         name: '',
-        mes: new Date().getMonth() + 1 < 10 ? `0${new Date().getMonth() + 1}-${new Date().getFullYear()}` : `${new Date().getMonth() + 1}-${new Date().getFullYear()}`,
+        mes: `${addZero(+date.getMonth() + 1)}-${date.getFullYear()}`,
         date: ''
 
     }
@@ -21,9 +27,7 @@ class PaymentsByMonth extends Component {
 
     componentDidMount() {
 
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MjE0NjA4LCJleHAiOjE2MjYyMzI2MDh9.2AmacbsJCR81sZaq-HPQGf4wMNYSoec0HtUEtHgS1Xk')  // for all requests
-
-        console.log(this.state.mes);
+        //generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MjE0NjA4LCJleHAiOjE2MjYyMzI2MDh9.2AmacbsJCR81sZaq-HPQGf4wMNYSoec0HtUEtHgS1Xk')  // for all requests
 
         axios.get(`/payments/get/month/${this.state.mes}`)
             .then((res) => {
@@ -53,7 +57,7 @@ class PaymentsByMonth extends Component {
           if(mes === item){
             month1 = contador < 10 ? `0${contador}` : `${contador}`;
           }
-          contador++;
+          return contador++;
         });
   
         this.setState({date: month});  
