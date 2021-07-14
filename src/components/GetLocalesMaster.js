@@ -24,7 +24,7 @@ export default class GetLocales extends Component {
     }
 
     componentDidMount() {
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImFuZHJlc2d1YW5pcGEiLCJwYXNzd29yZCI6bnVsbCwiY3JlYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIn0sImlhdCI6MTYyNTYxNjkxNywiZXhwIjoxNjI1NjM0OTE3fQ.CVAh726IWHvrUuQKmfD_QGlARw9rJ1eVrGB-eW-lnXo')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImFuZHJlc2d1YW5pcGEiLCJwYXNzd29yZCI6bnVsbCwiY3JlYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0wNi0yNlQwMDo1MjoyNi4wMDBaIn0sImlhdCI6MTYyNjE5ODU0OCwiZXhwIjoxNjI2MjE2NTQ4fQ.30EEHzA5aReONxFHXlqWRnV4aQSCxBfyk2oETMVzM8E')  // for all requests
 
         axios.get('/local/table')
             .then((res) => {

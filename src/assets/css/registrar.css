@@ -8,12 +8,30 @@ body{
 
 .formulario {
     margin-top: 50px;
-    width: 30%;
+    width: 60%;
     margin-bottom: 100px;
 }
 
 .title{
     color: #013E7C;
+}
+
+.payment, .payment-1{
+    width: 500px;
+    border-radius: 8px;
+    border: 1px solid #06294d;
+}
+
+.payment{
+    height: 281px;
+    margin-top: 100px;
+
+}
+
+.payment-1{
+    height: 213px;
+    margin-top: 10px;
+
 }
 
 /* .formregistrar {

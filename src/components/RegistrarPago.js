@@ -1,8 +1,11 @@
 import { text } from '@fortawesome/fontawesome-svg-core';
 import React, { Component } from 'react'
-import { Form, Container, Button } from "react-bootstrap";
-import axios, { generateToken } from '../config/axios'
-import '../assets/css/registrar.css'
+import { Form, Col, Row, Button } from "react-bootstrap";
+import axios, { generateToken } from '../config/axios';
+import payment from '../assets/images/payment.jpg';
+import card from '../assets/images/card-1.jpg';
+
+import '../assets/css/registrar.css';
 
 
 
@@ -35,7 +38,7 @@ export default class RegistrarPago extends Component {
             this.setState({ pay: false })
         }
 
-        
+
 
     }
 
@@ -59,6 +62,8 @@ export default class RegistrarPago extends Component {
 
             console.log(res.data);
 
+            this.setState({code: '', bank: '', amount: '', reference: '', exchange: '', pay: ''});
+
         }
         catch (error) {
 
@@ -73,51 +78,69 @@ export default class RegistrarPago extends Component {
         return (
             <div className="m-0 justify-content-center">
 
-                <Form onSubmit={this.onSubmit} className="col-auto formulario">
+                <Row>
 
-                    <Form.Group className="formregistrar" controlId="formBasicEmail">
-                        <h1 className="title"><b>Realizar pago</b></h1>
-                        <br/>   
-                    </Form.Group>
+                    <Col xs={6}>
 
-                    <Form.Group className="formregistrar" controlId="formBasicEmail">
-                        <Form.Label>Codigo de local</Form.Label>
-                        <Form.Control type="text" placeholder="Ingresar codigo" name="code" onChange={this.onInputChange} />
-                    </Form.Group>
+                        <Form onSubmit={this.onSubmit} className="col-auto formulario">
 
-                    <Form.Group className="formregistrar" controlId="formBasicEmail">
-                        <Form.Label>Monto en dolares</Form.Label>
-                        <Form.Control type="text" placeholder="Ingresar monto" name="amount" onChange={this.onInputChange} />
-                    </Form.Group>
+                            <Form.Group className="formregistrar" controlId="formBasicEmail">
+                                <h1 className="title"><b>Realizar pago</b></h1>
+                                <br />
+                            </Form.Group>
 
-                    <Form.Group className="formregistrar" controlId="formBasicEmail">
-                        <Form.Label>Numero de referencia</Form.Label>
-                        <Form.Control type="text" placeholder="Ingresar referencia" name="reference" onChange={this.onInputChange} />
-                    </Form.Group>
+                            <Form.Group className="formregistrar" controlId="formBasicEmail">
+                                <Form.Label>Codigo de local</Form.Label>
+                                <Form.Control type="text" placeholder="Ingresar codigo" name="code" onChange={this.onInputChange} />
+                            </Form.Group>
 
-                    <Form.Group className="formregistrar" controlId="formBasicEmail">
-                        <Form.Label>Banco</Form.Label>
-                        <Form.Control type="text" placeholder="Ingresar banco" name="bank" onChange={this.onInputChange} />
-                    </Form.Group>
+                            <Form.Group className="formregistrar" controlId="formBasicEmail">
+                                <Form.Label>Monto en dolares</Form.Label>
+                                <Form.Control type="text" placeholder="Ingresar monto" name="amount" onChange={this.onInputChange} />
+                            </Form.Group>
 
-                    <Form.Group className="formregistrar" controlId="formBasicEmail">
-                        <Form.Label>Tasa de cambio</Form.Label>
-                        <Form.Control type="text" placeholder="Ingresar tasa de cambio" name="exchange" onChange={this.onInputChange} />
-                    </Form.Group>
+                            <Form.Group className="formregistrar" controlId="formBasicEmail">
+                                <Form.Label>Numero de referencia</Form.Label>
+                                <Form.Control type="text" placeholder="Ingresar referencia" name="reference" onChange={this.onInputChange} />
+                            </Form.Group>
 
-                    <Form.Group className="formregistrar" className="checkboxes" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Pago en dolares" onChange={this.onCheck} />
+                            <Form.Group className="formregistrar" controlId="formBasicEmail">
+                                <Form.Label>Banco</Form.Label>
+                                <Form.Control type="text" placeholder="Ingresar banco" name="bank" onChange={this.onInputChange} />
+                            </Form.Group>
 
-                    </Form.Group>
+                            <Form.Group className="formregistrar" controlId="formBasicEmail">
+                                <Form.Label>Tasa de cambio</Form.Label>
+                                <Form.Control type="text" placeholder="Ingresar tasa de cambio" name="exchange" onChange={this.onInputChange} />
+                            </Form.Group>
 
-                    <Form.Group className="formregistrar" className="checkboxes" controlId="formBasicCheckbox">
-                        <Button className="boton" variant="primary" type="submit" >
-                            Procesar pago
-                        </Button>
-                    </Form.Group>
+                            <Form.Group className="formregistrar" className="checkboxes" controlId="formBasicCheckbox">
+                                <Form.Check type="checkbox" label="Pago en dolares" onChange={this.onCheck} />
+
+                            </Form.Group>
+
+                            <Form.Group className="formregistrar" className="checkboxes" controlId="formBasicCheckbox">
+                                <Button className="boton" variant="primary" type="submit" >
+                                    Procesar pago
+                                </Button>
+                            </Form.Group>
 
 
-                </Form>
+                        </Form>
+
+                    </Col>
+
+                    <Col xs={3}>
+
+                        { <img className="payment" src={payment} alt="" />  }
+                        { <img className="payment-1" src={card} alt="" />  }
+
+                    </Col>
+
+
+                </Row>
+
+
 
             </ div>
         )

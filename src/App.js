@@ -14,10 +14,14 @@ import PaymentsDetails from './components/PaymentsDetails';
 import LagoMallDataMaster from './components/LagoMallDataMaster';
 import LagoMallData from './components/LagoMallData';
 import RegistrarPago from './components/RegistrarPago';
+<<<<<<< HEAD
 import { UserContext } from './Hooks/UserContext';
 
 
 
+=======
+import PaymentsByMonth from './components/PaymentsByMonth';
+>>>>>>> b0ed5dec1fda4549707f02940f2d6894bf27f052
 
 
 function App() {
@@ -44,7 +48,13 @@ function App() {
         <Route path="/admin/payments/:code" exact component={NavbarLoged} />
         <Route path="/admin/payments/:code" exact component={PaymentsDetails} />
 
+<<<<<<< HEAD
         {/* ------------ MASTER ------------ */}
+=======
+      <Route path="/master/month" exact component={NavbarMaster} />
+      <Route path="/master/month" exact component={PaymentsByMonth} />
+
+>>>>>>> b0ed5dec1fda4549707f02940f2d6894bf27f052
 
         <Route path="/master" exact component={NavbarMaster} />
         <Route path="/master" exact component={LagoMallDataMaster} />

@@ -25,6 +25,7 @@ class PaymentsDetails extends Component {
                 this.setState({ name: res.data[0].locale.name })
                 // console.log(res.data[0].locale.code);
                 
+                console.log(res.data);
 
             })
             .catch((error) =>
@@ -44,7 +45,6 @@ class PaymentsDetails extends Component {
                 <Table className="margintable" striped bordered hover size="sm" >
                     <thead>
                         <tr className='first'>
-
                             <th>Fecha</th>
                             <th>Monto en dolares</th>
                             <th>Monto en bolivares</th>
@@ -52,6 +52,7 @@ class PaymentsDetails extends Component {
                             <th>Banco</th>
                             <th>Tasa de cambio</th>
                             <th>Pago en dolares</th>
+                            <th>Registrado por</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,6 +66,7 @@ class PaymentsDetails extends Component {
                                     <td>{data.bank}</td>
                                     <td>{data.exchangeRate}</td>
                                     <td>{data.paymentUSD == false ? 'No' : 'Si'}</td>
+                                    <td>{data.admin.username}</td>
                                     {/* <td><Link className="btn"><Button className="see">Editar</Button></Link></td> */}
 
                                 </tr>
