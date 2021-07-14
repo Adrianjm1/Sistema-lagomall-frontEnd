@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Col, Row, Button, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTemperatureHigh } from '@fortawesome/free-solid-svg-icons';
-import '../assets/css/form.css';
+import '../../assets/css/form.css';
 
 
 export default class LagoMallDataMaster extends Component {

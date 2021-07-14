@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import {Navbar,  Container, Button } from "react-bootstrap";
-import RegistrarPago from './RegistrarPago';
-import '../assets/css/navbar.css'
-
+import {Navbar,  Container} from "react-bootstrap";
+import '../../assets/css/navbar.css'
 
 
 export default class NavbarLoged extends Component {
@@ -13,22 +11,22 @@ export default class NavbarLoged extends Component {
             <>
                 <Navbar className="color-nav"  variant="dark">
                     <Container>
-                        <Navbar.Brand href="/admin">
+                        <Navbar.Brand href="/master">
                             <b className="nav">Control de cobranzas Lago Mall. </b>
                             Bienvenido, *user*
                         </Navbar.Brand>
                     </Container>
 
 
-                        <Navbar.Brand href="/admin/registrar">
+                        <Navbar.Brand href="/master/registrar">
                             <b>Registrar pago</b>
                         </Navbar.Brand>
 
-                        <Navbar.Brand href="/admin/month">
+                        <Navbar.Brand href="/master/month">
                             <b>Pagos del mes</b>
                         </Navbar.Brand>
 
-                        <Navbar.Brand href="/admin">
+                        <Navbar.Brand href="/master">
                             <b>Facturas</b>
                         </Navbar.Brand>
                 </Navbar>

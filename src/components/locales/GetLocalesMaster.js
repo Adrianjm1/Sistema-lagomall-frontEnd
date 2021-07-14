@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import axios, { generateToken } from '../config/axios'
-import { Link } from 'react-router-dom';
+import axios, { generateToken } from '../../config/axios'
 import MonthPicker from './MonthPicker';
+import { Link } from 'react-router-dom';
+import NavbarLoged from './NavbarMaster';
+import LagoMallData from '../lagomallData/LagoMallData';
 import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
-import '../assets/css/locales.css';
+import '../../assets/css/locales.css';
+
 
 const defaultState = {
     name: 'React',
@@ -12,29 +15,29 @@ const defaultState = {
 };
 
 
-function GetLocales(){
-    const [ state, setState ] = useState(defaultState);
+function GetLocalesMaster() {
+    const [state, setState] = useState(defaultState);
 
-    const locales = useMemo(function(){
-        if(state.busqueda.length){
+    const locales = useMemo(function () {
+        if (state.busqueda.length) {
             return state.locales.filter(local => local.code.includes(state.busqueda))
         }
-        
-        return state.locales
-    }, [ state ])
 
-    useEffect(function(){
+        return state.locales
+    }, [state])
+
+    useEffect(function () {
         generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MjE0NjA4LCJleHAiOjE2MjYyMzI2MDh9.2AmacbsJCR81sZaq-HPQGf4wMNYSoec0HtUEtHgS1Xk')
         axios.get('/local/table')
-        .then((res) =>
-            setState({
-                ...state,
-                locales: res.data.map(
-                    item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
-                )
-            })
-        )
-        .catch((error) => console.log(error))
+            .then((res) =>
+                setState({
+                    ...state,
+                    locales: res.data.map(
+                        item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
+                    )
+                })
+            )
+            .catch((error) => console.log(error))
 
         //eslint-disable-next-line
     }, [])
@@ -45,6 +48,8 @@ function GetLocales(){
 
     return (
         <Container>
+            <NavbarLoged />
+            <LagoMallData />
             <div>
                 <MonthPicker name={state.name} />
             </div>
@@ -77,11 +82,10 @@ function GetLocales(){
                                 <td>{data.percentageOfCC}</td>
                                 <td>{data.monthlyUSD}</td>
                                 <td>{data.balance}</td>
-                                <td className="detalles">
-                                    <Link className="btn" to={`/admin/payments/${data.code}`}>
-                                        <Button className="see">Ver detalles</Button>
-                                    </Link>
-                                </td>
+
+                                <td><Link className="btn" to={`/master/payments/${data.code}`}><Button className="see">Ver detalles</Button></Link>
+                                    <Link className="btn"><Button className="see">Editar saldo</Button></Link></td>
+                                <td></td>
                             </tr>
                         ))
                     }
@@ -92,4 +96,7 @@ function GetLocales(){
     )
 }
 
-export default GetLocales;
+export default GetLocalesMaster;
+
+
+

@@ -1,11 +1,12 @@
 import { text } from '@fortawesome/fontawesome-svg-core';
 import React, { Component } from 'react'
 import { Form, Col, Row, Button } from "react-bootstrap";
-import axios, { generateToken } from '../config/axios';
-import payment from '../assets/images/payment.jpg';
-import card from '../assets/images/card-1.jpg';
+import axios, { generateToken } from '../../config/axios';
+import payment from '../../assets/images/payment.jpg';
+import card from '../../assets/images/card-1.jpg';
 
-import '../assets/css/registrar.css';
+import '../../assets/css/registrar.css';
+import NavbarLoged from '../locales/NavbarLoged';
 
 
 
@@ -48,7 +49,6 @@ export default class RegistrarPago extends Component {
         try {
 
             e.preventDefault();
-            generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MjE0NjA4LCJleHAiOjE2MjYyMzI2MDh9.2AmacbsJCR81sZaq-HPQGf4wMNYSoec0HtUEtHgS1Xk')  // for all requests
 
             const res = await axios.post('/payments/make',
                 {
@@ -76,7 +76,9 @@ export default class RegistrarPago extends Component {
 
     render() {
         return (
+
             <div className="m-0 justify-content-center">
+                <NavbarLoged/>
 
                 <Row>
 

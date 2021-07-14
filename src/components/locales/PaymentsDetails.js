@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import axios, { generateToken } from '../config/axios'
+import axios, { generateToken } from '../../config/axios'
 import { useHistory, useParams, Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 import { Table, Container, Button, Card } from "react-bootstrap";
-import '../assets/css/paymentsDetails.css';
+import '../../assets/css/paymentsDetails.css';
 
 class PaymentsDetails extends Component {
 

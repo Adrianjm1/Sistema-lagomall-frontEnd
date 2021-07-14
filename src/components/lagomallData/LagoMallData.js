@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { Form, Col, Row, Container } from "react-bootstrap";
-import '../assets/css/form.css';
+import '../../assets/css/form.css';
+import GetLocales from '../locales/GetLocales'
+import NavbarLoged from '../locales/NavbarLoged'
 
 
 export default class LagoMallData extends Component {
 
     render() {
         return (
-
+            
             <Container className="form">
+
+
 
                 <Form className="mt-5">
 
@@ -47,6 +51,8 @@ export default class LagoMallData extends Component {
                 </Form>
 
                 <hr />
+
+     
             </Container>
 
         )
