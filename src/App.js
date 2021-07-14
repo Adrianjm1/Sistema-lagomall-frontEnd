@@ -48,13 +48,9 @@ function App() {
         <Route path="/admin/payments/:code" exact component={NavbarLoged} />
         <Route path="/admin/payments/:code" exact component={PaymentsDetails} />
 
-<<<<<<< HEAD
-        {/* ------------ MASTER ------------ */}
-=======
       <Route path="/master/month" exact component={NavbarMaster} />
       <Route path="/master/month" exact component={PaymentsByMonth} />
 
->>>>>>> b0ed5dec1fda4549707f02940f2d6894bf27f052
 
         <Route path="/master" exact component={NavbarMaster} />
         <Route path="/master" exact component={LagoMallDataMaster} />
