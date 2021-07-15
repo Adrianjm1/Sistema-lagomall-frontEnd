@@ -39,8 +39,6 @@ export default class RegistrarPago extends Component {
             this.setState({ pay: false })
         }
 
-
-
     }
 
 

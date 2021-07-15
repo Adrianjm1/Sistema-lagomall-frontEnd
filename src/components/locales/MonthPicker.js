@@ -70,7 +70,7 @@ class List extends Component {
     render() {
 
         const pickerLang = {
-            months: ['Enero', 'Febrero', 'Marzi', 'Abril', 'Mayo', 'Junio', 'Jul', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Jul', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             from: 'From', to: 'To',
         }
         const mvalue = this.state.mvalue
@@ -90,7 +90,7 @@ class List extends Component {
                     <div className="edit">
                         <Picker
                             ref="pickAMonth"
-                            years={[2021, 2022, 2023, 2024, 2025]}
+                            years={[2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031]}
                             value={mvalue}
                             lang={pickerLang.months}
                             theme= "dark"

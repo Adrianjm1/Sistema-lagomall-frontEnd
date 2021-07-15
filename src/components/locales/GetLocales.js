@@ -70,7 +70,6 @@ function GetLocales() {
 
                 <Form inline>
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
-                    <Button className="btnSearch" >Buscar</Button>
                 </Form>
 
                 <br></br>
