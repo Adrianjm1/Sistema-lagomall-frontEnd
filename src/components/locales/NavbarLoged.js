@@ -25,7 +25,7 @@ export default class NavbarLoged extends Component {
                         </Navbar.Brand>
 
                         <Navbar.Brand href="/admin/month">
-                            <b>Pagos del mes</b>
+                            <b>Ver pagos</b>
                         </Navbar.Brand>
 
                         <Navbar.Brand href="/admin">

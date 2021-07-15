@@ -6,7 +6,7 @@ import payment from '../../assets/images/payment.jpg';
 import card from '../../assets/images/card-1.jpg';
 
 import '../../assets/css/registrar.css';
-import NavbarLoged from '../locales/NavbarLoged';
+import NavbarLoged from '../Locales/NavbarLoged';
 
 
 
@@ -38,8 +38,6 @@ export default class RegistrarPago extends Component {
 
             this.setState({ pay: false })
         }
-
-
 
     }
 

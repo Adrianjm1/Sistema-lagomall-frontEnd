@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Form, Col, Row, Container } from "react-bootstrap";
 import '../../assets/css/form.css';
-import GetLocales from '../locales/GetLocales'
-import NavbarLoged from '../locales/NavbarLoged'
+import GetLocales from '../Locales/GetLocales'
+import NavbarLoged from '../Locales/NavbarLoged'
 
 
 export default class LagoMallData extends Component {

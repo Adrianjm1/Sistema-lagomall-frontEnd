@@ -21,3 +21,8 @@
 .container-month{
     margin-top: 50px;
 }
+
+.label-date{
+    padding-right: 10px;
+    font-size: 110%;
+}

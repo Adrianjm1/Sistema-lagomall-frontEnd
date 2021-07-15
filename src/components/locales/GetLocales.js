@@ -3,7 +3,7 @@ import axios, { generateToken } from '../../config/axios'
 import { Link } from 'react-router-dom';
 import MonthPicker from './MonthPicker';
 import NavbarLoged from './NavbarLoged';
-import LagoMallData from '../lagomallData/LagoMallData';
+import LagoMallData from '../LagoMallData/LagoMallData';
 import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
 import '../../assets/css/locales.css';
 
@@ -57,7 +57,6 @@ function GetLocales() {
 
                 <Form inline>
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
-                    <Button className="btnSearch" >Buscar</Button>
                 </Form>
 
                 <br></br>
