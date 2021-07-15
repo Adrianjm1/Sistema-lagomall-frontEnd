@@ -29,7 +29,7 @@ class PaymentsByMonth extends Component {
 
     componentDidMount() {
 
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjYzMDU2OTAsImV4cCI6MTYyNjMyMzY5MH0.r6TmqU8ZuBBRbvr2t8RK_CZFOOkHItomdvXfXrczlyw')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MzY1ODEwLCJleHAiOjE2MjYzODM4MTB9.VogdS4GRpyP-MsI9hGc6XQDlY7lL_h4TYHMMN1K0mQM')  // for all requests
 
         axios.get(`/payments/get/month/${this.state.mes}`)
             .then((res) => {

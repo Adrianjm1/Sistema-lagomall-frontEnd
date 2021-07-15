@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import axios, { generateToken } from '../../config/axios'
 import { Link } from 'react-router-dom';
+import { useParams, withRouter } from "react-router";
 import MonthPicker from './MonthPicker';
 import NavbarLoged from './NavbarLoged';
 import LagoMallData from '../lagomallData/LagoMallData';
@@ -15,12 +16,17 @@ const defaultState = {
     name: 'React',
     busqueda: '',
     locales: [],
-    startDate: '2021/07',
-    mes: ''
-};
+    month: '2021-6'
+}
 
 
-function GetLocales() {
+function Oldtable() {
+
+    let mes = useParams().mes
+
+    let ms = Date.parse(mes);
+    let fecha = new Date(ms);
+
     const [state, setState] = useState(defaultState);
 
     const locales = useMemo(function () {
@@ -32,29 +38,36 @@ function GetLocales() {
     }, [state])
 
     useEffect(function () {
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MzY1ODEwLCJleHAiOjE2MjYzODM4MTB9.VogdS4GRpyP-MsI9hGc6XQDlY7lL_h4TYHMMN1K0mQM')  // for all requests
-        axios.get('/local/table')
-            .then((res) =>
+
+
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MzY2MTE4LCJleHAiOjE2MjYzODQxMTh9.XWFnO0K1VOxenAmuB6lakISyEi1YuUNf66S0slxF01E')  // for all requests
+        axios.get(`/local/tableMonthly/${mes}`)
+            .then((res) => {
+
+
+
                 setState({
                     ...state,
                     locales: res.data.map(
                         item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
                     )
                 })
+            }
             )
+
+
             .catch((error) => console.log(error))
 
         //eslint-disable-next-line
     }, [])
 
     const handleChange = e => {
-        setState({ ...state, busqueda: e.target.value.toUpperCase(), mes: 'sirilo' });
+        setState({ ...state, busqueda: e.target.value.toUpperCase() });
     }
 
-
-
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(fecha);
     const [queryDate, setQueryDate] = useState();
+
 
     return (
         <>
@@ -62,28 +75,31 @@ function GetLocales() {
 
 
             <Container>
+
+
+
                 <LagoMallData />
-                <>
+                <div>
                     <DatePicker
                         dateFormat="MMMM yyyy"
                         showMonthYearPicker
                         selected={startDate}
                         onChange={(date) => {
                             setStartDate(date)
-                            setQueryDate((date.getFullYear() + '-' + (1 + date.getMonth()) ))
-                            console.log(queryDate);
-                        }
-                        }
+                            setQueryDate((date.getFullYear() + '-' + (1 + date.getMonth())))
+                        }}
 
                     />
+
+
                     <Link className="btn" to={`/admin/table/${queryDate}`}>
                         <Button className="see">Buscar</Button>
                     </Link>
-                    
-                </>
+                </div>
 
                 <Form inline>
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
+                    <Button className="btnSearch" >Buscar</Button>
                 </Form>
 
                 <br></br>
@@ -95,7 +111,7 @@ function GetLocales() {
                             <th>Propietarios</th>
                             <th>% Según documento de condominio</th>
                             <th>Cuota total en $</th>
-                            <th>Saldo</th>
+                            <th>ProntoPago</th>
                         </tr>
                     </thead>
 
@@ -108,7 +124,7 @@ function GetLocales() {
                                     <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
                                     <td>{data.percentageOfCC}</td>
                                     <td>{data.monthlyUSD}</td>
-                                    <td>{data.balance}</td>
+                                    <td>{data.prontoPago}</td>
                                     <td className="detalles">
                                         <Link className="btn" to={`/admin/payments/${data.code}`}>
                                             <Button className="see">Ver detalles</Button>
@@ -125,4 +141,4 @@ function GetLocales() {
     )
 }
 
-export default GetLocales;
+export default withRouter(Oldtable);

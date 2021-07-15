@@ -16,7 +16,7 @@ class PaymentsDetails extends Component {
 
     componentDidMount() {
         const code = this.props.match.params.code;
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MjE0NjA4LCJleHAiOjE2MjYyMzI2MDh9.2AmacbsJCR81sZaq-HPQGf4wMNYSoec0HtUEtHgS1Xk')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MzY1ODEwLCJleHAiOjE2MjYzODM4MTB9.VogdS4GRpyP-MsI9hGc6XQDlY7lL_h4TYHMMN1K0mQM')  // for all requests
 
         axios.get(`/payments/${code}`)
             .then((res) => {
