@@ -19,18 +19,18 @@ export default class NavbarLoged extends Component {
                         </Navbar.Brand>
                     </Container>
 
+                        <Navbar.Brand href="/admin">
+                            <b>Inicio</b>
+                        </Navbar.Brand>
 
                         <Navbar.Brand href="/admin/registrar">
                             <b>Registrar pago</b>
                         </Navbar.Brand>
 
                         <Navbar.Brand href="/admin/month">
-                            <b>Ver pagos</b>
+                            <b>Buscar pagos</b>
                         </Navbar.Brand>
 
-                        <Navbar.Brand href="/admin">
-                            <b>Facturas</b>
-                        </Navbar.Brand>
                 </Navbar>
             </>
         )

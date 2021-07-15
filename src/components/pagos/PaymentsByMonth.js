@@ -6,7 +6,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../assets/css/paymentsDetails.css';
 import NavbarLoged from '../locales/NavbarLoged';
-import MonthPicker from '../locales/MonthPicker';
 /* import { useHistory, useParams, Link } from 'react-router-dom';
  */
 
@@ -19,24 +18,36 @@ function addZero(n) {
 class PaymentsByMonth extends Component {
 
     state = {
-        datos: [],
+        datosDias: [],
+        datosMeses: [],
         name: '',
         mes: `${addZero(+date.getDay())}-${addZero(+date.getMonth() + 1)}-${date.getFullYear()}`,
-        date: ''
+        mes2: `${addZero(+date.getMonth() + 1)}-${date.getFullYear()}`,
+        date: '',
+        startDate: new Date(),
 
     }
 
 
     componentDidMount() {
 
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MzY1ODEwLCJleHAiOjE2MjYzODM4MTB9.VogdS4GRpyP-MsI9hGc6XQDlY7lL_h4TYHMMN1K0mQM')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjYzNzk1NzYsImV4cCI6MTYyNjM5NzU3Nn0.Sf7obAlldouQIcrqzL2o5WeoGIG_jLIb5L9gxIqjs68')  // for all requests
 
         axios.get(`/payments/get/month/${this.state.mes}`)
             .then((res) => {
 
-                this.setState({ datos: res.data })
+                this.setState({ datosDias: res.data })
 
-                console.log(res.data);
+            })
+            .catch((error) =>
+                console.log(error)
+            )
+
+
+            axios.get(`/payments/get/monthly/${this.state.mes2}`)
+            .then((res) => {
+
+                this.setState({ datosMeses: res.data })
 
             })
             .catch((error) =>
@@ -53,7 +64,7 @@ class PaymentsByMonth extends Component {
         let mes = month.toString().slice(4, 7);
         let year = month.toString().slice(11, 15);
         let day = month.toString().slice(8, 10);
-        
+
         let month1 = 0;
 
         months.map(item => {
@@ -68,7 +79,18 @@ class PaymentsByMonth extends Component {
         axios.get(`/payments/get/month/${day}-${month1}-${year}`)
             .then((res) => {
 
-                this.setState({ datos: res.data })
+                this.setState({ datosDias: res.data })
+
+            })
+            .catch((error) =>
+                console.log(error)
+            )
+
+
+        axios.get(`/payments/get/monthly/${month1}-${year}`)
+            .then((res) => {
+
+                this.setState({ datosMeses: res.data })
 
             })
             .catch((error) =>
@@ -80,7 +102,25 @@ class PaymentsByMonth extends Component {
 
     OnChangeMonth = (month) => {
 
-        console.log(month);
+        console.log((month.getFullYear() + '-' + (1 + month.getMonth())));
+        this.setState({ startDate: month });
+
+        let month1 = addZero(1 + month.getMonth());
+
+        console.log(`${month1}-${month.getFullYear()}`);
+
+        axios.get(`/payments/get/monthly/${month1}-${month.getFullYear()}`)
+            .then((res) => {
+
+                this.setState({ datosMeses: res.data })
+
+            })
+            .catch((error) =>
+                console.log(error)
+            )
+
+
+
 
     }
 
@@ -115,7 +155,7 @@ class PaymentsByMonth extends Component {
                         </thead>
                         <tbody>
                             {
-                                this.state.datos.map(data => (
+                                this.state.datosDias.map(data => (
                                     <tr key={data.id}>
                                         <td>{data.locale.code}</td>
                                         <td>{data.amountUSD}</td>
@@ -136,12 +176,17 @@ class PaymentsByMonth extends Component {
                     <Form>
 
                         <h2>Pagos por mes</h2>
-                        <MonthPicker onChange={(date)=>{console.log(date);}} />
+                        <DatePicker
+                            dateFormat="MMMM yyyy"
+                            showMonthYearPicker
+                            selected={this.state.startDate}
+                            onChange={this.OnChangeMonth}
 
+                        />
                     </Form>
 
 
-{/*                     <Table className="margintable" striped bordered hover size="sm" >
+                    <Table className="margintable" striped bordered hover size="sm" >
                         <thead>
                             <tr className='first'>
                                 <th>Codigo</th>
@@ -156,7 +201,7 @@ class PaymentsByMonth extends Component {
                         </thead>
                         <tbody>
                             {
-                                this.state.datos.map(data => (
+                                this.state.datosMeses.map(data => (
                                     <tr key={data.id}>
                                         <td>{data.locale.code}</td>
                                         <td>{data.amountUSD}</td>
@@ -170,7 +215,7 @@ class PaymentsByMonth extends Component {
                                 ))
                             }
                         </tbody>
-                    </Table> */}
+                    </Table>
 
 
 

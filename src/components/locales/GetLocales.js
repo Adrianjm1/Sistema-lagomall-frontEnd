@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import axios, { generateToken } from '../../config/axios'
 import { Link } from 'react-router-dom';
-import MonthPicker from './MonthPicker';
 import NavbarLoged from './NavbarLoged';
 import LagoMallData from '../lagomallData/LagoMallData';
 import DatePicker from 'react-datepicker';
