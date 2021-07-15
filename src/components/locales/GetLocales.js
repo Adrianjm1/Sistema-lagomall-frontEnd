@@ -4,13 +4,18 @@ import { Link } from 'react-router-dom';
 import MonthPicker from './MonthPicker';
 import NavbarLoged from './NavbarLoged';
 import LagoMallData from '../lagomallData/LagoMallData';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+
 import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
+
 import '../../assets/css/locales.css';
 
 const defaultState = {
     name: 'React',
     busqueda: '',
-    locales: []
+    locales: [],
+    startDate: '2021/07'
 };
 
 
@@ -45,14 +50,22 @@ function GetLocales() {
         setState({ ...state, busqueda: e.target.value.toUpperCase() });
     }
 
+    const [startDate, setStartDate] = useState(new Date());
+
     return (
         <>
             <NavbarLoged />
 
+
             <Container>
                 <LagoMallData />
                 <div>
-                    <MonthPicker name={state.name} />
+                    <DatePicker
+                        dateFormat="MMMM yyyy"
+                        showMonthYearPicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                    />
                 </div>
 
                 <Form inline>
