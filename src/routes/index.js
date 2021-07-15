@@ -5,13 +5,13 @@ import { Switch, Route } from 'react-router-dom';
 import { Context as UserContext } from '../Hooks/UserContext'
 
 
-import GetLocales from '../components/Locales/GetLocales';
-import GetLocalesMaster from '../components/Locales/GetLocalesMaster';
+import GetLocales from '../components/locales/GetLocales';
+import GetLocalesMaster from '../components/locales/GetLocalesMaster';
 import Login from '../components/auth/login';
 
-import PaymentsDetails from '../components/Locales/PaymentsDetails';
-import LagoMallDataMaster from '../components/LagoMallData/LagoMallDataMaster';
-import LagoMallData from '../components/LagoMallData/LagoMallData';
+import PaymentsDetails from '../components/locales/PaymentsDetails';
+import LagoMallDataMaster from '../components/lagomallData/LagoMallDataMaster';
+import LagoMallData from '../components/lagomallData/LagoMallData';
 import RegistrarPago from '../components/pagos/RegistrarPago';
 import PaymentsByMonth from '../components/pagos/PaymentsByMonth';
 

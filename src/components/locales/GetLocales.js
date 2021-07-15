@@ -3,7 +3,7 @@ import axios, { generateToken } from '../../config/axios'
 import { Link } from 'react-router-dom';
 import MonthPicker from './MonthPicker';
 import NavbarLoged from './NavbarLoged';
-import LagoMallData from '../LagoMallData/LagoMallData';
+import LagoMallData from '../lagomallData/LagoMallData';
 import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
 import '../../assets/css/locales.css';
 

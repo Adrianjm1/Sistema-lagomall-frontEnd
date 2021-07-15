@@ -5,8 +5,8 @@ import { Table, Container, Form } from "react-bootstrap";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../assets/css/paymentsDetails.css';
-import NavbarLoged from '../Locales/NavbarLoged';
-import MonthPicker from '../Locales/MonthPicker';
+import NavbarLoged from '../locales/NavbarLoged';
+import MonthPicker from '../locales/MonthPicker';
 /* import { useHistory, useParams, Link } from 'react-router-dom';
  */
 

@@ -6,7 +6,7 @@ import payment from '../../assets/images/payment.jpg';
 import card from '../../assets/images/card-1.jpg';
 
 import '../../assets/css/registrar.css';
-import NavbarLoged from '../Locales/NavbarLoged';
+import NavbarLoged from '../locales/NavbarLoged';
 
 
 
