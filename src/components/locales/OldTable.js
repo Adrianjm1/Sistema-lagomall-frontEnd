@@ -15,7 +15,8 @@ const defaultState = {
     name: 'React',
     busqueda: '',
     locales: [],
-    month: '2021-6'
+    month: '2021-6',
+    mes: ''
 }
 
 
@@ -36,10 +37,12 @@ function Oldtable() {
         return state.locales
     }, [state])
 
+    
+
     useEffect(function () {
 
 
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MzY2MTE4LCJleHAiOjE2MjYzODQxMTh9.XWFnO0K1VOxenAmuB6lakISyEi1YuUNf66S0slxF01E')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2NDAzNDY4LCJleHAiOjE2MjY0MjE0Njh9.S6WJYEhH8F8tqPoz8JfRSLfmjNXx8d_Wca1UJI5PaBM')  // for all requests
         axios.get(`/local/tableMonthly/${mes}`)
             .then((res) => {
 
@@ -58,15 +61,20 @@ function Oldtable() {
             .catch((error) => console.log(error))
 
         //eslint-disable-next-line
-    }, [])
+    }, [state.mes])
 
+    
+    const [startDate, setStartDate] = useState(fecha);
+    const [queryDate, setQueryDate] = useState();
+    
     const handleChange = e => {
         setState({ ...state, busqueda: e.target.value.toUpperCase() });
     }
 
-    const [startDate, setStartDate] = useState(fecha);
-    const [queryDate, setQueryDate] = useState();
-
+    const click =()=>{
+        
+        state.mes = mes
+    }
 
     return (
         <>
@@ -86,13 +94,14 @@ function Oldtable() {
                         onChange={(date) => {
                             setStartDate(date)
                             setQueryDate((date.getFullYear() + '-' + (1 + date.getMonth())))
+
                         }}
 
                     />
 
 
                     <Link className="btn" to={`/admin/table/${queryDate}`}>
-                        <Button className="see">Buscar</Button>
+                        <Button onClick={click} className="see">Buscar</Button>
                     </Link>
                 </div>
 

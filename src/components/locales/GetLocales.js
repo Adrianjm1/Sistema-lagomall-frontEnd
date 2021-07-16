@@ -31,7 +31,7 @@ function GetLocales() {
     }, [state])
 
     useEffect(function () {
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MzY1ODEwLCJleHAiOjE2MjYzODM4MTB9.VogdS4GRpyP-MsI9hGc6XQDlY7lL_h4TYHMMN1K0mQM')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2NDAzNDY4LCJleHAiOjE2MjY0MjE0Njh9.S6WJYEhH8F8tqPoz8JfRSLfmjNXx8d_Wca1UJI5PaBM')  // for all requests
         axios.get('/local/table')
             .then((res) =>
                 setState({
