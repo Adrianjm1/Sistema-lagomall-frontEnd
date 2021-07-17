@@ -3,7 +3,6 @@ import axios, { generateToken } from '../../config/axios'
 import { Link } from 'react-router-dom';
 import NavbarLoged from './NavbarLoged';
 import LagoMallData from '../lagomallData/LagoMallData';
-import SumPayments from '../pagos/SumPayments';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -16,7 +15,9 @@ const defaultState = {
     busqueda: '',
     locales: [],
     startDate: '2021/07',
-    mes: ''
+    mes: '',
+    total: 0,
+    totalPronto: 0
 };
 
 
@@ -34,18 +35,31 @@ function GetLocales() {
     useEffect(function () {
         generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY0NzEyOTcsImV4cCI6MTYyNjQ4OTI5N30.TdGl2BwEXLPKSRQn7elfNV7Eo-t18_5wiuM6mEidW20')  // for all requests
         axios.get('/local/table')
-            .then((res) =>
+            .then((res) => {
+
+
+
                 setState({
                     ...state,
-                    locales: res.data.map(
+                    total: res.data.deudas[0].total,
+                    totalPronto: res.data.deudas[0].totalPronto,
+                    locales: res.data.data.map(
                         item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
                     )
                 })
+
+
+            }
             )
             .catch((error) => console.log(error))
 
+
+
         //eslint-disable-next-line
     }, [])
+
+
+
 
     const handleChange = e => {
         setState({ ...state, busqueda: e.target.value.toUpperCase(), mes: 'sirilo' });
@@ -60,20 +74,18 @@ function GetLocales() {
         <>
             <NavbarLoged />
 
-
             <Container>
                 <LagoMallData />
-                <SumPayments />
-                <hr />
 
                 <>
                     <DatePicker
+                
                         dateFormat="MMMM yyyy"
                         showMonthYearPicker
                         selected={startDate}
                         onChange={(date) => {
                             setStartDate(date)
-                            setQueryDate((date.getFullYear() + '-' + (1 + date.getMonth()) ))
+                            setQueryDate((date.getFullYear() + '-' + (1 + date.getMonth())))
                             console.log(queryDate);
                         }
                         }
@@ -82,12 +94,23 @@ function GetLocales() {
                     <Link className="btn" to={`/admin/table/${queryDate}`}>
                         <Button className="see">Buscar</Button>
                     </Link>
-                    
+
                 </>
 
                 <Form inline>
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
                 </Form>
+
+                <Form.Label column sm={4}>
+                    <p> Monto total:   <b> {state.total}</b></p>
+                </Form.Label>
+
+                <Form.Label column sm={4}>
+                    <p>  Monto total pronto pago: <b>{state.totalPronto}</b></p>
+                </Form.Label>
+
+
+
 
                 <br></br>
                 <Table striped bordered hover size="sm">
@@ -98,6 +121,7 @@ function GetLocales() {
                             <th>Propietarios</th>
                             <th>% Según documento de condominio</th>
                             <th>Cuota total en $</th>
+                            <th>Pronto Pago</th>
                             <th>Saldo</th>
                         </tr>
                     </thead>
@@ -111,6 +135,7 @@ function GetLocales() {
                                     <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
                                     <td>{data.percentageOfCC}</td>
                                     <td>{data.monthlyUSD}</td>
+                                    <td>{data.balance}</td>
                                     <td>{data.balance}</td>
                                     <td className="detalles">
                                         <Link className="btn" to={`/admin/payments/${data.code}`}>
