@@ -20,8 +20,6 @@ class SumPayments extends Component {
         dataDay: {},
         dataMonths: {},
         name: '',
-        mes: `${date.getDay()}-${addZero(+date.getMonth() + 1)}-${date.getFullYear()}`,
-        mes2: `${addZero(+date.getMonth() + 1)}-${date.getFullYear()}`,
         startDate: new Date(),
         startMonth: new Date(),
 
@@ -30,10 +28,10 @@ class SumPayments extends Component {
 
     componentDidMount() {
 
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY0NzEyOTcsImV4cCI6MTYyNjQ4OTI5N30.TdGl2BwEXLPKSRQn7elfNV7Eo-t18_5wiuM6mEidW20')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY1NjE4NDksImV4cCI6MTYyNjU3OTg0OX0.vntu2n0dnbGcSC_0S0rbEnQ41MEK1MVIwPmTzMmJ4II')  // for all requests
 
 
-        axios.get(`/payments/sum/monthly/${this.state.mes2}`)
+        axios.get(`/payments/sum/monthly?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
             .then((res) => {
 
                 this.setState({ dataMonths: res.data })
@@ -44,7 +42,7 @@ class SumPayments extends Component {
             )
 
 
-        axios.get(`/payments/sum/dayly/${this.state.mes}`)
+        axios.get(`/payments/sum/dayly?day=${date.getDate()}&month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
             .then((res) => {
 
                 this.setState({ dataDay: res.data })
@@ -59,26 +57,10 @@ class SumPayments extends Component {
     OnChangeSumDate = (month) => {
 
         try{
-
-            let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            let contador = 1;
-    
-            let mes = month.toString().slice(4, 7);
-            let year = month.toString().slice(11, 15);
-            let day = month.toString().slice(8, 10);
-    
-            let month1 = 0;
-    
-            months.map(item => {
-                if (mes === item) {
-                    month1 = contador < 10 ? `0${contador}` : `${contador}`;
-                }
-                return contador++;
-            });
     
             this.setState({ startDate: month });
     
-            axios.get(`/payments/sum/dayly/${day}-${month1}-${year}`)
+            axios.get(`/payments/sum/dayly?day=${month.getDate()}&month=${month.getMonth() + 1}&year=${month.getFullYear()}`)
                 .then((res) => {
     
                     this.setState({ dataDay: res.data })
@@ -101,10 +83,8 @@ class SumPayments extends Component {
         try{
 
             this.setState({ startMonth: month });
-
-            let month1 = addZero(1 + month.getMonth());
     
-            axios.get(`/payments/sum/monthly/${month1}-${month.getFullYear()}`)
+            axios.get(`/payments/sum/monthly?month=${month.getMonth() + 1}&year=${month.getFullYear()}`)
                 .then((res) => {
     
                     this.setState({ dataMonths: res.data })
@@ -174,6 +154,8 @@ class SumPayments extends Component {
                             </tr>
                         </tbody>
                     </Table>
+
+                    <hr />
 
 
 

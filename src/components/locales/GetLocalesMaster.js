@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import NavbarLoged from './NavbarLoged';
 import LagoMallData from '../lagomallData/LagoMallData';
 import DatePicker from 'react-datepicker';
+import SumPayments from '../pagos/SumPayments';
 import "react-datepicker/dist/react-datepicker.css";
 
 import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
@@ -32,7 +33,7 @@ function GetLocalesMaster() {
     }, [state])
 
     useEffect(function () {
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2NDAzNDY4LCJleHAiOjE2MjY0MjE0Njh9.S6WJYEhH8F8tqPoz8JfRSLfmjNXx8d_Wca1UJI5PaBM')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY1NjE4NDksImV4cCI6MTYyNjU3OTg0OX0.vntu2n0dnbGcSC_0S0rbEnQ41MEK1MVIwPmTzMmJ4II')  // for all requests
         axios.get('/local/table')
             .then((res) => {
 
@@ -73,6 +74,7 @@ function GetLocalesMaster() {
 
             <Container>
                 <LagoMallData />
+                <SumPayments/>
 
                 <>
                     <DatePicker

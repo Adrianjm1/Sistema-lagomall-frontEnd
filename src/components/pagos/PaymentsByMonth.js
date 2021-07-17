@@ -21,18 +21,17 @@ class PaymentsByMonth extends Component {
         datosDias: [],
         datosMeses: [],
         name: '',
-        mes: `${addZero(+date.getDay())}-${addZero(+date.getMonth() + 1)}-${date.getFullYear()}`,
-        mes2: `${addZero(+date.getMonth() + 1)}-${date.getFullYear()}`,
         startDate: new Date(),
+        startMonth: new Date(),
 
     }
 
 
     componentDidMount() {
 
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY0NjM5MDAsImV4cCI6MTYyNjQ4MTkwMH0.pQZK9P6kCCKpMmH-6Tfil9B_yniCNAJUvdkAiy62C_E')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY1NjE4NDksImV4cCI6MTYyNjU3OTg0OX0.vntu2n0dnbGcSC_0S0rbEnQ41MEK1MVIwPmTzMmJ4II')  // for all requests
 
-        axios.get(`/payments/get/month/${this.state.mes}`)
+        axios.get(`/payments/get/dayly?day=${date.getDate()}&month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
             .then((res) => {
 
                 this.setState({ datosDias: res.data })
@@ -43,7 +42,7 @@ class PaymentsByMonth extends Component {
             )
 
 
-            axios.get(`/payments/get/monthly/${this.state.mes2}`)
+        axios.get(`/payments/get/monthly?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
             .then((res) => {
 
                 this.setState({ datosMeses: res.data })
@@ -57,25 +56,9 @@ class PaymentsByMonth extends Component {
 
     OnChangeDate = (month) => {
 
-        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        let contador = 1;
-
-        let mes = month.toString().slice(4, 7);
-        let year = month.toString().slice(11, 15);
-        let day = month.toString().slice(8, 10);
-
-        let month1 = 0;
-
-        months.map(item => {
-            if (mes === item) {
-                month1 = contador < 10 ? `0${contador}` : `${contador}`;
-            }
-            return contador++;
-        });
-
         this.setState({ startDate: month });
 
-        axios.get(`/payments/get/dayly/${day}-${month1}-${year}`)
+        axios.get(`/payments/get/dayly?day=${month.getDate()}&month=${month.getMonth() + 1}&year=${month.getFullYear()}`)
             .then((res) => {
 
                 this.setState({ datosDias: res.data })
@@ -91,11 +74,7 @@ class PaymentsByMonth extends Component {
 
         this.setState({ startMonth: month });
 
-        let month1 = addZero(1 + month.getMonth());
-
-        this.setState({ startDate: month });
-
-        axios.get(`/payments/get/monthly/${month1}-${month.getFullYear()}`)
+        axios.get(`/payments/get/monthly?month=${month.getMonth() + 1}&year=${month.getFullYear()}`)
             .then((res) => {
 
                 this.setState({ datosMeses: res.data })
