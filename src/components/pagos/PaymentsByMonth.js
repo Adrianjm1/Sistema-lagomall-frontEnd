@@ -23,7 +23,6 @@ class PaymentsByMonth extends Component {
         name: '',
         mes: `${addZero(+date.getDay())}-${addZero(+date.getMonth() + 1)}-${date.getFullYear()}`,
         mes2: `${addZero(+date.getMonth() + 1)}-${date.getFullYear()}`,
-        date: '',
         startDate: new Date(),
 
     }
@@ -31,7 +30,7 @@ class PaymentsByMonth extends Component {
 
     componentDidMount() {
 
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2NDAzNDY4LCJleHAiOjE2MjY0MjE0Njh9.S6WJYEhH8F8tqPoz8JfRSLfmjNXx8d_Wca1UJI5PaBM')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY0NjM5MDAsImV4cCI6MTYyNjQ4MTkwMH0.pQZK9P6kCCKpMmH-6Tfil9B_yniCNAJUvdkAiy62C_E')  // for all requests
 
         axios.get(`/payments/get/month/${this.state.mes}`)
             .then((res) => {
@@ -74,9 +73,9 @@ class PaymentsByMonth extends Component {
             return contador++;
         });
 
-        this.setState({ date: month });
+        this.setState({ startDate: month });
 
-        axios.get(`/payments/get/month/${day}-${month1}-${year}`)
+        axios.get(`/payments/get/dayly/${day}-${month1}-${year}`)
             .then((res) => {
 
                 this.setState({ datosDias: res.data })
@@ -86,28 +85,15 @@ class PaymentsByMonth extends Component {
                 console.log(error)
             )
 
-
-        axios.get(`/payments/get/monthly/${month1}-${year}`)
-            .then((res) => {
-
-                this.setState({ datosMeses: res.data })
-
-            })
-            .catch((error) =>
-                console.log(error)
-            )
-
-
     }
 
     OnChangeMonth = (month) => {
 
-        console.log((month.getFullYear() + '-' + (1 + month.getMonth())));
-        this.setState({ startDate: month });
+        this.setState({ startMonth: month });
 
         let month1 = addZero(1 + month.getMonth());
 
-        console.log(`${month1}-${month.getFullYear()}`);
+        this.setState({ startDate: month });
 
         axios.get(`/payments/get/monthly/${month1}-${month.getFullYear()}`)
             .then((res) => {
@@ -118,9 +104,6 @@ class PaymentsByMonth extends Component {
             .catch((error) =>
                 console.log(error)
             )
-
-
-
 
     }
 
@@ -136,7 +119,7 @@ class PaymentsByMonth extends Component {
                         <h2>Pagos por día</h2>
 
                         <Form.Label className="label-date">Ingresa la fecha</Form.Label>
-                        <DatePicker className="form-control" onChange={this.OnChangeDate} selected={this.state.date} />
+                        <DatePicker className="form-control" onChange={this.OnChangeDate} selected={this.state.startDate} />
 
                     </Form>
 
@@ -176,10 +159,12 @@ class PaymentsByMonth extends Component {
                     <Form>
 
                         <h2>Pagos por mes</h2>
-                        <DatePicker
-                            dateFormat="MMMM yyyy"
+
+                        <Form.Label className="label-date">Ingresa la fecha</Form.Label>
+
+                        <DatePicker dateFormat="MMMM yyyy"
                             showMonthYearPicker
-                            selected={this.state.startDate}
+                            selected={this.state.startMonth}
                             onChange={this.OnChangeMonth}
 
                         />
@@ -190,6 +175,7 @@ class PaymentsByMonth extends Component {
                         <thead>
                             <tr className='first'>
                                 <th>Codigo</th>
+                                <th>Fecha</th>
                                 <th>Monto en dolares</th>
                                 <th>Monto en bolivares</th>
                                 <th>Referencia</th>
@@ -204,6 +190,7 @@ class PaymentsByMonth extends Component {
                                 this.state.datosMeses.map(data => (
                                     <tr key={data.id}>
                                         <td>{data.locale.code}</td>
+                                        <td>{data.createdAt.slice(0,10)}</td>
                                         <td>{data.amountUSD}</td>
                                         <td>{data.amountBS}</td>
                                         <td>{data.referenceNumber}</td>

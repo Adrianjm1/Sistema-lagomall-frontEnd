@@ -3,6 +3,7 @@ import axios, { generateToken } from '../../config/axios'
 import { Link } from 'react-router-dom';
 import NavbarLoged from './NavbarLoged';
 import LagoMallData from '../lagomallData/LagoMallData';
+import SumPayments from '../pagos/SumPayments';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -31,7 +32,7 @@ function GetLocales() {
     }, [state])
 
     useEffect(function () {
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2NDAzNDY4LCJleHAiOjE2MjY0MjE0Njh9.S6WJYEhH8F8tqPoz8JfRSLfmjNXx8d_Wca1UJI5PaBM')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY0NzEyOTcsImV4cCI6MTYyNjQ4OTI5N30.TdGl2BwEXLPKSRQn7elfNV7Eo-t18_5wiuM6mEidW20')  // for all requests
         axios.get('/local/table')
             .then((res) =>
                 setState({
@@ -62,6 +63,9 @@ function GetLocales() {
 
             <Container>
                 <LagoMallData />
+                <SumPayments />
+                <hr />
+
                 <>
                     <DatePicker
                         dateFormat="MMMM yyyy"
