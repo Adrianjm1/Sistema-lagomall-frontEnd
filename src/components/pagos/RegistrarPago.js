@@ -17,7 +17,7 @@ function RegistrarPago() {
     const defaultState = {
         datos: [],
         code: '',
-        amount: 0,
+        amount: '',
         reference: '',
         bank: '',
         pay: false,
@@ -51,14 +51,30 @@ function RegistrarPago() {
 
     const onInputChange = e => {
 
+        const isValid = e.target.validity.valid;
 
+        if (isValid === true) {
+            setState({ ...state, [e.target.name]: e.target.value });
 
-        setState({ ...state, [e.target.name]: e.target.value })
+        } else{
+            console.log(isValid);
+
+        }
+
+    }
+
+    const onUSDChange = e => {
+
+        const isValid = e.target.validity.valid;
+
+        if (isValid === true) {
+            setState({ ...state, amount: e.target.value });
+
+        }
+
     }
 
     const onCheck = e => {
-
-       
 
         if (e.target.checked) {
 
@@ -87,7 +103,7 @@ function RegistrarPago() {
 
             
 
-                generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2NTU4NTIyLCJleHAiOjE2MjY1NzY1MjJ9.9mS6pzWJheYOF81yhCa6GMclnSnfkW1D0VDQu0u7OkI')  // for all requests
+                generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY2MzIzNzMsImV4cCI6MTYyNjY1MDM3M30.671BGtEY_w7Mrod1Wte3fC_qnU_os2uFThgkHBmeuFc')  // for all requests
 
 
                 const res = await axios.post('/payments/make',
@@ -177,7 +193,7 @@ function RegistrarPago() {
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
                             <Form.Label>Monto en dolares</Form.Label>
-                            <Form.Control type="text" placeholder="Ingresar monto" name="amount"  onChange={onInputChange}  />
+                            <Form.Control type="text" pattern="[0-9]{0,13}" placeholder="Ingresar monto" name="amount" value={state.amount} onChange={onUSDChange}  />
                         </Form.Group>
            
                         <Form.Group className="formregistrar" controlId="formBasicEmail">

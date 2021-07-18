@@ -6,14 +6,11 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../assets/css/paymentsDetails.css';
 import NavbarLoged from '../locales/NavbarLoged';
+import SumPayments from './SumPayments';
 /* import { useHistory, useParams, Link } from 'react-router-dom';
  */
 
 const date = new Date()
-function addZero(n) {
-    if (n >= 10) return n;
-    return "0" + n;
-}
 
 class PaymentsByMonth extends Component {
 
@@ -29,7 +26,7 @@ class PaymentsByMonth extends Component {
 
     componentDidMount() {
 
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2NTU4NTIyLCJleHAiOjE2MjY1NzY1MjJ9.9mS6pzWJheYOF81yhCa6GMclnSnfkW1D0VDQu0u7OkI')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY2MzIzNzMsImV4cCI6MTYyNjY1MDM3M30.671BGtEY_w7Mrod1Wte3fC_qnU_os2uFThgkHBmeuFc')  // for all requests
 
         axios.get(`/payments/get/dayly?day=${date.getDate()}&month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
             .then((res) => {
@@ -182,6 +179,10 @@ class PaymentsByMonth extends Component {
                             }
                         </tbody>
                     </Table>
+
+                    <hr />
+                    
+                    <SumPayments />
 
 
 

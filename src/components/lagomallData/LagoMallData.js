@@ -23,7 +23,7 @@ const LagoMallData = () => {
 
 
     useEffect(function () {
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2NTM3NzgyLCJleHAiOjE2MjY1NTU3ODJ9.05wRo-fG2zF0U23dLfXBzc6UhcOyubsHroRDqSsNyjs')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY2MzIzNzMsImV4cCI6MTYyNjY1MDM3M30.671BGtEY_w7Mrod1Wte3fC_qnU_os2uFThgkHBmeuFc')  // for all requests
         axios.get('/lagomalldata/last')
             .then((res) => {
 
@@ -76,7 +76,7 @@ const LagoMallData = () => {
                         </Col>
                     </Form.Group>
 
-                    <Form.Group as={Row} className="condomi" controlId="formCondominio">
+                    <Form.Group as={Row} className="condomi">
                         <Form.Label column sm={4}>
                             <b>Cuota total del condominio</b>
                         </Form.Label>

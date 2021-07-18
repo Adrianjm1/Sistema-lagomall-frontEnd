@@ -11,6 +11,8 @@ import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
 
 import '../../assets/css/locales.css';
 
+const date = new Date();
+
 const defaultState = {
     name: 'React',
     busqueda: '',
@@ -18,7 +20,8 @@ const defaultState = {
     startDate: '2021/07',
     mes: '',
     total: 0,
-    totalPronto: 0
+    totalPronto: 0,
+    porcentajePagado: 0,
 };
 
 
@@ -34,26 +37,31 @@ function GetLocales() {
     }, [state])
 
     useEffect(function () {
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2NTM3NzgyLCJleHAiOjE2MjY1NTU3ODJ9.05wRo-fG2zF0U23dLfXBzc6UhcOyubsHroRDqSsNyjs')  // for all requests
+
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY2MzIzNzMsImV4cCI6MTYyNjY1MDM3M30.671BGtEY_w7Mrod1Wte3fC_qnU_os2uFThgkHBmeuFc')  // for all requests
         axios.get('/local/table')
             .then((res) => {
 
+                axios.get(`/payments/sum/usd?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
+                    .then((resp) => {
+
+                        setState({
+                            ...state,
+                            total: res.data.deudas[0].total,
+                            totalPronto: res.data.deudas[0].totalPronto,
+                            porcentajePagado: ((parseFloat(resp.data.total) * 100) / res.data.deudas[0].total),
+                            locales: res.data.data.map(
+                                item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
+                            )
+                        })
+
+                    })
+                    .catch((error) => console.log(error))
 
 
-                setState({
-                    ...state,
-                    total: res.data.deudas[0].total,
-                    totalPronto: res.data.deudas[0].totalPronto,
-                    locales: res.data.data.map(
-                        item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
-                    )
-                })
 
-
-            }
-            )
+            })
             .catch((error) => console.log(error))
-
 
 
         //eslint-disable-next-line
@@ -80,7 +88,7 @@ function GetLocales() {
 
                 <>
                     <DatePicker
-                
+
                         dateFormat="MMMM yyyy"
                         showMonthYearPicker
                         selected={startDate}
@@ -102,7 +110,7 @@ function GetLocales() {
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
                 </Form>
 
-                <Form.Label column sm={4}>
+                <Form.Label column sm={3}>
                     <p> Monto total:   <b> {state.total}</b></p>
                 </Form.Label>
 
@@ -110,7 +118,9 @@ function GetLocales() {
                     <p>  Monto total pronto pago: <b>{state.totalPronto}</b></p>
                 </Form.Label>
 
-
+                <Form.Label column sm={5}>
+                    <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado}%</b></p>
+                </Form.Label>
 
 
                 <br></br>

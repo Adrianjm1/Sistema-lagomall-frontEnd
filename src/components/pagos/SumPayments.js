@@ -9,10 +9,6 @@ import '../../assets/css/paymentsDetails.css';
  */
 
 const date = new Date()
-function addZero(n) {
-    if (n >= 10) return n;
-    return "0" + n;
-}
 
 class SumPayments extends Component {
 
@@ -28,7 +24,7 @@ class SumPayments extends Component {
 
     componentDidMount() {
 
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY1NjE4NDksImV4cCI6MTYyNjU3OTg0OX0.vntu2n0dnbGcSC_0S0rbEnQ41MEK1MVIwPmTzMmJ4II')  // for all requests
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY2MzIzNzMsImV4cCI6MTYyNjY1MDM3M30.671BGtEY_w7Mrod1Wte3fC_qnU_os2uFThgkHBmeuFc')  // for all requests
 
 
         axios.get(`/payments/sum/monthly?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
@@ -109,7 +105,7 @@ class SumPayments extends Component {
                 <Container className="container-month">
                     <Form>
 
-                        <h2>Suma de facturas (Por mes)</h2>
+                        <h2>Suma de pagos (Por mes)</h2>
 
                         <Form.Label className="label-date">Ingresa la fecha</Form.Label>
                         <DatePicker dateFormat="MMMM yyyy" showMonthYearPicker selected={this.state.startMonth} onChange={this.OnChangeSumMonth} />
@@ -134,7 +130,7 @@ class SumPayments extends Component {
 
                     <Form>
 
-                        <h2>Suma de facturas (Por día)</h2>
+                        <h2>Suma de pagos (Por día)</h2>
 
                         <Form.Label className="label-date">Ingresa la fecha</Form.Label>
                         <DatePicker className="form-control-2" onChange={this.OnChangeSumDate} selected={this.state.startDate} />
