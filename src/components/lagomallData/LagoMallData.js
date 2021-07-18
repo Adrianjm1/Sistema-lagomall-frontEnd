@@ -1,15 +1,57 @@
-import React, { Component } from 'react';
-import { Form, Col, Row, Container } from "react-bootstrap";
+
+import React, { useState, useEffect, useMemo } from 'react'
+import { Form, Col, Row, Container, } from "react-bootstrap";
 import '../../assets/css/form.css';
-import GetLocales from '../locales/GetLocales'
-import NavbarLoged from '../locales/NavbarLoged'
+import axios, { generateToken } from '../../config/axios'
+import "react-datepicker/dist/react-datepicker.css";
+
+const LagoMallData = () => {
 
 
-export default class LagoMallData extends Component {
+    const defaultState = {
+        name: 'React',
+        metros: 0,
+        breakeven: 0,
+        condominio: 0,
+        descuento: 0
+    };
 
-    render() {
-        return (
-            
+
+
+
+    const [state, setState] = useState(defaultState);
+
+
+    useEffect(function () {
+        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2NTM3NzgyLCJleHAiOjE2MjY1NTU3ODJ9.05wRo-fG2zF0U23dLfXBzc6UhcOyubsHroRDqSsNyjs')  // for all requests
+        axios.get('/lagomalldata/last')
+            .then((res) => {
+
+
+                setState({
+                    ...state,
+                    metros: res.data[0].meter,
+                    breakeven: res.data[0].breakeven,
+                    condominio: res.data[0].montoDeCondominio,
+                    descuento: res.data[0].discount
+                })
+
+
+            }
+            )
+            .catch((error) => console.log(error))
+
+
+
+    }, [])
+    let condominio = parseInt(state.condominio);
+    
+
+
+    return (
+        <div>
+
+
             <Container className="form">
 
 
@@ -21,7 +63,7 @@ export default class LagoMallData extends Component {
                             <b>Metraje del Centro Comercial</b>
                         </Form.Label>
                         <Col sm={2}>
-                            <Form.Control value="18.030" disabled />
+                            <Form.Control value={`${state.metros}`} disabled />
                         </Col>
                     </Form.Group>
 
@@ -30,7 +72,7 @@ export default class LagoMallData extends Component {
                             <b>Punto de Equilibrio</b>
                         </Form.Label>
                         <Col sm={2}>
-                            <Form.Control type="text" value="2" disabled />
+                            <Form.Control type="text" value={`${state.breakeven}`} disabled />
                         </Col>
                     </Form.Group>
 
@@ -39,11 +81,11 @@ export default class LagoMallData extends Component {
                             <b>Cuota total del condominio</b>
                         </Form.Label>
                         <Col sm={2}>
-                            <Form.Control type="text" className="ctotalc" value="2" name="condominio" disabled/>
+                            <Form.Control type="text" className="ctotalc" value={`${condominio}`} name="condominio" disabled />
                         </Col>
                         <Col sm={1}>
-                            <Form.Control className="discount" type="text" value="80" disabled />
-                        </Col>                      
+                            <Form.Control className="discount" type="text" value={`${state.descuento}`} disabled />
+                        </Col>
                     </Form.Group>
 
                     <br />
@@ -52,9 +94,19 @@ export default class LagoMallData extends Component {
 
                 <hr />
 
-     
+
             </Container>
 
-        )
-    }
+
+
+
+
+
+
+
+
+        </div>
+    )
 }
+
+export default LagoMallData

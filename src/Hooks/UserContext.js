@@ -1,7 +1,7 @@
 import {useState, createContext} from 'react'
 
 const UserContext = createContext(null);
-const defaultState = { isAdmin: false }
+const defaultState = { isAdmin: true }
 
 function Provider({children}){
     const [ state, setState ] = useState(defaultState);
