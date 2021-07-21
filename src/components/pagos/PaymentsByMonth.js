@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect, useMemo, useContext } from 'react'
 import axios, { generateToken } from '../../config/axios'
-import { withRouter } from "react-router";
+import { useHistory, useParams, Link } from 'react-router-dom';
 import { Table, Container, Form } from "react-bootstrap";
 import DatePicker from 'react-datepicker';
+import { AuthContext } from '../auth/AuthContext';
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
@@ -10,55 +11,65 @@ import SumPayments from './SumPayments';
 /* import { useHistory, useParams, Link } from 'react-router-dom';
  */
 
+
 const date = new Date()
 
-class PaymentsByMonth extends Component {
 
-    state = {
-        datosDias: [],
-        datosMeses: [],
-        name: '',
-        startDate: new Date(),
-        startMonth: new Date(),
-
-    }
+const defaultState = {
+     datosDias: [],
+    datosMeses: [],
+    name: '',
+    startDate: new Date(),
+    startMonth: new Date(),
+}
 
 
-    componentDidMount() {
+function PaymentsByMonth() {
 
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY2MzIzNzMsImV4cCI6MTYyNjY1MDM3M30.671BGtEY_w7Mrod1Wte3fC_qnU_os2uFThgkHBmeuFc')  // for all requests
+    const [state, setState] = useState(defaultState);
 
+    const {user} = useContext(AuthContext);
+
+    let code = useParams().code
+
+    useEffect(function () {
+
+
+        generateToken(user.token)  // for all requests
         axios.get(`/payments/get/dayly?day=${date.getDate()}&month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
-            .then((res) => {
+        .then((res) => {
 
-                this.setState({ datosDias: res.data })
+            setState({...state,  datosDias: res.data })
 
-            })
-            .catch((error) =>
-                console.log(error)
-            )
+        })
+        .catch((error) =>
+            console.log(error)
+        )
 
 
         axios.get(`/payments/get/monthly?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
             .then((res) => {
 
-                this.setState({ datosMeses: res.data })
+                setState({ ...state, datosMeses: res.data })
 
             })
             .catch((error) =>
                 console.log(error)
             )
 
-    }
 
-    OnChangeDate = (month) => {
+        //eslint-disable-next-line
+    }, [])
 
-        this.setState({ startDate: month });
+
+    const OnChangeDate = (month) => {
+
+        // setState({ ...state, startMonth: month });
 
         axios.get(`/payments/get/dayly?day=${month.getDate()}&month=${month.getMonth() + 1}&year=${month.getFullYear()}`)
             .then((res) => {
 
-                this.setState({ datosDias: res.data })
+                setState({ ...state, datosMeses: res.data, startMonth: month })
 
             })
             .catch((error) =>
@@ -67,14 +78,14 @@ class PaymentsByMonth extends Component {
 
     }
 
-    OnChangeMonth = (month) => {
+    const OnChangeMonth = (month) => {
 
-        this.setState({ startMonth: month });
+        // setState({ ...state, startMonth: month });
 
         axios.get(`/payments/get/monthly?month=${month.getMonth() + 1}&year=${month.getFullYear()}`)
             .then((res) => {
 
-                this.setState({ datosMeses: res.data })
+                setState({ ...state, datosMeses: res.data, startMonth: month })
 
             })
             .catch((error) =>
@@ -83,17 +94,17 @@ class PaymentsByMonth extends Component {
 
     }
 
-    render() {
+    
         return (
             <>
-
+            <NavbarLoged/>
                 <Container className="container-month">
                     <Form>
 
                         <h2>Pagos por día</h2>
 
                         <Form.Label className="label-date">Ingresa la fecha</Form.Label>
-                        <DatePicker className="form-control" onChange={this.OnChangeDate} selected={this.state.startDate} />
+                        <DatePicker className="form-control" onChange={OnChangeDate} selected={state.startDate} />
 
                     </Form>
 
@@ -112,7 +123,7 @@ class PaymentsByMonth extends Component {
                         </thead>
                         <tbody>
                             {
-                                this.state.datosDias.map(data => (
+                                state.datosDias.map(data => (
                                     <tr key={data.id}>
                                         <td>{data.locale.code}</td>
                                         <td>{data.amountUSD}</td>
@@ -138,8 +149,8 @@ class PaymentsByMonth extends Component {
 
                         <DatePicker dateFormat="MMMM yyyy"
                             showMonthYearPicker
-                            selected={this.state.startMonth}
-                            onChange={this.OnChangeMonth}
+                            selected={state.startMonth}
+                            onChange={OnChangeMonth}
 
                         />
                     </Form>
@@ -161,7 +172,7 @@ class PaymentsByMonth extends Component {
                         </thead>
                         <tbody>
                             {
-                                this.state.datosMeses.map(data => (
+                                state.datosMeses.map(data => (
                                     <tr key={data.id}>
                                         <td>{data.locale.code}</td>
                                         <td>{data.createdAt.slice(0,10)}</td>
@@ -189,10 +200,10 @@ class PaymentsByMonth extends Component {
 
             </>
         )
-    }
+    
 }
 
 
-export default withRouter(PaymentsByMonth)
+export default PaymentsByMonth
 
 

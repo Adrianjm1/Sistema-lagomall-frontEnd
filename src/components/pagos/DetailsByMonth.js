@@ -1,47 +1,61 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect, useMemo, useContext } from 'react'
 import axios, { generateToken } from '../../config/axios'
 import { useHistory, useParams, Link } from 'react-router-dom';
-import { withRouter } from "react-router";
+import { useParams, withRouter } from "react-router";
+import { AuthContext } from '../auth/AuthContext';
 import { Table, Container, Button, Card } from "react-bootstrap";
 import '../../assets/css/paymentsDetails.css';
-
-class PaymentsDetails extends Component {
-
-    state = {
-        datos: [],
-        name: '',
-        mes: ''
-    }
+import { faFreeCodeCamp } from '@fortawesome/free-brands-svg-icons';
 
 
-    componentDidMount() {
-        
-        const code = this.props.match.params.code;
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2MzY1ODEwLCJleHAiOjE2MjYzODM4MTB9.VogdS4GRpyP-MsI9hGc6XQDlY7lL_h4TYHMMN1K0mQM')  // for all requests
+const defaultState = {
+    datos: [],
+    name: '',
+    mes: '',
+    code: ''
+}
 
+function PaymentsDetails() {
+
+    const [state, setState] = useState(defaultState);
+
+    const {user} = useContext(AuthContext);
+
+
+    let code = useParams().code
+
+
+    
+    useEffect(function () {
+
+
+
+        generateToken(user.token)  // for all requests
         axios.get(`/payments/${code}`)
             .then((res) => {
                 // console.log(res.data);
-                this.setState({ datos: res.data })
-                this.setState({ name: res.data[0].locale.name })
+                setState({...state, datos: res.data, code: code  })
+                setState({ ...state ,name: res.data[0].locale.name })
                 // console.log(res.data[0].locale.code);
                 
-                console.log(res.data);
+                console.log(state.datos);
 
             })
             .catch((error) =>
                 console.log(error)
             )
 
-    }
 
-    render() {
+        //eslint-disable-next-line
+    }, [])
+
+
         return (
 
             <Container>
 
                  <Card className="titlePayments">
-                    <Card.Body>Detalles de pago del local  {  `${this.props.match.params.code} - ${this.state.name} `   }</Card.Body>
+                    <Card.Body>Detalles de pago del local  {  `${state.code} - ${state.name} `   }</Card.Body>
                 </Card> 
                 <Table className="margintable" striped bordered hover size="sm" >
                     <thead>
@@ -58,7 +72,7 @@ class PaymentsDetails extends Component {
                     </thead>
                     <tbody>
                         {
-                            this.state.datos.map(data => (
+                            state.datos.map(data => (
                                 <tr key={data.id}>
                                     <td>{data.createdAt.slice(0, 10)}</td>
                                     <td>{data.amountUSD}</td>
@@ -78,10 +92,10 @@ class PaymentsDetails extends Component {
             </Container>
 
         )
-    }
+    
 }
 
 
-export default withRouter(PaymentsDetails)
+export default PaymentsDetails
 
 
