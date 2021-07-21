@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useContext } from 'react'
 import axios, { generateToken } from '../../config/axios'
 import { Link } from 'react-router-dom';
-import NavbarLoged from './NavbarLoged';
+import { NavbarLoged } from './NavbarLoged';
 import LagoMallData from '../lagomallData/LagoMallData';
-import SumPayments from '../pagos/SumPayments';
+import { AuthContext } from '../auth/AuthContext';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -28,6 +28,9 @@ const defaultState = {
 function GetLocales() {
     const [state, setState] = useState(defaultState);
 
+    const {user} = useContext(AuthContext);
+
+
     const locales = useMemo(function () {
         if (state.busqueda.length) {
             return state.locales.filter(local => local.code.includes(state.busqueda))
@@ -38,7 +41,7 @@ function GetLocales() {
 
     useEffect(function () {
 
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY2MzIzNzMsImV4cCI6MTYyNjY1MDM3M30.671BGtEY_w7Mrod1Wte3fC_qnU_os2uFThgkHBmeuFc')  // for all requests
+        generateToken(user.token)  // for all requests
         axios.get('/local/table')
             .then((res) => {
 

@@ -11,7 +11,6 @@ class PaymentsDetails extends Component {
         datos: [],
         name: '',
         mes: ''
-
     }
 
 

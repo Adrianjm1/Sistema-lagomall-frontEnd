@@ -4,7 +4,7 @@ import { useHistory, useParams, Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 import { Table, Container, Button, Card } from "react-bootstrap";
 import '../../assets/css/paymentsDetails.css';
-import NavbarLoged from '../locales/NavbarLoged';
+import { NavbarLoged } from '../locales/NavbarLoged';
 
 
 class PaymentsDetails extends Component {

@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, useContext } from 'react'
 import axios, { generateToken } from '../../config/axios'
 import { withRouter } from "react-router";
 import { Table, Container, Form } from "react-bootstrap";
 import DatePicker from 'react-datepicker';
+import { AuthContext } from '../auth/AuthContext';
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../assets/css/paymentsDetails.css';
 /* import { useHistory, useParams, Link } from 'react-router-dom';

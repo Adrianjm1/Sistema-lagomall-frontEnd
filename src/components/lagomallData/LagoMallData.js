@@ -1,8 +1,9 @@
-
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Form, Col, Row, Container, } from "react-bootstrap";
 import '../../assets/css/form.css';
 import axios, { generateToken } from '../../config/axios'
+import { AuthContext } from '../auth/AuthContext';
+
 import "react-datepicker/dist/react-datepicker.css";
 
 const LagoMallData = () => {
@@ -16,14 +17,13 @@ const LagoMallData = () => {
         descuento: 0
     };
 
-
-
+    const {user} = useContext(AuthContext);
 
     const [state, setState] = useState(defaultState);
 
 
     useEffect(function () {
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY2MzIzNzMsImV4cCI6MTYyNjY1MDM3M30.671BGtEY_w7Mrod1Wte3fC_qnU_os2uFThgkHBmeuFc')  // for all requests
+        generateToken(user.token)  // for all requests
         axios.get('/lagomalldata/last')
             .then((res) => {
 

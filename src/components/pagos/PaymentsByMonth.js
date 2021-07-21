@@ -5,7 +5,7 @@ import { Table, Container, Form } from "react-bootstrap";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../assets/css/paymentsDetails.css';
-import NavbarLoged from '../locales/NavbarLoged';
+import { NavbarLoged } from '../locales/NavbarLoged';
 import SumPayments from './SumPayments';
 /* import { useHistory, useParams, Link } from 'react-router-dom';
  */
@@ -86,8 +86,6 @@ class PaymentsByMonth extends Component {
     render() {
         return (
             <>
-
-                <NavbarLoged />
 
                 <Container className="container-month">
                     <Form>

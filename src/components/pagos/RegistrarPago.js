@@ -1,13 +1,16 @@
 import { text } from '@fortawesome/fontawesome-svg-core';
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useContext } from 'react'
 import { Form, Col, Row, Button, Modal } from "react-bootstrap";
 import axios, { generateToken } from '../../config/axios';
 import payment from '../../assets/images/payment.jpg';
 import card from '../../assets/images/card-1.jpg';
-import swal from 'sweetalert'
+import swal from 'sweetalert';
+import { AuthContext } from '../auth/AuthContext';
+
 
 import '../../assets/css/registrar.css';
-import NavbarLoged from '../locales/NavbarLoged';
+import { NavbarLoged } from '../locales/NavbarLoged';
+import { NavbarMaster } from '../locales/NavbarMaster';
 
 
 
@@ -25,28 +28,28 @@ function RegistrarPago() {
 
     }
 
-
+    const {user} = useContext(AuthContext);
 
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const validaCampos =()=>{
-         if (state.local == '' || state.referencia == '' || state.amount == ''){
-            swal( {title: 'Error',
-            text: 'Error campos sin completar',
-            icon: 'error'
+    const validaCampos = () => {
+        if (state.local == '' || state.referencia == '' || state.amount == '') {
+            swal({
+                title: 'Error',
+                text: 'Error campos sin completar',
+                icon: 'error'
             });
-           
-         } else {
+
+        } else {
             handleShow();
-         }
+        }
     }
 
 
     const [state, setState] = useState(defaultState);
-
 
 
     const onInputChange = e => {
@@ -56,7 +59,7 @@ function RegistrarPago() {
         if (isValid === true) {
             setState({ ...state, [e.target.name]: e.target.value });
 
-        } else{
+        } else {
             console.log(isValid);
 
         }
@@ -94,59 +97,57 @@ function RegistrarPago() {
     }
 
 
-
     const onSubmit = async e => {
 
-
         try {
-           
 
-            
-
-                generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo1LCJ1c2VybmFtZSI6InZpcmdpbmlhZ3NyIiwicGFzc3dvcmQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDYtMjZUMDA6NTI6MzYuMDAwWiJ9LCJpYXQiOjE2MjY2MzIzNzMsImV4cCI6MTYyNjY1MDM3M30.671BGtEY_w7Mrod1Wte3fC_qnU_os2uFThgkHBmeuFc')  // for all requests
+            generateToken(user.token)  // for all requests
 
 
-                const res = await axios.post('/payments/make',
-                    {
-                        code: state.code,
-                        bank: state.bank,
-                        amountUSD: state.amount,
-                        referenceNumber: state.reference,
-                        exchangeRate: state.exchange,
-                        paymentUSD: state.pay
-                    });
+            const res = await axios.post('/payments/make',
+                {
+                    code: state.code,
+                    bank: state.bank,
+                    amountUSD: state.amount,
+                    referenceNumber: state.reference,
+                    exchangeRate: state.exchange,
+                    paymentUSD: state.pay
+                });
 
 
-                   if(res.data.message ){
+            if (res.data.message) {
 
 
-                       swal( {title: 'Error',
-                       text: res.data.message,
-                       icon: 'error'
-                       });
-                   }else{
+                swal({
+                    title: 'Error',
+                    text: res.data.message,
+                    icon: 'error'
+                });
+            } else {
 
-                       
-                    swal( {title: 'Realizado',
-                            text: 'Pago realizado con exito',
-                            icon: 'success'
-                            });
 
-                            setTimeout(function(){ window.location.reload(); }, 3500);
-                   
-                   }
+                swal({
+                    title: 'Realizado',
+                    text: 'Pago realizado con exito',
+                    icon: 'success'
+                });
 
-          
+                setTimeout(function () { window.location.reload(); }, 3500);
+
+            }
+
+
         }
         catch (error) {
 
             console.log(error);
-            
-            swal( {title: 'Error',
-            text: 'Error, no se pudo procesar el pago',
-            icon: 'error'
+
+            swal({
+                title: 'Error',
+                text: 'Error, no se pudo procesar el pago',
+                icon: 'error'
             });
-           
+
         }
 
 
@@ -166,14 +167,8 @@ function RegistrarPago() {
     return (
 
         <div className="m-0 justify-content-center">
-            <NavbarLoged />
 
-            <>
-
-
-
-            </>
-
+            {user.master ? <NavbarMaster/> : <NavbarLoged/>}
 
             <Row>
 
@@ -193,9 +188,9 @@ function RegistrarPago() {
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
                             <Form.Label>Monto en dolares</Form.Label>
-                            <Form.Control type="text" pattern="[0-9]{0,13}" placeholder="Ingresar monto" name="amount" value={state.amount} onChange={onUSDChange}  />
+                            <Form.Control type="text" pattern="[0-9]{0,13}" placeholder="Ingresar monto" name="amount" value={state.amount} onChange={onUSDChange} />
                         </Form.Group>
-           
+
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
                             <Form.Label>Numero de referencia</Form.Label>
                             <Form.Control type="text" placeholder="Ingresar referencia" name="reference" onChange={onInputChange} />
@@ -228,12 +223,12 @@ function RegistrarPago() {
                                     <Modal.Title>Confirmacion</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>Esta seguro/a que quiere procesar el pago al local <b> {state.code} </b> Por <br />
-                                   <b>{state.amount}$</b>  <br /> {state.pay == true ? 'Pagado en dolares' : 'Pagado en bolivares'}  </Modal.Body>
+                                    <b>{state.amount}$</b>  <br /> {state.pay == true ? 'Pagado en dolares' : 'Pagado en bolivares'}  </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={handleClose}>
                                         Cerrar
                                     </Button>
-                                    <Button variant="primary" type ="submit" onClick={ onSubmit} type="submit">
+                                    <Button variant="primary" type="submit" onClick={onSubmit} type="submit">
                                         Procesar pago
                                     </Button>
                                 </Modal.Footer>

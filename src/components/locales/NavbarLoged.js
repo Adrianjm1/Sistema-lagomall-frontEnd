@@ -1,13 +1,25 @@
-import React, { Component } from 'react'
-import {Navbar,  Container, Button } from "react-bootstrap";
-import RegistrarPago from '../pagos/RegistrarPago';
+import React, {useContext} from 'react'
+import { useHistory } from 'react-router-dom';
+import {Navbar,  Container, Button} from "react-bootstrap";
 import '../../assets/css/navbar.css'
+import { AuthContext } from '../auth/AuthContext';
+import { types } from '../../config/constant';
 
 
+export const NavbarLoged = () => {
 
-export default class NavbarLoged extends Component {
-    render() {
+    const {user, dispatch} = useContext(AuthContext);
+    const history = useHistory();
 
+    const handleLogOut = () => {
+
+        dispatch({
+            type: types.logout
+        })
+
+        history.replace('/');
+
+    }
 
         return (
             <>
@@ -15,7 +27,7 @@ export default class NavbarLoged extends Component {
                     <Container>
                         <Navbar.Brand href="/admin">
                             <b className="nav">Control de cobranzas Lago Mall. </b>
-                            Bienvenido, *user*
+                            Bienvenido, {user.name}
                         </Navbar.Brand>
                     </Container>
 
@@ -31,8 +43,11 @@ export default class NavbarLoged extends Component {
                             <b>Buscar pagos</b>
                         </Navbar.Brand>
 
+                        <Button onClick={handleLogOut}>
+                            <b>Salir</b>
+                        </Button>
+
                 </Navbar>
             </>
         )
     }
-}
