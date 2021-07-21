@@ -6,6 +6,8 @@ import { AuthContext } from '../auth/AuthContext';
 import { Table, Container, Button, Card } from "react-bootstrap";
 import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
+import { NavbarMaster } from '../locales/NavbarMaster';
+
 
 
 const defaultState = {
@@ -56,7 +58,8 @@ function PaymentsDetails()  {
         return (
             <>
 
-                <NavbarLoged />
+                {user.master ? <NavbarMaster/> : <NavbarLoged/>}
+
                 <Container>
                     <Card className="titlePayments">
                         <Card.Body>Detalles de pago del local  {`${code} - ${state.name} `}</Card.Body>

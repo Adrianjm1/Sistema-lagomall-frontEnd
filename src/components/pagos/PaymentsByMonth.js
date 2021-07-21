@@ -7,6 +7,7 @@ import { AuthContext } from '../auth/AuthContext';
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
+import { NavbarMaster } from '../locales/NavbarMaster';
 import SumPayments from './SumPayments';
 /* import { useHistory, useParams, Link } from 'react-router-dom';
  */
@@ -100,7 +101,7 @@ function PaymentsByMonth() {
     
         return (
             <>
-            <NavbarLoged/>
+            {user.master ? <NavbarMaster/> : <NavbarLoged/>}
                 <Container className="container-month">
                     <Form>
 
