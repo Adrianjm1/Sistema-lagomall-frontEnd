@@ -28,6 +28,8 @@ function PaymentsByMonth() {
 
     const [state, setState] = useState(defaultState);
 
+    const [startDate, setStartDate] = useState(new Date());
+
     const {user} = useContext(AuthContext);
 
     let code = useParams().code
@@ -69,7 +71,8 @@ function PaymentsByMonth() {
         axios.get(`/payments/get/dayly?day=${month.getDate()}&month=${month.getMonth() + 1}&year=${month.getFullYear()}`)
             .then((res) => {
 
-                setState({ ...state, datosMeses: res.data, startMonth: month })
+                setState({ ...state, datosDias: res.data })
+               
 
             })
             .catch((error) =>
@@ -85,7 +88,7 @@ function PaymentsByMonth() {
         axios.get(`/payments/get/monthly?month=${month.getMonth() + 1}&year=${month.getFullYear()}`)
             .then((res) => {
 
-                setState({ ...state, datosMeses: res.data, startMonth: month })
+                setState({ ...state, datosMeses: res.data,  })
 
             })
             .catch((error) =>
@@ -104,7 +107,14 @@ function PaymentsByMonth() {
                         <h2>Pagos por día</h2>
 
                         <Form.Label className="label-date">Ingresa la fecha</Form.Label>
-                        <DatePicker className="form-control" onChange={OnChangeDate} selected={state.startDate} />
+                        {/* { <DatePicker className="form-control" onChange={ (date) =>{
+                            setStartDate(date)
+                            // OnChangeDate
+                        } } selected={state.startDate}    /> } */}
+
+
+ <DatePicker selected={startDate} onChange={(date) =>{   setStartDate(date)  
+        OnChangeDate(date)   } } />
 
                     </Form>
 
