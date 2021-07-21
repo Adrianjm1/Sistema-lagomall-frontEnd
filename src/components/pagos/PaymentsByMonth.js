@@ -122,6 +122,7 @@ function PaymentsByMonth() {
                         <thead>
                             <tr className='first'>
                                 <th>Codigo</th>
+                                <th>Fecha</th>
                                 <th>Monto en dolares</th>
                                 <th>Monto en bolivares</th>
                                 <th>Referencia</th>
@@ -136,6 +137,7 @@ function PaymentsByMonth() {
                                 state.datosDias.map(data => (
                                     <tr key={data.id}>
                                         <td>{data.locale.code}</td>
+                                        <td>{data.createdAt.slice(0,10)}</td>
                                         <td>{data.amountUSD}</td>
                                         <td>{data.amountBS}</td>
                                         <td>{data.referenceNumber}</td>
