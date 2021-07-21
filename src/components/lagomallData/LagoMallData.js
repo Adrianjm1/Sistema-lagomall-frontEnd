@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Form, Col, Row, Container, } from "react-bootstrap";
+import { Form, Col, Row, Container, Button } from "react-bootstrap";
 import '../../assets/css/form.css';
 import axios, { generateToken } from '../../config/axios'
 import { AuthContext } from '../auth/AuthContext';
@@ -17,7 +17,7 @@ const LagoMallData = () => {
         descuento: 0
     };
 
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     const [state, setState] = useState(defaultState);
 
@@ -45,7 +45,7 @@ const LagoMallData = () => {
 
     }, [])
     let condominio = parseInt(state.condominio);
-    
+
 
 
     return (
@@ -76,10 +76,13 @@ const LagoMallData = () => {
                         </Col>
                     </Form.Group>
 
+
                     <Form.Group as={Row} className="condomi">
                         <Form.Label column sm={4}>
                             <b>Cuota total del condominio</b>
                         </Form.Label>
+
+
                         <Col sm={2}>
                             <Form.Control type="text" className="ctotalc" value={`${condominio}`} name="condominio" disabled />
                         </Col>
@@ -91,6 +94,10 @@ const LagoMallData = () => {
                     <br />
 
                 </Form>
+
+                <Button className="generar" variant="primary" size="lg">
+                    Generar nuevas cuotas mensuales
+                </Button>{' '}
 
                 <hr />
 

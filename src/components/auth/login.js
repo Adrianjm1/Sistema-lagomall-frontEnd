@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import swal from 'sweetalert';
 
 // Components
 import Navbar from './navbar.js';
@@ -37,36 +38,54 @@ export const Login = ({history}) => {
 
         e.preventDefault();
 
-        axios.post('/admin/login',
-        {
-            username: state.username,
-            password: state.password,
-        }).then(data => {
+        if (state.username === '' || state.password === ``){
+             
+                swal({
+                    title: 'Error',
+                    text: 'Debe completar los campos',
+                    icon: 'error'
+                });
+        } else {
 
-            if(data.data.ok == true){
 
-                dispatch({
-                    type: types.login,
-                    payload: {
-                        name: data.data.usuario.username,
-                        token: data.data.token,
-                        master: data.data.usuario.id == 1 ? true : false
+            axios.post('/admin/login',
+            {
+                username: state.username,
+                password: state.password,
+            }).then(data => {
+    
+                if(data.data.ok == true){
+    
+                    dispatch({
+                        type: types.login,
+                        payload: {
+                            name: data.data.usuario.username,
+                            token: data.data.token,
+                            master: data.data.usuario.id == 1 ? true : false
+                        }
+                    })
+    
+                    if(data.data.usuario.id == 1){
+                        history.replace('/master');
+    
+                    } else{
+                        history.replace('/admin');
+    
                     }
-                })
-
-                if(data.data.usuario.id == 1){
-                    history.replace('/master');
-
-                } else{
-                    history.replace('/admin');
-
+    
+                }else{
+                    swal({
+                        title: 'Error',
+                        text: 'Usuario o contraseña incorrecto',
+                        icon: 'error'
+                    });
+                    
                 }
+    
+            })
 
-            }else{
-                console.log('No autenticado');
-            }
+        }
 
-        })
 
     
     }
