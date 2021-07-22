@@ -87,7 +87,6 @@ function GetLocales() {
             <NavbarLoged />
 
             <Container>
-                <LagoMallData />
 
                 <>
                     <DatePicker

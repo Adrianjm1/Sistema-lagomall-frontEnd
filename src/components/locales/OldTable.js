@@ -1,22 +1,24 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useContext } from 'react'
 import axios, { generateToken } from '../../config/axios'
 import { Link } from 'react-router-dom';
 import { useParams, withRouter } from "react-router";
 import { NavbarLoged } from './NavbarLoged';
 import LagoMallData from '../lagomallData/LagoMallData';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
 
 import '../../assets/css/locales.css';
+import { AuthContext } from '../auth/AuthContext';
 
 const defaultState = {
     name: 'React',
     busqueda: '',
     locales: [],
     month: '2021-6',
-    mes: ''
+    mes: '',
+    fecha: ''
 }
 
 
@@ -27,6 +29,7 @@ function Oldtable() {
     let ms = Date.parse(mes);
     let fecha = new Date(ms);
 
+
     const [state, setState] = useState(defaultState);
 
     const locales = useMemo(function () {
@@ -36,20 +39,23 @@ function Oldtable() {
 
         return state.locales
     }, [state])
-
+    const {user} = useContext(AuthContext);
     
+    const [startDate, setStartDate] = useState(state.fecha);
+    const [queryDate, setQueryDate] = useState();
 
     useEffect(function () {
 
 
-        generateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjo0LCJ1c2VybmFtZSI6ImNyNyIsInBhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTA2LTI0VDE2OjIzOjA4LjAwMFoifSwiaWF0IjoxNjI2NDAzNDY4LCJleHAiOjE2MjY0MjE0Njh9.S6WJYEhH8F8tqPoz8JfRSLfmjNXx8d_Wca1UJI5PaBM')  // for all requests
+        generateToken(user.token)  // for all requests  // for all requests
         axios.get(`/local/tableMonthly/${mes}`)
             .then((res) => {
 
-
+                setStartDate(fecha)
 
                 setState({
                     ...state,
+                    fecha:fecha,
                     locales: res.data.map(
                         item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
                     )
@@ -64,8 +70,6 @@ function Oldtable() {
     }, [state.mes])
 
     
-    const [startDate, setStartDate] = useState(fecha);
-    const [queryDate, setQueryDate] = useState();
     
     const handleChange = e => {
         setState({ ...state, busqueda: e.target.value.toUpperCase() });
@@ -85,7 +89,6 @@ function Oldtable() {
 
 
 
-                <LagoMallData />
                 <div>
                     <DatePicker
                         dateFormat="MMMM yyyy"

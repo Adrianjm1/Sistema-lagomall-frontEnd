@@ -174,7 +174,7 @@ function RegistrarPago() {
 
                 <Col xs={6}>
 
-                    <Form className="col-auto formulario">
+                    <Form className="col-auto" id = "formRegistrar">
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
                             <h1 className="title"><b>Realizar pago</b></h1>

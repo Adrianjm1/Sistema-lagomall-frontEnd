@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Form, Col, Row, Container, Button } from "react-bootstrap";
+import { Form, Col, Row, Container, Button, Modal } from "react-bootstrap";
 import '../../assets/css/form.css';
 import axios, { generateToken } from '../../config/axios'
 import { AuthContext } from '../auth/AuthContext';
@@ -20,6 +20,11 @@ const LagoMallData = () => {
     const { user } = useContext(AuthContext);
 
     const [state, setState] = useState(defaultState);
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
 
     useEffect(function () {
@@ -56,9 +61,9 @@ const LagoMallData = () => {
 
 
 
-                <Form className="mt-5">
+                <Form  controlId="formulariolg" className="mt-5" >
 
-                    <Form.Group as={Row} controlId="formMetrajeCC">
+                    <Form.Group as={Row} controlId="formMetrajeCC"  id="formulariolg">
                         <Form.Label column sm={4}>
                             <b>Metraje del Centro Comercial</b>
                         </Form.Label>
@@ -67,7 +72,7 @@ const LagoMallData = () => {
                         </Col>
                     </Form.Group>
 
-                    <Form.Group as={Row} controlId="formBreakeven">
+                    <Form.Group as={Row} controlId="formBreakeven"  id="formulariolg">
                         <Form.Label column sm={4}>
                             <b>Punto de Equilibrio</b>
                         </Form.Label>
@@ -77,7 +82,7 @@ const LagoMallData = () => {
                     </Form.Group>
 
 
-                    <Form.Group as={Row} className="condomi">
+                    <Form.Group as={Row} className="condomi"  id="formulariolg">
                         <Form.Label column sm={4}>
                             <b>Cuota total del condominio</b>
                         </Form.Label>
@@ -95,9 +100,38 @@ const LagoMallData = () => {
 
                 </Form>
 
-                <Button className="generar" variant="primary" size="lg">
+                <Button className="generar" variant="primary" size="lg" onClick={handleShow}>
                     Generar nuevas cuotas mensuales
-                </Button>{' '}
+                </Button>
+
+
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Nueva cuota mensual</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Label>Punto de equilibrio</Form.Label>
+                                <Form.Control type="text" placeholder="Punto de equilibrio" />
+                                <Form.Label>Descuento</Form.Label>
+                                <Form.Control type="text" placeholder="Descuento" />
+                                <Form.Label>Fecha ProntoPago</Form.Label>
+                                <Form.Control type="text" placeholder="ProntoPago" />
+
+                            </Form.Group>
+                            </Form>
+
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Cerrar
+                        </Button>
+                        <Button variant="primary" onClick={handleClose}>
+                            Generar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
                 <hr />
 
