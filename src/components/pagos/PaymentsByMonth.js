@@ -37,12 +37,22 @@ function PaymentsByMonth() {
 
     useEffect(function () {
 
-
         generateToken(user.token)  // for all requests
+
+
         axios.get(`/payments/get/dayly?day=${date.getDate()}&month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
         .then((res) => {
 
-            setState({...state,  datosDias: res.data })
+
+            axios.get(`/payments/get/monthly?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
+            .then((resp) => {
+
+                setState({ ...state, datosMeses: resp.data, datosDias: res.data })
+
+            })
+            .catch((error) =>
+                console.log(error)
+            )
 
         })
         .catch((error) =>
@@ -50,15 +60,7 @@ function PaymentsByMonth() {
         )
 
 
-        axios.get(`/payments/get/monthly?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
-            .then((res) => {
 
-                setState({ ...state, datosMeses: res.data })
-
-            })
-            .catch((error) =>
-                console.log(error)
-            )
 
 
         //eslint-disable-next-line
@@ -69,7 +71,9 @@ function PaymentsByMonth() {
 
         // setState({ ...state, startMonth: month });
 
-        axios.get(`/payments/get/dayly?day=${month.getDate()}&month=${month.getMonth() + 1}&year=${month.getFullYear()}`)
+        const mes = (month.getMonth() + 1) < 10 ? `0${month.getMonth() + 1}` : month.getMonth()
+
+        axios.get(`/payments/get/dayly?day=${month.getDate()}&month=${mes}&year=${month.getFullYear()}`)
             .then((res) => {
 
                 setState({ ...state, datosDias: res.data })
@@ -86,7 +90,9 @@ function PaymentsByMonth() {
 
         // setState({ ...state, startMonth: month });
 
-        axios.get(`/payments/get/monthly?month=${month.getMonth() + 1}&year=${month.getFullYear()}`)
+        const mes = (month.getMonth() + 1) < 10 ? `0${month.getMonth() + 1}` : month.getMonth();
+
+        axios.get(`/payments/get/monthly?month=${mes}&year=${month.getFullYear()}`)
             .then((res) => {
 
                 setState({ ...state, datosMeses: res.data,  })
@@ -138,7 +144,7 @@ function PaymentsByMonth() {
                                 state.datosDias.map(data => (
                                     <tr key={data.id}>
                                         <td>{data.locale.code}</td>
-                                        <td>{data.createdAt.slice(0,10)}</td>
+                                        <td>{`${data.date.slice(8,10)}-${data.date.slice(4,7)}-${data.date.slice(11,15)}`}</td>
                                         <td>{data.amountUSD}</td>
                                         <td>{data.amountBS}</td>
                                         <td>{data.referenceNumber}</td>
@@ -188,7 +194,7 @@ function PaymentsByMonth() {
                                 state.datosMeses.map(data => (
                                     <tr key={data.id}>
                                         <td>{data.locale.code}</td>
-                                        <td>{data.createdAt.slice(0,10)}</td>
+                                        <td>{`${data.date.slice(8,10)}-${data.date.slice(4,7)}-${data.date.slice(11,15)}`}</td>
                                         <td>{data.amountUSD}</td>
                                         <td>{data.amountBS}</td>
                                         <td>{data.referenceNumber}</td>

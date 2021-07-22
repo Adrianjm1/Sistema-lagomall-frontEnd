@@ -27,31 +27,27 @@ function SumPayments() {
 
     useEffect(function () {
 
-
-
-
-
         generateToken(user.token)  // for all requests
+
+        
         axios.get(`/payments/sum/monthly?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
             .then((res) => {
 
-                setState({ ...state, dataMonths: res.data })
+                axios.get(`/payments/sum/dayly?day=${date.getDate()}&month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
+                .then((resp) => {
+    
+                    setState({ ...state, dataDay: resp.data, dataMonths: res.data })
+    
+                })
+                .catch((error) =>
+                    console.log(error)
+                ) 
+
 
             })
             .catch((error) =>
                 console.log(error)
             )
-
-
-        axios.get(`/payments/sum/dayly?day=${date.getDate()}&month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
-            .then((res) => {
-
-                setState({ ...state,dataDay: res.data })
-
-            })
-            .catch((error) =>
-                console.log(error)
-            ) 
 
 
         //eslint-disable-next-line
@@ -63,9 +59,11 @@ function SumPayments() {
 
         try{
     
+            const mes = (month.getMonth() + 1) < 10 ? `0${month.getMonth() + 1}` : month.getMonth();
+
             // setState({ ...state, startDate: month });
     
-            axios.get(`/payments/sum/dayly?day=${month.getDate()}&month=${month.getMonth() + 1}&year=${month.getFullYear()}`)
+            axios.get(`/payments/sum/dayly?day=${month.getDate()}&month=${mes}&year=${month.getFullYear()}`)
                 .then((res) => {
     
                     setState({...state, dataDay: res.data, startDate: month })
@@ -87,9 +85,11 @@ function SumPayments() {
 
         try{
 
+            const mes = (month.getMonth() + 1) < 10 ? `0${month.getMonth() + 1}` : month.getMonth();
+
             // setState({ ...state, startMonth: month });
     
-            axios.get(`/payments/sum/monthly?month=${month.getMonth() + 1}&year=${month.getFullYear()}`)
+            axios.get(`/payments/sum/monthly?month=${mes}&year=${month.getFullYear()}`)
                 .then((res) => {
     
                     setState({...state, dataMonths: res.data, startMonth: month })
