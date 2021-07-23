@@ -3,7 +3,8 @@ import { Form, Col, Row, Container, Button, Modal } from "react-bootstrap";
 import '../../assets/css/form.css';
 import axios, { generateToken } from '../../config/axios'
 import { AuthContext } from '../auth/AuthContext';
-
+import DatePicker, { registerLocale } from 'react-datepicker';
+import swal from 'sweetalert';
 import "react-datepicker/dist/react-datepicker.css";
 
 const LagoMallData = () => {
@@ -14,21 +15,28 @@ const LagoMallData = () => {
         metros: 0,
         breakeven: 0,
         condominio: 0,
-        descuento: 0
+        descuento: 0,
+        month: '',
+        render: '',
+        idLG: 0
     };
+    const [state, setState] = useState(defaultState);
 
     const { user } = useContext(AuthContext);
-
-    const [state, setState] = useState(defaultState);
+    const [startDate, setStartDate] = useState(new Date());
 
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    let count = 0;
+
 
 
     useEffect(function () {
         generateToken(user.token)  // for all requests
+
+
         axios.get('/lagomalldata/last')
             .then((res) => {
 
@@ -48,7 +56,152 @@ const LagoMallData = () => {
 
 
 
-    }, [])
+
+
+    }, [state.render])
+
+
+    const onInputChange = e => {
+
+        const isValid = e.target.validity.valid;
+
+        if (isValid === true) {
+
+            console.log(e.target.value);
+
+            setState({ ...state, [e.target.name]: e.target.value });
+
+        } else {
+            console.log(isValid);
+
+        }
+
+    }
+
+    // const update = async ()=>{
+
+    //     generateToken(user.token); // for all requests
+    //     const  upda =await  axios.patch('/local/up',
+    //     {
+    //         month: state.month,   
+    //     }).catch((error) =>
+    //         console.log(error)
+    //     );
+
+    //     count++
+    //     setState({...state, render:count })
+    // }
+
+
+
+    const onGenerate = e => {
+
+
+        generateToken(user.token)  // for all requests
+
+        swal({
+            text: "Desea agregar nuevos datos del mes " + state.month + " \n  " + state.breakeven + ' y ' + state.descuento,
+            buttons: ["No", "Si"]
+        }).then(respuesta => {
+            if (respuesta) {
+                console.log('hablame');
+
+                let mess = state.month + '-02'
+
+                axios.post('/lagomalldata/make',
+                    {
+                        breakeven: state.breakeven,
+                        month: mess,
+                        discount: state.descuento,
+                        meter: 18030
+
+                    }).then(res => {
+
+                        axios.get('/lagomalldata/last')
+                            .then((resps) => {
+                                setState({
+                                    ...state,
+                                    idLG: resps.data.id
+                                })
+
+                                console.log(resps.data);
+
+
+                                axios.patch('/local/up',
+                                    {
+                                        month: state.month,
+                                        idLGData: state.idLG
+                                    }).then(respu => {
+                                        count++
+
+                                        setState({ ...state, render: count })
+
+                                        if (respu) {
+
+                                            swal({
+                                                title: 'Realizado',
+                                                text: 'Nuevos cobros generados con exito',
+                                                icon: 'success'
+                                            });
+
+                                            setTimeout(function () { handleClose() }, 1500);
+                                        }
+
+                                    }
+                                    )
+                                    .catch((error) => console.log(error))
+
+
+
+
+
+                            }).catch((error) => {
+                                console.log(error);
+                            });
+
+
+                    }).catch((error) =>
+                        console.log(error)
+                    );
+
+
+
+
+
+
+
+            }
+        })
+
+
+        // console.log(
+
+        //     state.breakeven + '  ' + state.descuento +  '  ' + state.month
+        // );
+
+
+
+    }
+
+
+    const onConfirmation = () => {
+
+        swal({
+            text: "Esta accions solo puede generarse una vez al mes, ¿Seguro que desea continuar?",
+            buttons: ["No", "Si"]
+        }).then(res => {
+            if (res) {
+                console.log('hablame');
+                handleShow()
+
+            } else {
+
+            }
+        })
+
+    }
+
+
     let condominio = parseInt(state.condominio);
 
 
@@ -61,9 +214,9 @@ const LagoMallData = () => {
 
 
 
-                <Form  controlId="formulariolg" className="mt-5" >
+                <Form controlId="formulariolg" className="mt-5" >
 
-                    <Form.Group as={Row} controlId="formMetrajeCC"  id="formulariolg">
+                    <Form.Group as={Row} controlId="formMetrajeCC" id="formulariolg">
                         <Form.Label column sm={4}>
                             <b>Metraje del Centro Comercial</b>
                         </Form.Label>
@@ -72,7 +225,7 @@ const LagoMallData = () => {
                         </Col>
                     </Form.Group>
 
-                    <Form.Group as={Row} controlId="formBreakeven"  id="formulariolg">
+                    <Form.Group as={Row} controlId="formBreakeven" id="formulariolg">
                         <Form.Label column sm={4}>
                             <b>Punto de Equilibrio</b>
                         </Form.Label>
@@ -82,7 +235,7 @@ const LagoMallData = () => {
                     </Form.Group>
 
 
-                    <Form.Group as={Row} className="condomi"  id="formulariolg">
+                    <Form.Group as={Row} className="condomi" id="formulariolg">
                         <Form.Label column sm={4}>
                             <b>Cuota total del condominio</b>
                         </Form.Label>
@@ -100,7 +253,7 @@ const LagoMallData = () => {
 
                 </Form>
 
-                <Button className="generar" variant="primary" size="lg" onClick={handleShow}>
+                <Button className="generar" variant="primary" size="lg" onClick={onConfirmation}>
                     Generar nuevas cuotas mensuales
                 </Button>
 
@@ -113,21 +266,22 @@ const LagoMallData = () => {
                         <Form>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label>Punto de equilibrio</Form.Label>
-                                <Form.Control type="text" placeholder="Punto de equilibrio" />
+                                <Form.Control type="text" placeholder="Punto de equilibrio" name="breakeven" onChange={onInputChange} />
                                 <Form.Label>Descuento</Form.Label>
-                                <Form.Control type="text" placeholder="Descuento" />
-                                <Form.Label>Fecha ProntoPago</Form.Label>
-                                <Form.Control type="text" placeholder="ProntoPago" />
+                                <Form.Control type="text" placeholder="Descuento" name="descuento" onChange={onInputChange} />
+                                <Form.Label>Mes</Form.Label>
+                                <Form.Control type="month" placeholder="Descuento" name="month" onChange={onInputChange} />
+
 
                             </Form.Group>
-                            </Form>
+                        </Form>
 
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                             Cerrar
                         </Button>
-                        <Button variant="primary" onClick={handleClose}>
+                        <Button variant="primary" onClick={onGenerate}>
                             Generar
                         </Button>
                     </Modal.Footer>

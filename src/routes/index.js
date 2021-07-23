@@ -9,7 +9,6 @@ import GetLocalesMaster from '../components/locales/GetLocalesMaster';
 import { Login } from '../components/auth/login';
 
 import PaymentsDetails from '../components/pagos/PaymentsDetails';
-import LagoMallDataMaster from '../components/lagomallData/LagoMallDataMaster';
 import LagoMallData from '../components/lagomallData/LagoMallData';
 import RegistrarPago from '../components/pagos/RegistrarPago';
 import PaymentsByMonth from '../components/pagos/PaymentsByMonth';
@@ -34,6 +33,7 @@ function App() {
                 <AdminRoutes path="/master/month" isAuthenticated={user.logged} exact component={PaymentsByMonth} />
                 <AdminRoutes path="/master/registrar" isAuthenticated={user.logged} exact component={RegistrarPago} />
                 <AdminRoutes path="/master/payments/:code" isAuthenticated={user.logged} exact component={PaymentsDetails} />
+                <AdminRoutes path="/admin/table/:mes" isAuthenticated={user.logged} exact component={OldTable} />
 
             </Switch>
 
