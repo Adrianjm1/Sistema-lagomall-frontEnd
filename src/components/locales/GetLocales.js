@@ -24,6 +24,16 @@ const defaultState = {
     porcentajePagado: 0,
 };
 
+function getDecimal (data) {
+
+    let dato = data.split('.');
+
+    let datos = dato[1].slice(0,4);
+
+    return (`${dato[0]}.${datos}`);
+
+}
+
 
 function GetLocales() {
     const [state, setState] = useState(defaultState);
@@ -121,7 +131,7 @@ function GetLocales() {
                 </Form.Label>
 
                 <Form.Label column sm={5}>
-                    <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado}%</b></p>
+                    <p> Porcentaje del monto total pagado:   <b> {getDecimal(state.porcentajePagado)}%</b></p>
                 </Form.Label>
 
 

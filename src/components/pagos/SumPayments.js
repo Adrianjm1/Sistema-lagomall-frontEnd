@@ -15,33 +15,31 @@ const defaultState = {
     dataDay: {},
     dataMonths: {},
     name: '',
-    startDate: new Date(),
-    startMonth: new Date(),
 
 }
 function SumPayments() {
 
 
     const [state, setState] = useState(defaultState);
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     useEffect(function () {
 
         generateToken(user.token)  // for all requests
 
-        
+
         axios.get(`/payments/sum/monthly?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
             .then((res) => {
 
                 axios.get(`/payments/sum/dayly?day=${date.getDate()}&month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
-                .then((resp) => {
-    
-                    setState({ ...state, dataDay: resp.data, dataMonths: res.data })
-    
-                })
-                .catch((error) =>
-                    console.log(error)
-                ) 
+                    .then((resp) => {
+
+                        setState({ ...state, dataDay: resp.data, dataMonths: res.data })
+
+                    })
+                    .catch((error) =>
+                        console.log(error)
+                    )
 
 
             })
@@ -55,25 +53,28 @@ function SumPayments() {
 
 
 
-    const OnChangeSumDate = (month) => {
+    const OnChangeSumDate = (e) => {
 
-        try{
-    
-            const mes = (month.getMonth() + 1) < 10 ? `0${month.getMonth() + 1}` : month.getMonth();
+        try {
 
-            // setState({ ...state, startDate: month });
-    
-            axios.get(`/payments/sum/dayly?day=${month.getDate()}&month=${mes}&year=${month.getFullYear()}`)
+            const month = e.target.value;
+
+            const dia = month.slice(8, 10);
+            const mes = month.slice(5, 7);
+            const year = month.slice(0, 4);
+
+
+            axios.get(`/payments/sum/dayly?day=${dia}&month=${mes}&year=${year}`)
                 .then((res) => {
-    
-                    setState({...state, dataDay: res.data, startDate: month })
-    
+
+                    setState({ ...state, dataDay: res.data, startDate: month })
+
                 })
                 .catch((error) =>
                     console.log(error)
                 )
 
-        } catch(e){
+        } catch (e) {
             console.log(e);
         }
 
@@ -81,95 +82,95 @@ function SumPayments() {
 
     }
 
-    const OnChangeSumMonth = (month) => {
+    const OnChangeSumMonth = (e) => {
 
-        try{
+        try {
 
-            const mes = (month.getMonth() + 1) < 10 ? `0${month.getMonth() + 1}` : month.getMonth();
+            const month = e.target.value;
 
-            // setState({ ...state, startMonth: month });
-    
-            axios.get(`/payments/sum/monthly?month=${mes}&year=${month.getFullYear()}`)
+            const mes = month.slice(5, 7);
+            const year = month.slice(0, 4);
+
+            axios.get(`/payments/sum/monthly?month=${mes}&year=${year}`)
                 .then((res) => {
-    
-                    setState({...state, dataMonths: res.data, startMonth: month })
-    
+
+                    setState({ ...state, dataMonths: res.data, startMonth: month })
+
                 })
                 .catch((error) =>
                     console.log(error)
                 )
 
-        } catch(e){
+        } catch (e) {
             console.log(e);
-        }  
+        }
 
 
 
     }
 
 
-        return (
-            <>
+    return (
+        <>
 
-                <Container className="container-month">
-                    <Form>
+            <Container className="container-month">
+                <Form>
 
-                        <h2>Suma de pagos (Por mes)</h2>
+                    <h2>Suma de pagos por día</h2>
 
-                        <Form.Label className="label-date">Ingresa la fecha</Form.Label>
-                        <DatePicker dateFormat="MMMM yyyy" showMonthYearPicker selected={state.startMonth} onChange={OnChangeSumMonth} />
-                    </Form>
+                    <Form.Label className="label-date">Ingresa la fecha</Form.Label>
+                    <Form.Control type="date" className="getPayments" onChange={OnChangeSumDate} />
+                </Form>
 
-                    <Table className="margintable" striped bordered hover size="sm" >
-                        <thead>
-                            <tr className='first'>
-                                <th>Total facturado en dolares ($)</th>
-                                <th>Total factutado en bolívares (Bs.S)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{state.dataMonths.totalUSD}</td>
-                                <td>{state.dataMonths.totalBS}</td>
-                            </tr>
-                        </tbody>
-                    </Table>
+                <Table className="margintable" striped bordered hover size="sm" >
+                    <thead>
+                        <tr className='first'>
+                            <th>Total facturado en dolares ($)</th>
+                            <th>Total factutado en bolívares (Bs.S)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{state.dataDay.totalUSD}</td>
+                            <td>{state.dataDay.totalBS}</td>
+                        </tr>
+                    </tbody>
+                </Table>
 
-                    <hr />
+                <hr />
 
-                    <Form>
+                <Form>
 
-                        <h2>Suma de pagos (Por día)</h2>
+                    <h2>Suma de pagos por mes</h2>
 
-                        <Form.Label className="label-date">Ingresa la fecha</Form.Label>
-                        <DatePicker className="form-control-2" onChange={OnChangeSumDate} selected={state.startDate} />
-                    </Form>
+                    <Form.Label className="label-date">Ingresa la fecha</Form.Label>
+                    <Form.Control type="month" className="getPayments" onChange={OnChangeSumMonth} />
+                </Form>
 
-                    <Table className="margintable" striped bordered hover size="sm" >
-                        <thead>
-                            <tr className='first'>
-                                <th>Total facturado en dolares ($)</th>
-                                <th>Total factutado en bolívares (Bs.S)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{state.dataDay.totalUSD}</td>
-                                <td>{state.dataDay.totalBS}</td>
-                            </tr>
-                        </tbody>
-                    </Table>
+                <Table className="margintable" striped bordered hover size="sm" >
+                    <thead>
+                        <tr className='first'>
+                            <th>Total facturado en dolares ($)</th>
+                            <th>Total factutado en bolívares (Bs.S)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{state.dataMonths.totalUSD}</td>
+                            <td>{state.dataMonths.totalBS}</td>
+                        </tr>
+                    </tbody>
+                </Table>
 
-                    <hr />
-
-
+                <hr />
 
 
-                </Container>
 
-            </>
-        )
-    
+            </Container>
+
+        </>
+    )
+
 }
 
 

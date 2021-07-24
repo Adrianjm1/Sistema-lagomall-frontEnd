@@ -17,6 +17,15 @@ const defaultState = {
 
 }
 
+function getDecimal (data) {
+
+    let dato = data.split('.');
+
+    let datos = dato[1].slice(0,2);
+
+    return (`${dato[0]}.${datos}`);
+
+}
 
 function PaymentsDetails()  {
 
@@ -80,13 +89,14 @@ function PaymentsDetails()  {
                         <tbody>
                             {
                                 datos.map(data => (
+
                                     <tr key={data.id}>
-                                        <td>{data.createdAt.slice(0, 10)}</td>
+                                        <td>{data.date}</td>
                                         <td>{data.amountUSD}</td>
-                                        <td>{parseFloat(data.amountBS)}</td>
+                                        <td>{getDecimal(data.amountBS)}</td>
                                         <td>{data.referenceNumber}</td>
                                         <td>{data.bank}</td>
-                                        <td>{data.exchangeRate}</td>
+                                        <td>{getDecimal(data.exchangeRate)}</td>
                                         <td>{data.paymentUSD == false ? 'No' : 'Si'}</td>
                                         <td>{data.admin.username}</td>
                                         {/* <td><Link className="btn"><Button className="see">Editar</Button></Link></td> */}

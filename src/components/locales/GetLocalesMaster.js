@@ -23,6 +23,14 @@ const defaultState = {
 
 };
 
+function getDecimal (data) {
+
+    const datos = data.toString();
+
+    return(datos.slice(0,6));
+
+}
+
 const date = new Date();
 
 function GetLocalesMaster() {
@@ -120,7 +128,7 @@ function GetLocalesMaster() {
                 </Form.Label>
 
                 <Form.Label column sm={5}>
-                    <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado}%</b></p>
+                    <p> Porcentaje del monto total pagado:   <b> {getDecimal(state.porcentajePagado)}%</b></p>
                 </Form.Label>
 
                 <br></br>

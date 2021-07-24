@@ -17,11 +17,9 @@ const date = new Date()
 
 
 const defaultState = {
-     datosDias: [],
+    datosDias: [],
     datosMeses: [],
     name: '',
-    startDate: new Date(),
-    startMonth: new Date(),
 }
 
 
@@ -31,7 +29,7 @@ function PaymentsByMonth() {
 
     const [startDate, setStartDate] = useState(new Date());
 
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     let code = useParams().code
 
@@ -41,23 +39,23 @@ function PaymentsByMonth() {
 
 
         axios.get(`/payments/get/dayly?day=${date.getDate()}&month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
-        .then((res) => {
+            .then((res) => {
 
 
-            axios.get(`/payments/get/monthly?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
-            .then((resp) => {
+                axios.get(`/payments/get/monthly?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
+                    .then((resp) => {
 
-                setState({ ...state, datosMeses: resp.data, datosDias: res.data })
+                        setState({ ...state, datosMeses: resp.data, datosDias: res.data })
+
+                    })
+                    .catch((error) =>
+                        console.log(error)
+                    )
 
             })
             .catch((error) =>
                 console.log(error)
             )
-
-        })
-        .catch((error) =>
-            console.log(error)
-        )
 
 
 
@@ -66,18 +64,30 @@ function PaymentsByMonth() {
         //eslint-disable-next-line
     }, [])
 
+    function getDecimal (data) {
 
-    const OnChangeDate = (month) => {
+        let dato = data.split('.');
+    
+        let datos = dato[1].slice(0,2);
+    
+        return (`${dato[0]}.${datos}`);
+    
+    }
 
-        // setState({ ...state, startMonth: month });
 
-        const mes = (month.getMonth() + 1) < 10 ? `0${month.getMonth() + 1}` : month.getMonth()
+    const OnChangeDate = (e) => {
 
-        axios.get(`/payments/get/dayly?day=${month.getDate()}&month=${mes}&year=${month.getFullYear()}`)
+        const month = e.target.value;
+
+        const dia = month.slice(8, 10);
+        const mes = month.slice(5, 7);
+        const year = month.slice(0, 4);
+
+        axios.get(`/payments/get/dayly?day=${dia}&month=${mes}&year=${year}`)
             .then((res) => {
 
                 setState({ ...state, datosDias: res.data })
-               
+
 
             })
             .catch((error) =>
@@ -86,16 +96,17 @@ function PaymentsByMonth() {
 
     }
 
-    const OnChangeMonth = (month) => {
+    const OnChangeMonth = (e) => {
 
-        // setState({ ...state, startMonth: month });
+        const month = e.target.value;
 
-        const mes = (month.getMonth() + 1) < 10 ? `0${month.getMonth() + 1}` : month.getMonth();
+        const mes = month.slice(5,7); 
+        const year = month.slice(0,4); 
 
-        axios.get(`/payments/get/monthly?month=${mes}&year=${month.getFullYear()}`)
+        axios.get(`/payments/get/monthly?month=${mes}&year=${year}`)
             .then((res) => {
 
-                setState({ ...state, datosMeses: res.data,  })
+                setState({ ...state, datosMeses: res.data, })
 
             })
             .catch((error) =>
@@ -104,122 +115,111 @@ function PaymentsByMonth() {
 
     }
 
-    
-        return (
-            <>
-            {user.master ? <NavbarMaster/> : <NavbarLoged/>}
-                <Container className="container-month">
-                    <Form>
 
-                        <h2>Pagos por día</h2>
+    return (
+        <>
+            {user.master ? <NavbarMaster /> : <NavbarLoged />}
+            <Container className="container-month">
+                <Form>
 
-                        <Form.Label className="label-date">Ingresa la fecha</Form.Label>
-                        {/* { <DatePicker className="form-control" onChange={ (date) =>{
-                            setStartDate(date)
-                            // OnChangeDate
-                        } } selected={state.startDate}    /> } */}
+                    <h2>Pagos por día</h2>
 
+                    <Form.Label className="label-date">Ingresa la fecha</Form.Label>
+                    <Form.Control type="date" className="getPayments" onChange={OnChangeDate} />
 
- <DatePicker selected={startDate} onChange={(date) =>{   setStartDate(date)  
-        OnChangeDate(date)   } } />
+                </Form>
 
-                    </Form>
-
-                    <Table className="margintable" striped bordered hover size="sm" >
-                        <thead>
-                            <tr className='first'>
-                                <th>Codigo</th>
-                                <th>Fecha</th>
-                                <th>Monto en dolares</th>
-                                <th>Monto en bolivares</th>
-                                <th>Referencia</th>
-                                <th>Banco</th>
-                                <th>Tasa de cambio</th>
-                                <th>Pago en dolares</th>
-                                <th>Registrado por</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                state.datosDias.map(data => (
-                                    <tr key={data.id}>
-                                        <td>{data.locale.code}</td>
-                                        <td>{`${data.date.slice(8,10)}-${data.date.slice(4,7)}-${data.date.slice(11,15)}`}</td>
-                                        <td>{data.amountUSD}</td>
-                                        <td>{data.amountBS}</td>
-                                        <td>{data.referenceNumber}</td>
-                                        <td>{data.bank}</td>
-                                        <td>{data.exchangeRate}</td>
-                                        <td>{data.paymentUSD == false ? 'No' : 'Si'}</td>
-                                        <td>{data.admin.username}</td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </Table>
+                <Table className="margintable" striped bordered hover size="sm" >
+                    <thead>
+                        <tr className='first'>
+                            <th>Codigo</th>
+                            <th>Fecha</th>
+                            <th>Monto en dolares</th>
+                            <th>Monto en bolivares</th>
+                            <th>Referencia</th>
+                            <th>Banco</th>
+                            <th>Tasa de cambio</th>
+                            <th>Pago en dolares</th>
+                            <th>Registrado por</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            state.datosDias.map(data => (
+                                <tr key={data.id}>
+                                    <td>{data.locale.code}</td>
+                                    <td>{data.date}</td>
+                                    <td>{data.amountUSD}</td>
+                                    <td>{getDecimal(data.amountBS)}</td>
+                                    <td>{data.referenceNumber}</td>
+                                    <td>{data.bank}</td>
+                                    <td>{getDecimal(data.exchangeRate)}</td>
+                                    <td>{data.paymentUSD == false ? 'No' : 'Si'}</td>
+                                    <td>{data.admin.username}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </Table>
 
 
 
-                    <Form>
+                <Form>
 
-                        <h2>Pagos por mes</h2>
+                    <h2>Pagos por mes</h2>
 
-                        <Form.Label className="label-date">Ingresa la fecha</Form.Label>
+                    <Form.Label className="label-date">Ingresa la fecha</Form.Label>
 
-                        <DatePicker dateFormat="MMMM yyyy"
-                            showMonthYearPicker
-                            selected={state.startMonth}
-                            onChange={OnChangeMonth}
+                    <Form.Control type="month" className="getPayments" onChange={OnChangeMonth} />
 
-                        />
-                    </Form>
+                </Form>
 
 
-                    <Table className="margintable" striped bordered hover size="sm" >
-                        <thead>
-                            <tr className='first'>
-                                <th>Codigo</th>
-                                <th>Fecha</th>
-                                <th>Monto en dolares</th>
-                                <th>Monto en bolivares</th>
-                                <th>Referencia</th>
-                                <th>Banco</th>
-                                <th>Tasa de cambio</th>
-                                <th>Pago en dolares</th>
-                                <th>Registrado por</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                state.datosMeses.map(data => (
-                                    <tr key={data.id}>
-                                        <td>{data.locale.code}</td>
-                                        <td>{`${data.date.slice(8,10)}-${data.date.slice(4,7)}-${data.date.slice(11,15)}`}</td>
-                                        <td>{data.amountUSD}</td>
-                                        <td>{data.amountBS}</td>
-                                        <td>{data.referenceNumber}</td>
-                                        <td>{data.bank}</td>
-                                        <td>{data.exchangeRate}</td>
-                                        <td>{data.paymentUSD == false ? 'No' : 'Si'}</td>
-                                        <td>{data.admin.username}</td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </Table>
+                <Table className="margintable" striped bordered hover size="sm" >
+                    <thead>
+                        <tr className='first'>
+                            <th>Codigo</th>
+                            <th>Fecha</th>
+                            <th>Monto en dolares</th>
+                            <th>Monto en bolivares</th>
+                            <th>Referencia</th>
+                            <th>Banco</th>
+                            <th>Tasa de cambio</th>
+                            <th>Pago en dolares</th>
+                            <th>Registrado por</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            state.datosMeses.map(data => (
+                                <tr key={data.id}>
+                                    <td>{data.locale.code}</td>
+                                    <td>{data.date}</td>
+                                    <td>{data.amountUSD}</td>
+                                    <td>{getDecimal(data.amountBS)}</td>
+                                    <td>{data.referenceNumber}</td>
+                                    <td>{data.bank}</td>
+                                    <td>{getDecimal(data.exchangeRate)}</td>
+                                    <td>{data.paymentUSD == false ? 'No' : 'Si'}</td>
+                                    <td>{data.admin.username}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </Table>
 
-                    <hr />
-                    
-                    <SumPayments />
+                <hr />
+
+                <SumPayments />
 
 
 
 
-                </Container>
+            </Container>
 
-            </>
-        )
-    
+        </>
+    )
+
 }
 
 

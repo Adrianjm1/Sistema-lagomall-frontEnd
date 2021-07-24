@@ -23,8 +23,10 @@ function RegistrarPago() {
         amount: '',
         reference: '',
         bank: '',
+        descripcion: '',
+        date: '',
         pay: false,
-        exchange: 0
+        exchange: ''
 
     }
 
@@ -71,7 +73,7 @@ function RegistrarPago() {
         const isValid = e.target.validity.valid;
 
         if (isValid === true) {
-            setState({ ...state, amount: e.target.value });
+            setState({ ...state, [e.target.name]: e.target.value });
 
         }
 
@@ -111,7 +113,9 @@ function RegistrarPago() {
                     amountUSD: state.amount,
                     referenceNumber: state.reference,
                     exchangeRate: state.exchange,
-                    paymentUSD: state.pay
+                    paymentUSD: state.pay,
+                    date: state.date,
+                    description: state.descripcion
                 });
 
 
@@ -188,12 +192,12 @@ function RegistrarPago() {
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
                             <Form.Label>Monto en dolares</Form.Label>
-                            <Form.Control type="text" pattern="[0-9]{0,13}" placeholder="Ingresar monto" name="amount" value={state.amount} onChange={onUSDChange} />
+                            <Form.Control type="text" pattern="[0-9.]{0,13}" placeholder="Ingresar monto" name="amount" value={state.amount} onChange={onUSDChange} />
                         </Form.Group>
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
-                            <Form.Label>Numero de referencia</Form.Label>
-                            <Form.Control type="text" placeholder="Ingresar referencia" name="reference" onChange={onInputChange} />
+                            <Form.Label>Tasa de cambio</Form.Label>
+                            <Form.Control type="text" pattern="[0-9.]{0,13}" placeholder="Ingresar tasa de cambio" name="exchange" value={state.exchange} onChange={onUSDChange} />
                         </Form.Group>
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
@@ -202,9 +206,20 @@ function RegistrarPago() {
                         </Form.Group>
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
-                            <Form.Label>Tasa de cambio</Form.Label>
-                            <Form.Control type="text" placeholder="Ingresar tasa de cambio" name="exchange" onChange={onInputChange} />
+                            <Form.Label>Numero de referencia</Form.Label>
+                            <Form.Control type="text" placeholder="Ingresar referencia" name="reference" onChange={onInputChange} />
                         </Form.Group>
+
+                        <Form.Group className="formregistrar" controlId="formBasicEmail">
+                                <Form.Label>Fecha</Form.Label>
+                                <Form.Control type="date" placeholder="Descuento" name="date" onChange={onInputChange} />
+                        </Form.Group>
+
+                        <Form.Group className="formregistrar" controlId="formBasicEmail">
+                            <Form.Label>Descripcion</Form.Label>
+                            <Form.Control type="text" placeholder="Ingresar descripcion" name="descripcion" onChange={onInputChange} />
+                        </Form.Group>
+
 
                         <Form.Group className="formregistrar" className="checkboxes" controlId="formBasicCheckbox">
                             <Form.Check type="checkbox" label="Pago en dolares" onChange={onCheck} />
