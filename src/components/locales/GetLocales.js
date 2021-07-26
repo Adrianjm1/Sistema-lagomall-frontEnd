@@ -1,15 +1,20 @@
-import React, { useState, useEffect, useMemo, useContext } from 'react'
+import React, { useState, useEffect, useMemo, useContext, useRef } from 'react'
 import axios, { generateToken } from '../../config/axios'
+
 import { Link } from 'react-router-dom';
 import { NavbarLoged } from './NavbarLoged';
 import LagoMallData from '../lagomallData/LagoMallData';
 import { AuthContext } from '../auth/AuthContext';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-
 import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
-
 import '../../assets/css/locales.css';
+import ReactToPrint from 'react-to-print';
+import { useReactToPrint } from 'react-to-print';
+import { ComponentToPrint } from './ComponentToPrint';
+
+
+
 
 const date = new Date();
 
@@ -22,13 +27,23 @@ const defaultState = {
     total: 0,
     totalPronto: 0,
     porcentajePagado: 0,
+    content: 'Soy pitbull DALE',
 };
 
 
 function GetLocales() {
+
+    const componentRef = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
+
+
     const [state, setState] = useState(defaultState);
 
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
+
+
 
 
     const locales = useMemo(function () {
@@ -40,6 +55,7 @@ function GetLocales() {
     }, [state])
 
     useEffect(function () {
+
 
         generateToken(user.token)  // for all requests
         axios.get('/local/table')
@@ -60,7 +76,6 @@ function GetLocales() {
 
                     })
                     .catch((error) => console.log(error))
-
 
 
             })
@@ -86,6 +101,7 @@ function GetLocales() {
         <>
             <NavbarLoged />
 
+
             <Container>
 
                 <>
@@ -106,62 +122,76 @@ function GetLocales() {
                         <Button className="see">Buscar</Button>
                     </Link>
 
+
+                    <Form inline>
+                        <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
+                    </Form>
                 </>
+                <div ref={componentRef}>
 
-                <Form inline>
-                    <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
-                </Form>
+                    <Form.Label column sm={3}>
+                        <p> Monto total:   <b> {state.total}</b></p>
+                    </Form.Label>
 
-                <Form.Label column sm={3}>
-                    <p> Monto total:   <b> {state.total}</b></p>
-                </Form.Label>
+                    <Form.Label column sm={4}>
+                        <p>  Monto total pronto pago: <b>{state.totalPronto}</b></p>
+                    </Form.Label>
 
-                <Form.Label column sm={4}>
-                    <p>  Monto total pronto pago: <b>{state.totalPronto}</b></p>
-                </Form.Label>
+                    <Form.Label column sm={5}>
+                        <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado}%</b></p>
 
-                <Form.Label column sm={5}>
-                    <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado}%</b></p>
-                </Form.Label>
+                    </Form.Label>
 
 
-                <br></br>
-                <Table striped bordered hover size="sm">
-                    <thead>
 
-                        <tr className='first'>
-                            <th>Locales</th>
-                            <th>Propietarios</th>
-                            <th>% Según documento de condominio</th>
-                            <th>Cuota total en $</th>
-                            <th>Pronto Pago</th>
-                            <th>Saldo</th>
-                        </tr>
-                    </thead>
+                    <br/>
+                    <Button onClick={handlePrint} className="see">Generar PDF</Button>
+
+                    <br/>                    <br/>                 
+                    <Table striped bordered hover size="sm">
+                        <thead>
+
+                            <tr className='first'>
+                                <th>Locales</th>
+                                <th>Propietarios</th>
+                                <th>% Según documento de condominio</th>
+                                <th>Cuota total en $</th>
+                                <th>Pronto Pago</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
 
 
-                    <tbody>
-                        {
-                            locales.map(data => (
-                                <tr key={data.code}>
-                                    <td>{data.code}</td>
-                                    <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
-                                    <td>{data.percentageOfCC}</td>
-                                    <td>{data.monthlyUSD}</td>
-                                    <td>{data.balance}</td>
-                                    <td>{data.balance}</td>
-                                    <td className="detalles">
-                                        <Link className="btn" to={`/admin/payments/${data.code}`}>
-                                            <Button className="see">Ver detalles</Button>
-                                        </Link>
-                                    </td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
+                        <tbody>
+                            {
+                                locales.map(data => (
+                                    <tr key={data.code}>
+                                        <td>{data.code}</td>
+                                        <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
+                                        <td>{data.percentageOfCC}</td>
+                                        <td>{data.monthlyUSD}</td>
+                                        <td>{data.balance}</td>
+                                        <td>{data.balance}</td>
+                                        <td className="detalles">
+                                            <Link className="btn" to={`/admin/payments/${data.code}`}>
+                                                <Button className="see">Ver detalles</Button>
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
 
-                </Table>
+                    </Table>
+
+
+                </div>
+
+
+
+        
             </Container>
+
         </>
     )
 }

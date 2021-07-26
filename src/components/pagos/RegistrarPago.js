@@ -188,7 +188,7 @@ function RegistrarPago() {
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
                             <Form.Label>Monto en dolares</Form.Label>
-                            <Form.Control type="text" pattern="[0-9]{0,13}" placeholder="Ingresar monto" name="amount" value={state.amount} onChange={onUSDChange} />
+                            <Form.Control type="text" pattern="[0-9,.]{0,13}" placeholder="Ingresar monto" name="amount" value={state.amount} onChange={onUSDChange} />
                         </Form.Group>
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
@@ -210,6 +210,7 @@ function RegistrarPago() {
                             <Form.Check type="checkbox" label="Pago en dolares" onChange={onCheck} />
 
                         </Form.Group>
+
 
                         <Form.Group className="formregistrar" className="checkboxes" controlId="formBasicCheckbox">
 

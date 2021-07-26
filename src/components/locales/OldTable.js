@@ -42,7 +42,7 @@ function Oldtable() {
     const {user} = useContext(AuthContext);
     
     const [startDate, setStartDate] = useState(state.fecha);
-    const [queryDate, setQueryDate] = useState();
+    const [queryDate, setQueryDate] = useState(mes);
 
     useEffect(function () {
 
