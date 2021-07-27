@@ -93,11 +93,11 @@ function PaymentsDetails()  {
                                     <tr key={data.id}>
                                         <td>{data.date}</td>
                                         <td>{data.amountUSD}</td>
-                                        <td>{getDecimal(data.amountBS)}</td>
-                                        <td>{data.referenceNumber}</td>
-                                        <td>{data.bank}</td>
-                                        <td>{getDecimal(data.exchangeRate)}</td>
-                                        <td>{data.paymentUSD === false ? 'No' : 'Si'}</td>
+                                        <td>{data.referenceNumber == null ? "---" : getDecimal(data.amountBS)}</td>
+                                        <td>{data.referenceNumber == null ? "---" : data.referenceNumber}</td>
+                                        <td>{data.referenceNumber == null ? "---" : data.bank}</td>
+                                        <td>{data.referenceNumber == null ? "---" : getDecimal(data.exchangeRate)}</td>
+                                        <td>{data.referenceNumber == null ? "---" : (data.paymentUSD === false ? 'No' : 'Si')}</td>
                                         <td>{data.description}</td>
                                         <td>{data.admin.username}</td>
                                         {/* <td><Link className="btn"><Button className="see">Editar</Button></Link></td> */}

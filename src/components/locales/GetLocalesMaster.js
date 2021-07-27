@@ -172,7 +172,7 @@ function GetLocalesMaster() {
                                         <td>{data.monthlyUSD}</td>
                                         <td>{data.balance}</td>
                                         <td className="detalles">
-                                            <Link className="btn" to={`/admin/payments/${data.code}`}>
+                                            <Link className="btn" to={`/master/payments/${data.code}`}>
                                                 <Button className="see">Ver detalles</Button>
                                             </Link>
                                         </td>
