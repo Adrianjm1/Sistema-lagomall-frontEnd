@@ -3,8 +3,7 @@ import axios, { generateToken } from '../../config/axios'
 import { Link } from 'react-router-dom';
 import { useParams, withRouter } from "react-router";
 import { NavbarLoged } from './NavbarLoged';
-import LagoMallData from '../lagomallData/LagoMallData';
-import DatePicker, { registerLocale } from 'react-datepicker';
+import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 import { Table, Container, Button, Form, FormControl } from "react-bootstrap";

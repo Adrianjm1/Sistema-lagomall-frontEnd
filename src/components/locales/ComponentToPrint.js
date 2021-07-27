@@ -4,7 +4,7 @@ export class ComponentToPrint extends React.PureComponent {
     render() {
       return (
 <>
-aaaaaaaaaaaaaaaaa
+
 </>
       );
     }

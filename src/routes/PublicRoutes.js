@@ -1,7 +1,6 @@
 import React from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import PropTypes from 'prop-types';
-import { propTypes } from 'react-bootstrap/esm/Image';
 
 export const PublicRoutes = ({
     isAuthenticated,

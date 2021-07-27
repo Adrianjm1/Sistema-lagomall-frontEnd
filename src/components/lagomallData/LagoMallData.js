@@ -3,7 +3,6 @@ import { Form, Col, Row, Container, Button, Modal } from "react-bootstrap";
 import '../../assets/css/form.css';
 import axios, { generateToken } from '../../config/axios'
 import { AuthContext } from '../auth/AuthContext';
-import DatePicker, { registerLocale } from 'react-datepicker';
 import swal from 'sweetalert';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -23,7 +22,7 @@ const LagoMallData = () => {
     const [state, setState] = useState(defaultState);
 
     const { user } = useContext(AuthContext);
-    const [startDate, setStartDate] = useState(new Date());
+    // const [startDate, setStartDate] = useState(new Date());
 
     const [show, setShow] = useState(false);
 
@@ -50,15 +49,10 @@ const LagoMallData = () => {
                 })
 
 
-            }
-            )
+            })
             .catch((error) => console.log(error))
 
-
-
-
-
-    }, [state.render])
+    }, [])
 
 
     const onInputChange = e => {
@@ -77,21 +71,6 @@ const LagoMallData = () => {
         }
 
     }
-
-    // const update = async ()=>{
-
-    //     generateToken(user.token); // for all requests
-    //     const  upda =await  axios.patch('/local/up',
-    //     {
-    //         month: state.month,   
-    //     }).catch((error) =>
-    //         console.log(error)
-    //     );
-
-    //     count++
-    //     setState({...state, render:count })
-    // }
-
 
 
     const onGenerate = e => {
@@ -214,9 +193,9 @@ const LagoMallData = () => {
 
 
 
-                <Form controlId="formulariolg" className="mt-5" >
+                <Form  className="mt-5" >
 
-                    <Form.Group as={Row} controlId="formMetrajeCC" id="formulariolg">
+                    <Form.Group as={Row}  id="formulariolg">
                         <Form.Label column sm={4}>
                             <b>Metraje del Centro Comercial</b>
                         </Form.Label>
@@ -225,7 +204,7 @@ const LagoMallData = () => {
                         </Col>
                     </Form.Group>
 
-                    <Form.Group as={Row} controlId="formBreakeven" id="formulariolg">
+                    <Form.Group as={Row}  id="formulariolg">
                         <Form.Label column sm={4}>
                             <b>Punto de Equilibrio</b>
                         </Form.Label>

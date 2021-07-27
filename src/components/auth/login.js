@@ -11,8 +11,7 @@ import '../../assets/css/login.css';
 // Images
 import loginIcon from '../../assets/images/lagomall.jpeg'
 import lagoMall from '../../assets/images/lagomallcc.jpg'
-
-import axios, { generateToken } from '../../config/axios';
+import axios from '../../config/axios';
 import { AuthContext } from './AuthContext.js';
 import { types } from '../../config/constant.js';
 
@@ -54,18 +53,18 @@ export const Login = ({history}) => {
                 password: state.password,
             }).then(data => {
     
-                if(data.data.ok == true){
+                if(data.data.ok === true){
     
                     dispatch({
                         type: types.login,
                         payload: {
                             name: data.data.usuario.username,
                             token: data.data.token,
-                            master: data.data.usuario.id == 1 ? true : false
+                            master: data.data.usuario.id === 1 ? true : false
                         }
                     })
     
-                    if(data.data.usuario.id == 1){
+                    if(data.data.usuario.id === 1){
                         history.replace('/master');
     
                     } else{

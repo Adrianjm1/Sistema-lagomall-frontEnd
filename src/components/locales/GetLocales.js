@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useMemo, useContext, useRef } from 'react'
 import axios, { generateToken } from '../../config/axios'
-
 import { Link } from 'react-router-dom';
 import { NavbarLoged } from './NavbarLoged';
-import LagoMallData from '../lagomallData/LagoMallData';
 import { AuthContext } from '../auth/AuthContext';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
 import '../../assets/css/locales.css';
-import ReactToPrint from 'react-to-print';
 import { useReactToPrint } from 'react-to-print';
-import { ComponentToPrint } from './ComponentToPrint';
+
 
 
 
@@ -30,6 +27,22 @@ const defaultState = {
     content: 'Soy pitbull DALE',
 };
 
+function getDecimal(data) {
+
+    // let strDato = data.toString();
+    // let dato = strDato.split('.');
+
+    // let datos = dato[1].slice(0,4);
+
+    // return (`${dato[0]}.${datos}`);
+
+    let dato = data.toFixed(2)
+
+
+    return dato;
+
+}
+
 
 function GetLocales() {
 
@@ -40,11 +53,7 @@ function GetLocales() {
 
 
     const [state, setState] = useState(defaultState);
-
     const { user } = useContext(AuthContext);
-
-
-
 
     const locales = useMemo(function () {
         if (state.busqueda.length) {
@@ -89,7 +98,7 @@ function GetLocales() {
 
 
     const handleChange = e => {
-        setState({ ...state, busqueda: e.target.value.toUpperCase(), mes: 'sirilo' });
+        setState({ ...state, busqueda: e.target.value.toUpperCase() });
     }
 
 
@@ -138,16 +147,15 @@ function GetLocales() {
                     </Form.Label>
 
                     <Form.Label column sm={5}>
-                        <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado}%</b></p>
-
+                        <p> Porcentaje del monto total pagado:   <b> {getDecimal(state.porcentajePagado)}%</b></p>
                     </Form.Label>
 
 
-
-                    <br/>
+                    <br></br>
+                    <br />
                     <Button onClick={handlePrint} className="see">Generar PDF</Button>
 
-                    <br/>                    <br/>                 
+                    <br />                    <br />
                     <Table striped bordered hover size="sm">
                         <thead>
 
@@ -169,8 +177,8 @@ function GetLocales() {
                                         <td>{data.code}</td>
                                         <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
                                         <td>{data.percentageOfCC}</td>
+                                        <td>{data.prontoPago}</td>
                                         <td>{data.monthlyUSD}</td>
-                                        <td>{data.balance}</td>
                                         <td>{data.balance}</td>
                                         <td className="detalles">
                                             <Link className="btn" to={`/admin/payments/${data.code}`}>
@@ -189,7 +197,7 @@ function GetLocales() {
 
 
 
-        
+
             </Container>
 
         </>

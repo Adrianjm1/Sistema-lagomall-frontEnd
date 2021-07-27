@@ -9,7 +9,6 @@ import Router from './routes';
 import Footer from './components/Footer'
 
 // Provider
-import UserContext from './Hooks/UserContext';
 import {AuthContext} from './components/auth/AuthContext';
 import {authReducer} from './components/auth/authReducer'
 

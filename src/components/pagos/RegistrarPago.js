@@ -1,5 +1,5 @@
-import { text } from '@fortawesome/fontawesome-svg-core';
-import React, { useState, useEffect, useMemo, useContext } from 'react'
+
+import React, { useState, useContext } from 'react'
 import { Form, Col, Row, Button, Modal } from "react-bootstrap";
 import axios, { generateToken } from '../../config/axios';
 import payment from '../../assets/images/payment.jpg';
@@ -23,8 +23,10 @@ function RegistrarPago() {
         amount: '',
         reference: '',
         bank: '',
+        descripcion: '',
+        date: '',
         pay: false,
-        exchange: 0
+        exchange: ''
 
     }
 
@@ -36,7 +38,7 @@ function RegistrarPago() {
     const handleShow = () => setShow(true);
 
     const validaCampos = () => {
-        if (state.local == '' || state.referencia == '' || state.amount == '') {
+        if (state.local === '' || state.referencia === '' || state.amount === '') {
             swal({
                 title: 'Error',
                 text: 'Error campos sin completar',
@@ -71,7 +73,7 @@ function RegistrarPago() {
         const isValid = e.target.validity.valid;
 
         if (isValid === true) {
-            setState({ ...state, amount: e.target.value });
+            setState({ ...state, [e.target.name]: e.target.value });
 
         }
 
@@ -111,7 +113,9 @@ function RegistrarPago() {
                     amountUSD: state.amount,
                     referenceNumber: state.reference,
                     exchangeRate: state.exchange,
-                    paymentUSD: state.pay
+                    paymentUSD: state.pay,
+                    date: state.date,
+                    description: state.descripcion
                 });
 
 
@@ -174,7 +178,7 @@ function RegistrarPago() {
 
                 <Col xs={6}>
 
-                    <Form className="col-auto" id = "formRegistrar">
+                    <Form  className="col-auto" id = "formRegistrar">
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
                             <h1 className="title"><b>Realizar pago</b></h1>
@@ -187,13 +191,18 @@ function RegistrarPago() {
                         </Form.Group>
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
-                            <Form.Label>Monto en dolares</Form.Label>
-                            <Form.Control type="text" pattern="[0-9,.]{0,13}" placeholder="Ingresar monto" name="amount" value={state.amount} onChange={onUSDChange} />
+                                <Form.Label>Fecha</Form.Label>
+                                <Form.Control type="date"  placeholder="fecha" name="date" onChange={onInputChange} />
                         </Form.Group>
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
-                            <Form.Label>Numero de referencia</Form.Label>
-                            <Form.Control type="text" placeholder="Ingresar referencia" name="reference" onChange={onInputChange} />
+                            <Form.Label>Monto en dolares</Form.Label>
+                            <Form.Control type="text" pattern="[0-9.]{0,13}" placeholder="Ingresar monto" name="amount" value={state.amount} onChange={onUSDChange} />
+                        </Form.Group>
+
+                        <Form.Group className="formregistrar" controlId="formBasicEmail">
+                            <Form.Label>Tasa de cambio</Form.Label>
+                            <Form.Control type="text" pattern="[0-9.]{0,13}" placeholder="Ingresar tasa de cambio" name="exchange" value={state.exchange} onChange={onUSDChange} />
                         </Form.Group>
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
@@ -202,19 +211,23 @@ function RegistrarPago() {
                         </Form.Group>
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
-                            <Form.Label>Tasa de cambio</Form.Label>
-                            <Form.Control type="text" placeholder="Ingresar tasa de cambio" name="exchange" onChange={onInputChange} />
+                            <Form.Label>Numero de referencia</Form.Label>
+                            <Form.Control type="text" placeholder="Ingresar referencia" name="reference" onChange={onInputChange} />
                         </Form.Group>
 
-                        <Form.Group className="formregistrar" className="checkboxes" controlId="formBasicCheckbox">
+                        <Form.Group className="formregistrar" controlId="formBasicEmail">
+                            <Form.Label>Descripcion</Form.Label>
+                            <Form.Control type="text" placeholder="Ingresar descripcion" name="descripcion" onChange={onInputChange} />
+                        </Form.Group>
+
+
+                        <Form.Group  className="checkboxes" controlId="formBasicCheckbox">
                             <Form.Check type="checkbox" label="Pago en dolares" onChange={onCheck} />
 
                         </Form.Group>
 
 
-                        <Form.Group className="formregistrar" className="checkboxes" controlId="formBasicCheckbox">
-
-
+                        <Form.Group  className="checkboxes" controlId="formBasicCheckbox">
                             <Button className="boton" variant="primary" onClick={validaCampos}>
                                 Procesar pago
                             </Button>
@@ -224,12 +237,12 @@ function RegistrarPago() {
                                     <Modal.Title>Confirmacion</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>Esta seguro/a que quiere procesar el pago al local <b> {state.code} </b> Por <br />
-                                    <b>{state.amount}$</b>  <br /> {state.pay == true ? 'Pagado en dolares' : 'Pagado en bolivares'}  </Modal.Body>
+                                    <b>{state.amount}$</b>  <br /> {state.pay === true ? 'Pagado en dolares' : 'Pagado en bolivares'}  </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={handleClose}>
                                         Cerrar
                                     </Button>
-                                    <Button variant="primary" type="submit" onClick={onSubmit} type="submit">
+                                    <Button variant="primary"  onClick={onSubmit} type="submit">
                                         Procesar pago
                                     </Button>
                                 </Modal.Footer>

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 
 // Context
 import { AuthContext } from '../components/auth/AuthContext';
@@ -7,9 +7,7 @@ import { AuthContext } from '../components/auth/AuthContext';
 import GetLocales from '../components/locales/GetLocales';
 import GetLocalesMaster from '../components/locales/GetLocalesMaster';
 import { Login } from '../components/auth/login';
-
 import PaymentsDetails from '../components/pagos/PaymentsDetails';
-import LagoMallData from '../components/lagomallData/LagoMallData';
 import RegistrarPago from '../components/pagos/RegistrarPago';
 import PaymentsByMonth from '../components/pagos/PaymentsByMonth';
 import OldTable from '../components/locales/OldTable';

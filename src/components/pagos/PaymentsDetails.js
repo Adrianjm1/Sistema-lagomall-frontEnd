@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useMemo, useContext } from 'react'
 import axios, { generateToken } from '../../config/axios'
-import { useHistory, useParams, Link } from 'react-router-dom';
-import { withRouter } from "react-router";
+import { useParams } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
-import { Table, Container, Button, Card } from "react-bootstrap";
+import { Table, Container, Card } from "react-bootstrap";
 import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
@@ -17,6 +16,15 @@ const defaultState = {
 
 }
 
+function getDecimal (data) {
+
+    let dato = data.split('.');
+
+    let datos = dato[1].slice(0,2);
+
+    return (`${dato[0]}.${datos}`);
+
+}
 
 function PaymentsDetails()  {
 
@@ -74,20 +82,23 @@ function PaymentsDetails()  {
                                 <th>Banco</th>
                                 <th>Tasa de cambio</th>
                                 <th>Pago en dolares</th>
+                                <th>Descripcion</th>
                                 <th>Registrado por</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 datos.map(data => (
+
                                     <tr key={data.id}>
-                                        <td>{data.createdAt.slice(0, 10)}</td>
+                                        <td>{data.date}</td>
                                         <td>{data.amountUSD}</td>
-                                        <td>{parseFloat(data.amountBS)}</td>
+                                        <td>{getDecimal(data.amountBS)}</td>
                                         <td>{data.referenceNumber}</td>
                                         <td>{data.bank}</td>
-                                        <td>{data.exchangeRate}</td>
-                                        <td>{data.paymentUSD == false ? 'No' : 'Si'}</td>
+                                        <td>{getDecimal(data.exchangeRate)}</td>
+                                        <td>{data.paymentUSD === false ? 'No' : 'Si'}</td>
+                                        <td>{data.description}</td>
                                         <td>{data.admin.username}</td>
                                         {/* <td><Link className="btn"><Button className="see">Editar</Button></Link></td> */}
 
