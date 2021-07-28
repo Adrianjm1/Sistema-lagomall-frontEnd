@@ -8,7 +8,7 @@ import { AuthContext } from '../auth/AuthContext';
 import { useReactToPrint } from 'react-to-print';
 import "react-datepicker/dist/react-datepicker.css";
 
-import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
+import { Table, Container, Button, Form, FormControl, Modal } from "react-bootstrap";
 
 import '../../assets/css/locales.css';
 
@@ -21,8 +21,11 @@ const defaultState = {
     total: 0,
     totalPronto: 0,
     porcentajePagado: 0,
+    localEdit : '',
+    saldoEdit: ''
 
 };
+
 
 function getDecimal(data) {
 
@@ -32,16 +35,25 @@ function getDecimal(data) {
 
 }
 
+
 const date = new Date();
 
 function GetLocalesMaster() {
+
+    let codeToEdit = '';
+
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
 
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const [state, setState] = useState(defaultState);
+
 
     const { user } = useContext(AuthContext);
 
@@ -90,10 +102,19 @@ function GetLocalesMaster() {
         setState({ ...state, busqueda: e.target.value.toUpperCase() });
     }
 
+    const editarSaldo= (local, saldo)=>{
+
+        setState({  ...state, localEdit: local, saldoEdit: saldo })
+
+
+
+    }
+
 
 
     const [startDate, setStartDate] = useState(new Date());
     const [queryDate, setQueryDate] = useState();
+
 
 
     return (
@@ -168,21 +189,52 @@ function GetLocalesMaster() {
                                         <td>{data.code}</td>
                                         <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
                                         <td>{data.percentageOfCC}</td>
+                                        <td >{data.monthlyUSD}</td>
                                         <td>{data.prontoPago}</td>
-                                        <td>{data.monthlyUSD}</td>
                                         <td>{data.balance}</td>
                                         <td className="detalles">
                                             <Link className="btn" to={`/master/payments/${data.code}`}>
                                                 <Button className="see">Ver detalles</Button>
                                             </Link>
+
+                                            <Button onClick={()=>{ handleShow(); editarSaldo(data.code, data.balance)} } className="see">Editar saldo</Button>
                                         </td>
                                     </tr>
+
+
                                 ))
                             }
                         </tbody>
 
+
+
                     </Table>
 
+                    <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Modificacion de saldo del local  <b> {state.localEdit} </b> </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body> 
+                        <br/>
+                        Saldo actual : <b>  {state.saldoEdit} </b>
+                        <br/>
+                        <Form.Group className="formregistrar" controlId="formBasicEmail">
+                            <Form.Label>Nuevo saldo</Form.Label>
+                            <Form.Control type="text" placeholder="Ingresar saldo" name="bank"  />
+                        </Form.Group>
+
+
+
+                         </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Cerrar
+                            </Button>
+                            <Button variant="primary" type="submit">
+                                Procesar pago
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
 
                 </div>
 

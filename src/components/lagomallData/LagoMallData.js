@@ -83,7 +83,7 @@ const LagoMallData = () => {
             buttons: ["No", "Si"]
         }).then(respuesta => {
             if (respuesta) {
-                console.log('hablame');
+                
 
                 let mess = state.month + '-02'
 
@@ -92,7 +92,9 @@ const LagoMallData = () => {
                         breakeven: state.breakeven,
                         month: mess,
                         discount: state.descuento,
-                        meter: 18030
+                        meter: 18030,
+                        
+                        
 
                     }).then(res => {
 
@@ -101,6 +103,7 @@ const LagoMallData = () => {
                                 setState({
                                     ...state,
                                     idLG: resps.data.id
+                                    
                                 })
 
                                 console.log(resps.data);
@@ -109,7 +112,8 @@ const LagoMallData = () => {
                                 axios.patch('/local/up',
                                     {
                                         month: state.month,
-                                        idLGData: state.idLG
+                                        idLGData: state.idLG,
+                                       
                                     }).then(respu => {
                                         count++
 
