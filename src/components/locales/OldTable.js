@@ -19,7 +19,11 @@ const defaultState = {
     locales: [],
     month: '2021-6',
     mes: '',
-    fecha: ''
+    fecha: '',
+    total: 0,
+    totalPagado: 0,
+    totalPronto: 0,
+    porcentajePagado: 0
 }
 
 
@@ -53,17 +57,42 @@ function Oldtable() {
         axios.get(`/local/tableMonthly/${mes}`)
             .then((res) => {
 
-                setStartDate(fecha)
+                const monthConvertir = mes.slice(5, 6);
+                let convertir = parseInt(monthConvertir);
 
-                setState({
-                    ...state,
-                    fecha: fecha,
-                    locales: res.data.map(
-                        item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
-                    )
-                })
-            }
-            )
+                convertir = convertir < 10 ? `0${convertir}` : `${convertir}`;
+
+                axios.get(`/payments/sum/usd?month=${convertir}&year=${mes.slice(0, 4)}`)
+                    .then((resp) => {
+
+                        let sumaUSD = 0;
+                        let sumaPronto = 0;
+
+                        res.data.map((item) => {
+
+                            sumaUSD += item.monthlyUSD;
+                            sumaPronto += item.prontoPago;
+
+                        });
+
+                        setStartDate(fecha)
+
+                        setState({
+                            ...state,
+                            fecha: fecha,
+                            total: sumaUSD,
+                            totalPronto: sumaPronto,
+                            totalPagado: resp.data.total,
+                            porcentajePagado: ((parseFloat(resp.data.total) * 100) / sumaUSD),
+                            locales: res.data.map(
+                                item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
+                            )
+                        })
+
+                    })
+                    .catch((error) => console.log(error))
+
+            })
 
 
             .catch((error) => console.log(error))
@@ -120,6 +149,24 @@ function Oldtable() {
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
                     <Button className="btnSearch" >Buscar</Button>
                 </Form>
+
+                <Form.Label column sm={3}>
+                        <p> Monto total:   <b> {state.total}</b></p>
+                    </Form.Label>
+
+                    <Form.Label column sm={3}>
+                        <p> Monto total pagado:   <b> {state.totalPagado}</b></p>
+                    </Form.Label>
+
+                    <br />
+
+                    <Form.Label column sm={5}>
+                        <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado}%</b></p>
+                    </Form.Label>
+
+                    <Form.Label column sm={4}>
+                        <p>  Monto total pronto pago: <b>{state.totalPronto}</b></p>
+                    </Form.Label>
 
                 <br></br>
                 <Table striped bordered hover size="sm">
