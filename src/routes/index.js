@@ -28,10 +28,10 @@ function App() {
                 <PublicRoutes path="/" isAuthenticated={user.logged} master={true} exact component={Login} />
 
                 <AdminRoutes path="/master" isAuthenticated={user.logged} exact component={GetLocalesMaster} />
-                <AdminRoutes path="/master/month" isAuthenticated={user.logged} exact component={PaymentsByMonth} />
                 <AdminRoutes path="/master/registrar" isAuthenticated={user.logged} exact component={RegistrarPago} />
+                <AdminRoutes path="/master/month" isAuthenticated={user.logged} exact component={PaymentsByMonth} />
                 <AdminRoutes path="/master/payments/:code" isAuthenticated={user.logged} exact component={PaymentsDetails} />
-                <AdminRoutes path="/admin/table/:mes" isAuthenticated={user.logged} exact component={OldTable} />
+                <AdminRoutes path="/master/table/:mes" isAuthenticated={user.logged} exact component={OldTable} />
 
             </Switch>
 
@@ -40,11 +40,10 @@ function App() {
             <Switch>
                 <PublicRoutes path="/" isAuthenticated={user.logged} master={false} exact component={Login} />
 
-
                 <AdminRoutes path="/admin" isAuthenticated={user.logged} exact component={GetLocales} />
                 <AdminRoutes path="/admin/registrar" isAuthenticated={user.logged} exact component={RegistrarPago} />
-                <AdminRoutes path="/admin/payments/:code" isAuthenticated={user.logged} exact component={PaymentsDetails} />
                 <AdminRoutes path="/admin/month" isAuthenticated={user.logged} exact component={PaymentsByMonth} />
+                <AdminRoutes path="/admin/payments/:code" isAuthenticated={user.logged} exact component={PaymentsDetails} />
                 <AdminRoutes path="/admin/table/:mes" isAuthenticated={user.logged} exact component={OldTable} />
 
             </Switch>

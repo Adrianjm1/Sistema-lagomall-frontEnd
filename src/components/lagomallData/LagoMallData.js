@@ -75,11 +75,10 @@ const LagoMallData = () => {
 
     const onGenerate = e => {
 
-
         generateToken(user.token)  // for all requests
 
         swal({
-            text: "Desea agregar nuevos datos del mes " + state.month + " \n  " + state.breakeven + ' y ' + state.descuento,
+            text: "Desea agregar nuevos datos del mes " + state.month + " \n  " + "Punto de equilibrio: " + state.breakeven + ' \n ' + "Descuento: " + state.descuento,
             buttons: ["No", "Si"]
         }).then(respuesta => {
             if (respuesta) {
@@ -105,9 +104,6 @@ const LagoMallData = () => {
                                     idLG: resps.data.id
                                     
                                 })
-
-                                console.log(resps.data);
-
 
                                 axios.patch('/local/up',
                                     {
@@ -170,11 +166,10 @@ const LagoMallData = () => {
     const onConfirmation = () => {
 
         swal({
-            text: "Esta accions solo puede generarse una vez al mes, ¿Seguro que desea continuar?",
+            text: "Esta acción solo puede generarse una vez al mes, ¿Seguro que desea continuar?",
             buttons: ["No", "Si"]
         }).then(res => {
             if (res) {
-                console.log('hablame');
                 handleShow()
 
             } else {

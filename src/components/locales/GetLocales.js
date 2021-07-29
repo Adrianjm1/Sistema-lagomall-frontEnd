@@ -2,16 +2,13 @@ import React, { useState, useEffect, useMemo, useContext, useRef } from 'react'
 import axios, { generateToken } from '../../config/axios'
 import { Link } from 'react-router-dom';
 import { NavbarLoged } from './NavbarLoged';
+import { NavbarMaster } from './NavbarMaster';
 import { AuthContext } from '../auth/AuthContext';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
 import '../../assets/css/locales.css';
 import { useReactToPrint } from 'react-to-print';
-
-
-
-
 
 const date = new Date();
 
@@ -22,6 +19,7 @@ const defaultState = {
     startDate: '2021/07',
     mes: '',
     total: 0,
+    totalPagado: 0,
     totalPronto: 0,
     porcentajePagado: 0,
     content: 'Soy pitbull DALE',
@@ -77,6 +75,7 @@ function GetLocales() {
                             ...state,
                             total: res.data.deudas[0].total,
                             totalPronto: res.data.deudas[0].totalPronto,
+                            totalPagado: resp.data.total,
                             porcentajePagado: ((parseFloat(resp.data.total) * 100) / res.data.deudas[0].total),
                             locales: res.data.data.map(
                                 item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
@@ -108,8 +107,7 @@ function GetLocales() {
 
     return (
         <>
-            <NavbarLoged />
-
+            {user.master ? <NavbarMaster /> : <NavbarLoged />}
 
             <Container>
 
@@ -142,12 +140,18 @@ function GetLocales() {
                         <p> Monto total:   <b> {state.total}</b></p>
                     </Form.Label>
 
-                    <Form.Label column sm={4}>
-                        <p>  Monto total pronto pago: <b>{state.totalPronto}</b></p>
+                    <Form.Label column sm={3}>
+                        <p> Monto total pagado:   <b> {state.totalPagado}</b></p>
                     </Form.Label>
+
+                    <br />
 
                     <Form.Label column sm={5}>
                         <p> Porcentaje del monto total pagado:   <b> {getDecimal(state.porcentajePagado)}%</b></p>
+                    </Form.Label>
+
+                    <Form.Label column sm={4}>
+                        <p>  Monto total pronto pago: <b>{state.totalPronto}</b></p>
                     </Form.Label>
 
 

@@ -19,9 +19,10 @@ const defaultState = {
     startDate: '2021/07',
     mes: '',
     total: 0,
+    totalPagado: 0,
     totalPronto: 0,
     porcentajePagado: 0,
-    localEdit : '',
+    localEdit: '',
     saldoEdit: ''
 
 };
@@ -79,6 +80,7 @@ function GetLocalesMaster() {
                             ...state,
                             total: res.data.deudas[0].total,
                             totalPronto: res.data.deudas[0].totalPronto,
+                            totalPagado: resp.data.total,
                             porcentajePagado: ((parseFloat(resp.data.total) * 100) / res.data.deudas[0].total),
                             locales: res.data.data.map(
                                 item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
@@ -102,9 +104,9 @@ function GetLocalesMaster() {
         setState({ ...state, busqueda: e.target.value.toUpperCase() });
     }
 
-    const editarSaldo= (local, saldo)=>{
+    const editarSaldo = (local, saldo) => {
 
-        setState({  ...state, localEdit: local, saldoEdit: saldo })
+        setState({ ...state, localEdit: local, saldoEdit: saldo })
 
 
 
@@ -138,7 +140,7 @@ function GetLocalesMaster() {
                         }
 
                     />
-                    <Link className="btn" to={`/admin/table/${queryDate}`}>
+                    <Link className="btn" to={`/master/table/${queryDate}`}>
                         <Button className="see">Buscar</Button>
                     </Link>
 
@@ -154,13 +156,20 @@ function GetLocalesMaster() {
                         <p> Monto total:   <b> {state.total}</b></p>
                     </Form.Label>
 
-                    <Form.Label column sm={4}>
-                        <p>  Monto total pronto pago: <b>{state.totalPronto}</b></p>
+                    <Form.Label column sm={3}>
+                        <p> Monto total pagado:   <b> {state.totalPagado}</b></p>
                     </Form.Label>
+
+                    <br />
 
                     <Form.Label column sm={5}>
                         <p> Porcentaje del monto total pagado:   <b> {getDecimal(state.porcentajePagado)}%</b></p>
                     </Form.Label>
+
+                    <Form.Label column sm={4}>
+                        <p>  Monto total pronto pago: <b>{state.totalPronto}</b></p>
+                    </Form.Label>
+
 
 
                     <br></br>
@@ -197,7 +206,7 @@ function GetLocalesMaster() {
                                                 <Button className="see">Ver detalles</Button>
                                             </Link>
 
-                                            <Button onClick={()=>{ handleShow(); editarSaldo(data.code, data.balance)} } className="see">Editar saldo</Button>
+                                            <Button onClick={() => { handleShow(); editarSaldo(data.code, data.balance) }} className="see">Editar saldo</Button>
                                         </td>
                                     </tr>
 
@@ -214,18 +223,18 @@ function GetLocalesMaster() {
                         <Modal.Header closeButton>
                             <Modal.Title>Modificacion de saldo del local  <b> {state.localEdit} </b> </Modal.Title>
                         </Modal.Header>
-                        <Modal.Body> 
-                        <br/>
-                        Saldo actual : <b>  {state.saldoEdit} </b>
-                        <br/>
-                        <Form.Group className="formregistrar" controlId="formBasicEmail">
-                            <Form.Label>Nuevo saldo</Form.Label>
-                            <Form.Control type="text" placeholder="Ingresar saldo" name="bank"  />
-                        </Form.Group>
+                        <Modal.Body>
+                            <br />
+                            Saldo actual : <b>  {state.saldoEdit} </b>
+                            <br />
+                            <Form.Group className="formregistrar" controlId="formBasicEmail">
+                                <Form.Label>Nuevo saldo</Form.Label>
+                                <Form.Control type="text" placeholder="Ingresar saldo" name="bank" />
+                            </Form.Group>
 
 
 
-                         </Modal.Body>
+                        </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>
                                 Cerrar

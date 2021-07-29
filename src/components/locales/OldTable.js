@@ -3,6 +3,8 @@ import axios, { generateToken } from '../../config/axios'
 import { Link } from 'react-router-dom';
 import { useParams, withRouter } from "react-router";
 import { NavbarLoged } from './NavbarLoged';
+import { NavbarMaster } from './NavbarMaster';
+import LagoMallData from '../lagomallData/LagoMallData';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -38,8 +40,9 @@ function Oldtable() {
 
         return state.locales
     }, [state])
-    const {user} = useContext(AuthContext);
-    
+
+    const { user } = useContext(AuthContext);
+
     const [startDate, setStartDate] = useState(state.fecha);
     const [queryDate, setQueryDate] = useState(mes);
 
@@ -54,7 +57,7 @@ function Oldtable() {
 
                 setState({
                     ...state,
-                    fecha:fecha,
+                    fecha: fecha,
                     locales: res.data.map(
                         item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
                     )
@@ -68,25 +71,24 @@ function Oldtable() {
         //eslint-disable-next-line
     }, [state.mes])
 
-    
-    
+
+
     const handleChange = e => {
         setState({ ...state, busqueda: e.target.value.toUpperCase() });
     }
 
-    const click =()=>{
-        
+    const click = () => {
+
         state.mes = mes
     }
 
     return (
         <>
-            <NavbarLoged />
+            {user.master ? <NavbarMaster /> : <NavbarLoged />}
 
+            {user.master ? <LagoMallData /> : <></>}
 
             <Container>
-
-
 
                 <div>
                     <DatePicker
@@ -101,10 +103,17 @@ function Oldtable() {
 
                     />
 
+                    {
+                        user.master ?
+                            <Link className="btn" to={`/master/table/${queryDate}`}>
+                                <Button onClick={click} className="see">Buscar</Button>
+                            </Link>
+                            :
+                            <Link className="btn" to={`/admin/table/${queryDate}`}>
+                                <Button onClick={click} className="see">Buscar</Button>
+                            </Link>
+                    }
 
-                    <Link className="btn" to={`/admin/table/${queryDate}`}>
-                        <Button onClick={click} className="see">Buscar</Button>
-                    </Link>
                 </div>
 
                 <Form inline>
@@ -136,9 +145,16 @@ function Oldtable() {
                                     <td>{data.monthlyUSD}</td>
                                     <td>{data.prontoPago}</td>
                                     <td className="detalles">
-                                        <Link className="btn" to={`/admin/payments/${data.code}`}>
-                                            <Button className="see">Ver detalles</Button>
-                                        </Link>
+                                        {
+                                            (user.master === true) ?
+                                                <Link className="btn" to={`/master/table/${queryDate}`}>
+                                                    <Button onClick={click} className="see">Buscar</Button>
+                                                </Link>
+                                                :
+                                                <Link className="btn" to={`/admin/table/${queryDate}`}>
+                                                    <Button onClick={click} className="see">Buscar</Button>
+                                                </Link>
+                                        }
                                     </td>
                                 </tr>
                             ))

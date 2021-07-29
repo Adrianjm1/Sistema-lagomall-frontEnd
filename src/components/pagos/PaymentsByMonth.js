@@ -6,7 +6,6 @@ import 'react-datepicker/dist/react-datepicker.css'
 import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
-import SumPayments from './SumPayments';
 /* import { useHistory, useParams, Link } from 'react-router-dom';
  */
 
@@ -17,6 +16,10 @@ const date = new Date()
 const defaultState = {
     datosDias: [],
     datosMeses: [],
+    pagoBSdias: '',
+    pagoBDmeses: '',
+    pagoUSDdias: '',
+    pagoUSDmeses: '',
     name: '',
 }
 
@@ -43,7 +46,7 @@ function PaymentsByMonth() {
                 axios.get(`/payments/get/monthly?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
                     .then((resp) => {
 
-                        setState({ ...state, datosMeses: resp.data, datosDias: res.data })
+                        setState({ ...state, datosDias: res.data.pagos, pagoBSdias: res.data.totalBS, pagoUSDdias: res.data.totalUSD, datosMeses: resp.data.pagos, pagoBSmeses: resp.data.totalBS, pagoUSDmeses: resp.data.totalUSD })
 
                     })
                     .catch((error) =>
@@ -62,16 +65,6 @@ function PaymentsByMonth() {
         //eslint-disable-next-line
     }, [])
 
-    function getDecimal (data) {
-
-        let dato = data.split('.');
-    
-        let datos = dato[1].slice(0,2);
-    
-        return (`${dato[0]}.${datos}`);
-    
-    }
-
 
     const OnChangeDate = (e) => {
 
@@ -84,7 +77,7 @@ function PaymentsByMonth() {
         axios.get(`/payments/get/dayly?day=${dia}&month=${mes}&year=${year}`)
             .then((res) => {
 
-                setState({ ...state, datosDias: res.data })
+                setState({ ...state, datosDias: res.data.pagos, pagoBSdias: res.data.totalBS, pagoUSDdias: res.data.totalUSD })
 
 
             })
@@ -98,13 +91,13 @@ function PaymentsByMonth() {
 
         const month = e.target.value;
 
-        const mes = month.slice(5,7); 
-        const year = month.slice(0,4); 
+        const mes = month.slice(5, 7);
+        const year = month.slice(0, 4);
 
         axios.get(`/payments/get/monthly?month=${mes}&year=${year}`)
             .then((res) => {
 
-                setState({ ...state, datosMeses: res.data, })
+                setState({ ...state, datosMeses: res.data.pagos, pagoBSmeses: res.data.totalBS, pagoUSDmeses: res.data.totalUSD })
 
             })
             .catch((error) =>
@@ -130,6 +123,20 @@ function PaymentsByMonth() {
                 <Table className="margintable" striped bordered hover size="sm" >
                     <thead>
                         <tr className='first'>
+                            <th>Total facturado en dolares ($)</th>
+                            <th>Total factutado en bolívares (Bs.S)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td>{state.pagoUSDdias}</td>
+                            <td>{parseFloat(state.pagoBSdias).toFixed(2)}</td>
+                        </tr>
+                    </tbody>
+                </Table>
+                <Table className="margintable" striped bordered hover size="sm" >
+                    <thead>
+                        <tr className='first'>
                             <th>Codigo</th>
                             <th>Fecha</th>
                             <th>Monto en dolares</th>
@@ -148,10 +155,10 @@ function PaymentsByMonth() {
                                     <td>{data.locale.code}</td>
                                     <td>{data.date}</td>
                                     <td>{data.amountUSD}</td>
-                                    <td>{getDecimal(data.amountBS)}</td>
+                                    <td>{parseFloat(data.amountBS).toFixed(2)}</td>
                                     <td>{data.referenceNumber}</td>
                                     <td>{data.bank}</td>
-                                    <td>{getDecimal(data.exchangeRate)}</td>
+                                    <td>{parseFloat(data.exchangeRate).toFixed(2)}</td>
                                     <td>{data.paymentUSD === false ? 'No' : 'Si'}</td>
                                     <td>{data.admin.username}</td>
                                 </tr>
@@ -160,6 +167,7 @@ function PaymentsByMonth() {
                     </tbody>
                 </Table>
 
+                <hr />
 
 
                 <Form>
@@ -173,6 +181,20 @@ function PaymentsByMonth() {
                 </Form>
 
 
+                <Table className="margintable" striped bordered hover size="sm" >
+                    <thead>
+                        <tr className='first'>
+                            <th>Total facturado en dolares ($)</th>
+                            <th>Total factutado en bolívares (Bs.S)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{state.pagoUSDmeses}</td>
+                            <td>{parseFloat(state.pagoBSmeses).toFixed(2)}</td>
+                        </tr>
+                    </tbody>
+                </Table>
                 <Table className="margintable" striped bordered hover size="sm" >
                     <thead>
                         <tr className='first'>
@@ -194,10 +216,10 @@ function PaymentsByMonth() {
                                     <td>{data.locale.code}</td>
                                     <td>{data.date}</td>
                                     <td>{data.amountUSD}</td>
-                                    <td>{getDecimal(data.amountBS)}</td>
+                                    <td>{parseFloat(data.amountBS).toFixed(2)}</td>
                                     <td>{data.referenceNumber}</td>
                                     <td>{data.bank}</td>
-                                    <td>{getDecimal(data.exchangeRate)}</td>
+                                    <td>{parseFloat(data.exchangeRate).toFixed(2)}</td>
                                     <td>{data.paymentUSD === false ? 'No' : 'Si'}</td>
                                     <td>{data.admin.username}</td>
                                 </tr>
@@ -205,14 +227,6 @@ function PaymentsByMonth() {
                         }
                     </tbody>
                 </Table>
-
-                <hr />
-
-                <SumPayments />
-
-
-
-
             </Container>
 
         </>
