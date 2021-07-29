@@ -22,7 +22,7 @@ const defaultState = {
     totalPagado: 0,
     totalPronto: 0,
     porcentajePagado: 0,
-    content: 'Soy pitbull DALE',
+    deuda: ''
 };
 
 function getDecimal(data) {
@@ -56,10 +56,17 @@ function GetLocales() {
     const locales = useMemo(function () {
         if (state.busqueda.length) {
             return state.locales.filter(local => local.code.includes(state.busqueda))
+        } else if (state.deuda === true) {
+            return state.locales.filter(local => local.balance > -1)
+        } else if (state.deuda === false) {
+            return state.locales.filter(local => local.balance < 0)
+        }else if (state.deuda === ''){
+            return state.locales
         }
 
         return state.locales
     }, [state])
+
 
     useEffect(function () {
 
@@ -101,6 +108,20 @@ function GetLocales() {
     }
 
 
+    const conDeuda = () => {
+        setState({ ...state, deuda: true });
+    }
+    const sinDeuda = () => {
+
+        setState({ ...state, deuda: false });
+
+    }
+    const restart = ()=>{
+        setState({ ...state, deuda: '' });
+    }
+    
+
+
 
     const [startDate, setStartDate] = useState(new Date());
     const [queryDate, setQueryDate] = useState();
@@ -111,29 +132,36 @@ function GetLocales() {
 
             <Container>
 
-                <>
-                    <DatePicker
+            <Form inline >
+                    <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <Button className="sinDeuda" onClick={conDeuda}>Locales solventes</Button>
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <Button  className="conDeuda" onClick={sinDeuda}>Locales insolventes</Button>
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <Button  className="restart" onClick={restart}>Mostrar todos</Button>
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <>
+                        <DatePicker
 
-                        dateFormat="MMMM yyyy"
-                        showMonthYearPicker
-                        selected={startDate}
-                        onChange={(date) => {
-                            setStartDate(date)
-                            setQueryDate((date.getFullYear() + '-' + (1 + date.getMonth())))
-                            console.log(queryDate);
-                        }
-                        }
+                            dateFormat="MMMM yyyy"
+                            showMonthYearPicker
+                            selected={startDate}
+                            onChange={(date) => {
+                                setStartDate(date)
+                                setQueryDate((date.getFullYear() + '-' + (1 + date.getMonth())))
+                                console.log(queryDate);
+                            }}
+                        />
+                        <Link className="btn" to={`/admin/table/${queryDate}`}>
+                            <Button className="see">Buscar</Button>
+                        </Link>
 
-                    />
-                    <Link className="btn" to={`/admin/table/${queryDate}`}>
-                        <Button className="see">Buscar</Button>
-                    </Link>
+                    </>
 
 
-                    <Form inline>
-                        <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
-                    </Form>
-                </>
+
+                </Form>
                 <div ref={componentRef}>
 
                     <Form.Label column sm={3}>

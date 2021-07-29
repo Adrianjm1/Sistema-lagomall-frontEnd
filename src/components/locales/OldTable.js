@@ -19,7 +19,8 @@ const defaultState = {
     locales: [],
     month: '2021-6',
     mes: '',
-    fecha: ''
+    fecha: '',
+    deuda:''
 }
 
 
@@ -36,6 +37,12 @@ function Oldtable() {
     const locales = useMemo(function () {
         if (state.busqueda.length) {
             return state.locales.filter(local => local.code.includes(state.busqueda))
+        } else if (state.deuda === true) {
+            return state.locales.filter(local => local.balance > -1)
+        } else if (state.deuda === false) {
+            return state.locales.filter(local => local.balance < 0)
+        }else if (state.deuda === ''){
+            return state.locales
         }
 
         return state.locales
@@ -77,6 +84,18 @@ function Oldtable() {
         setState({ ...state, busqueda: e.target.value.toUpperCase() });
     }
 
+    const conDeuda = () => {
+        setState({ ...state, deuda: true });
+    }
+    const sinDeuda = () => {
+
+        setState({ ...state, deuda: false });
+
+    }
+    const restart = ()=>{
+        setState({ ...state, deuda: '' });
+    }
+
     const click = () => {
 
         state.mes = mes
@@ -86,22 +105,32 @@ function Oldtable() {
         <>
             {user.master ? <NavbarMaster /> : <NavbarLoged />}
 
-            {user.master ? <LagoMallData /> : <></>}
+           
 
             <Container>
 
-                <div>
-                    <DatePicker
-                        dateFormat="MMMM yyyy"
-                        showMonthYearPicker
-                        selected={startDate}
-                        onChange={(date) => {
-                            setStartDate(date)
-                            setQueryDate((date.getFullYear() + '-' + (1 + date.getMonth())))
+            <Form inline >
+                    <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <Button className="sinDeuda" onClick={conDeuda}>Locales solventes</Button>
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <Button  className="conDeuda" onClick={sinDeuda}>Locales insolventes</Button>
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <Button  className="restart" onClick={restart}>Mostrar todos</Button>
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <>
+                        <DatePicker
 
-                        }}
+                            dateFormat="MMMM yyyy"
+                            showMonthYearPicker
+                            selected={startDate}
+                            onChange={(date) => {
+                                setStartDate(date)
+                                setQueryDate((date.getFullYear() + '-' + (1 + date.getMonth())))
+                                console.log(queryDate);
+                            }}
+                        />
 
-                    />
 
                     {
                         user.master ?
@@ -114,11 +143,7 @@ function Oldtable() {
                             </Link>
                     }
 
-                </div>
-
-                <Form inline>
-                    <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
-                    <Button className="btnSearch" >Buscar</Button>
+                    </>
                 </Form>
 
                 <br></br>
