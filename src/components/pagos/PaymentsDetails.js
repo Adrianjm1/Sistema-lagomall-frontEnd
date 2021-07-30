@@ -84,6 +84,7 @@ function PaymentsDetails()  {
                                 <th>Tasa de cambio</th>
                                 <th>Pago en dolares</th>
                                 <th>Descripcion</th>
+                                <th>Por pagar</th>
                                 <th>Registrado por</th>
                               
                             </tr>
@@ -101,6 +102,7 @@ function PaymentsDetails()  {
                                         <td>{data.referenceNumber == null ? "---" : getDecimal(data.exchangeRate)}</td>
                                         <td>{data.referenceNumber == null ? "---" : (data.paymentUSD === false ? 'No' : 'Si')}</td>
                                         <td>{data.description}</td>
+                                        <td>{data.restanteUSD}</td>
                                         <td>{data.admin.username}</td>
                                         
                                         {/* <td><Link className="btn"><Button className="see">Editar</Button></Link></td> */}
