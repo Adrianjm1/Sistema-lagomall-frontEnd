@@ -14,3 +14,26 @@
 
 }
 
+.conDeuda {
+    background: red;
+    border-color: black ;
+}
+.conDeuda:hover {
+    background: rgb(255, 36, 36);
+    border-color: black ;
+}
+
+.sinDeuda {
+    background: green;
+    border-color: black ;
+}
+.sinDeuda:hover {
+    background: rgb(3, 223, 3);
+    border-color: black ;
+}
+
+
+.restart {
+    background: rgb(0, 26, 255);
+    border-color: black ;
+}

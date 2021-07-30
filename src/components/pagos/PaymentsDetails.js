@@ -16,6 +16,7 @@ const defaultState = {
 
 }
 
+
 function getDecimal (data) {
 
     let dato = data.split('.');
@@ -84,6 +85,7 @@ function PaymentsDetails()  {
                                 <th>Pago en dolares</th>
                                 <th>Descripcion</th>
                                 <th>Registrado por</th>
+                              
                             </tr>
                         </thead>
                         <tbody>
@@ -100,6 +102,7 @@ function PaymentsDetails()  {
                                         <td>{data.referenceNumber == null ? "---" : (data.paymentUSD === false ? 'No' : 'Si')}</td>
                                         <td>{data.description}</td>
                                         <td>{data.admin.username}</td>
+                                        
                                         {/* <td><Link className="btn"><Button className="see">Editar</Button></Link></td> */}
 
                                     </tr>

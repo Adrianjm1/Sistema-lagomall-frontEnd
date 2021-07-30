@@ -23,7 +23,8 @@ const defaultState = {
     total: 0,
     totalPagado: 0,
     totalPronto: 0,
-    porcentajePagado: 0
+    porcentajePagado: 0,
+    deuda:'',
 }
 
 
@@ -40,6 +41,12 @@ function Oldtable() {
     const locales = useMemo(function () {
         if (state.busqueda.length) {
             return state.locales.filter(local => local.code.includes(state.busqueda))
+        } else if (state.deuda === true) {
+            return state.locales.filter(local => local.balance > -1)
+        } else if (state.deuda === false) {
+            return state.locales.filter(local => local.balance < 0)
+        }else if (state.deuda === ''){
+            return state.locales
         }
 
         return state.locales
@@ -106,6 +113,18 @@ function Oldtable() {
         setState({ ...state, busqueda: e.target.value.toUpperCase() });
     }
 
+    const conDeuda = () => {
+        setState({ ...state, deuda: true });
+    }
+    const sinDeuda = () => {
+
+        setState({ ...state, deuda: false });
+
+    }
+    const restart = ()=>{
+        setState({ ...state, deuda: '' });
+    }
+
     const click = () => {
 
         state.mes = mes
@@ -115,22 +134,32 @@ function Oldtable() {
         <>
             {user.master ? <NavbarMaster /> : <NavbarLoged />}
 
-            {user.master ? <LagoMallData /> : <></>}
+           
 
             <Container>
 
-                <div>
-                    <DatePicker
-                        dateFormat="MMMM yyyy"
-                        showMonthYearPicker
-                        selected={startDate}
-                        onChange={(date) => {
-                            setStartDate(date)
-                            setQueryDate((date.getFullYear() + '-' + (1 + date.getMonth())))
+            <Form inline >
+                    <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <Button className="sinDeuda" onClick={conDeuda}>Locales solventes</Button>
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <Button  className="conDeuda" onClick={sinDeuda}>Locales insolventes</Button>
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <Button  className="restart" onClick={restart}>Mostrar todos</Button>
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <>
+                        <DatePicker
 
-                        }}
+                            dateFormat="MMMM yyyy"
+                            showMonthYearPicker
+                            selected={startDate}
+                            onChange={(date) => {
+                                setStartDate(date)
+                                setQueryDate((date.getFullYear() + '-' + (1 + date.getMonth())))
+                                console.log(queryDate);
+                            }}
+                        />
 
-                    />
 
                     {
                         user.master ?
@@ -143,11 +172,7 @@ function Oldtable() {
                             </Link>
                     }
 
-                </div>
-
-                <Form inline>
-                    <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
-                    <Button className="btnSearch" >Buscar</Button>
+                    </>
                 </Form>
 
                 <Form.Label column sm={3}>
@@ -158,10 +183,14 @@ function Oldtable() {
                         <p> Monto total pagado:   <b> {state.totalPagado}</b></p>
                     </Form.Label>
 
+                    <Form.Label column sm={3}>
+                        <p> Monto restante por pagar:   <b> {state.total - state.totalPagado}</b></p>
+                    </Form.Label>
+
                     <br />
 
                     <Form.Label column sm={5}>
-                        <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado}%</b></p>
+                        <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado.toFixed(3)}%</b></p>
                     </Form.Label>
 
                     <Form.Label column sm={4}>
@@ -191,6 +220,8 @@ function Oldtable() {
                                     <td>{data.percentageOfCC}</td>
                                     <td>{data.monthlyUSD}</td>
                                     <td>{data.prontoPago}</td>
+                                    <td>{data.prontoPago}</td>
+
                                     <td className="detalles">
                                         {
                                             (user.master === true) ?
