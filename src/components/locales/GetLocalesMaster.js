@@ -104,7 +104,7 @@ function GetLocalesMaster() {
         axios.get('/local/table')
             .then((res) => {
 
-                axios.get(`/payments/sum/usd?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
+                axios.get(`/payments/sum/usd?month=${(date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : `${date.getMonth() + 1}`}&year=${date.getFullYear()}`)
                     .then((resp) => {
 
                         setState({
