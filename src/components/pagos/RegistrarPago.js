@@ -58,7 +58,7 @@ function RegistrarPago() {
         axios.get(`/lagomalldata/last`)
             .then((res) => {
 
-                if (today.getDate() >res.data[0].prontoPagoDay){
+                if (today.getDate() > res.data[0].prontoPagoDay){
 
                     setState({...state,  prontoPago: res.data[0].prontoPagoDay, btnHide: true })
 
