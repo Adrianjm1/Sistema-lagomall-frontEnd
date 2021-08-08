@@ -252,7 +252,7 @@ function GetLocalesMaster() {
                     <br />
 
                     <Form.Label column sm={5}>
-                        <p> Porcentaje del monto total pagado:   <b> {getDecimal(state.porcentajePagado)}%</b></p>
+                    <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado.toFixed(3)}%</b></p>
                     </Form.Label>
 
                     <Form.Label column sm={4}>

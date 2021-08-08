@@ -17,7 +17,8 @@ const LagoMallData = () => {
         descuento: 0,
         month: '',
         render: '',
-        idLG: 0
+        idLG: 0,
+        pronto: ''
     };
     const [state, setState] = useState(defaultState);
 
@@ -45,7 +46,8 @@ const LagoMallData = () => {
                     metros: res.data[0].meter,
                     breakeven: res.data[0].breakeven,
                     condominio: res.data[0].montoDeCondominio,
-                    descuento: res.data[0].discount
+                    descuento: res.data[0].discount,
+                    pronto: res.data[0].prontoPagoDay
                 })
 
 
@@ -92,6 +94,7 @@ const LagoMallData = () => {
                         month: mess,
                         discount: state.descuento,
                         meter: 18030,
+                        prontoPagoDay: state.pronto
                         
                         
 
@@ -227,6 +230,16 @@ const LagoMallData = () => {
                         </Col>
                     </Form.Group>
 
+                    <Form.Group as={Row}  id="formulariolg">
+                        <Form.Label column sm={4}>
+                            <b>Ponrto pago vence el dia</b>
+                        </Form.Label>
+                        <Col sm={2}>
+                        <Form.Control className="pronto" type="text" value={`${state.pronto}`} disabled />
+                        
+                        </Col>
+                    </Form.Group>
+
                     <br />
 
                 </Form>
@@ -249,6 +262,8 @@ const LagoMallData = () => {
                                 <Form.Control type="text" placeholder="Descuento" name="descuento" onChange={onInputChange} />
                                 <Form.Label>Mes</Form.Label>
                                 <Form.Control type="month" placeholder="Descuento" name="month" onChange={onInputChange} />
+                                <Form.Label>Dia maximo pronto pago</Form.Label>
+                                <Form.Control type="text" placeholder="Prontopago" name="pronto" onChange={onInputChange} />
 
 
                             </Form.Group>

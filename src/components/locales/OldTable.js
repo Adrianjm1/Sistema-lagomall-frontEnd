@@ -23,7 +23,8 @@ const defaultState = {
     total: 0,
     totalPagado: 0,
     totalPronto: 0,
-    porcentajePagado: 0
+    porcentajePagado: 0,
+    deuda:'',
 }
 
 
@@ -182,10 +183,14 @@ function Oldtable() {
                         <p> Monto total pagado:   <b> {state.totalPagado}</b></p>
                     </Form.Label>
 
+                    <Form.Label column sm={3}>
+                        <p> Monto restante por pagar:   <b> {state.total - state.totalPagado}</b></p>
+                    </Form.Label>
+
                     <br />
 
                     <Form.Label column sm={5}>
-                        <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado}%</b></p>
+                        <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado.toFixed(3)}%</b></p>
                     </Form.Label>
 
                     <Form.Label column sm={4}>
@@ -215,6 +220,8 @@ function Oldtable() {
                                     <td>{data.percentageOfCC}</td>
                                     <td>{data.monthlyUSD}</td>
                                     <td>{data.prontoPago}</td>
+                                    <td>{data.prontoPago}</td>
+
                                     <td className="detalles">
                                         {
                                             (user.master === true) ?

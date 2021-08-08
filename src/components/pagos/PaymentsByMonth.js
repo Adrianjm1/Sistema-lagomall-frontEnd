@@ -145,6 +145,7 @@ function PaymentsByMonth() {
                             <th>Banco</th>
                             <th>Tasa de cambio</th>
                             <th>Pago en dolares</th>
+                            <th>Por pagar</th>
                             <th>Registrado por</th>
                         </tr>
                     </thead>
@@ -160,6 +161,7 @@ function PaymentsByMonth() {
                                     <td>{data.bank}</td>
                                     <td>{parseFloat(data.exchangeRate).toFixed(2)}</td>
                                     <td>{data.paymentUSD === false ? 'No' : 'Si'}</td>
+                                    <td>{data.restanteUSD}</td>
                                     <td>{data.admin.username}</td>
                                 </tr>
                             ))
@@ -206,6 +208,7 @@ function PaymentsByMonth() {
                             <th>Banco</th>
                             <th>Tasa de cambio</th>
                             <th>Pago en dolares</th>
+                            <th>Por pagar</th>
                             <th>Registrado por</th>
                         </tr>
                     </thead>
@@ -221,6 +224,7 @@ function PaymentsByMonth() {
                                     <td>{data.bank}</td>
                                     <td>{parseFloat(data.exchangeRate).toFixed(2)}</td>
                                     <td>{data.paymentUSD === false ? 'No' : 'Si'}</td>
+                                    <td>{data.restanteUSD}</td>
                                     <td>{data.admin.username}</td>
                                 </tr>
                             ))

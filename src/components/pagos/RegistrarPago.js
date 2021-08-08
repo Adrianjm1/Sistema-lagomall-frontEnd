@@ -1,5 +1,5 @@
 
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Form, Col, Row, Button, Modal } from "react-bootstrap";
 import axios, { generateToken } from '../../config/axios';
 import payment from '../../assets/images/payment.jpg';
@@ -26,16 +26,56 @@ function RegistrarPago() {
         descripcion: '',
         date: '',
         pay: false,
-        exchange: ''
+        exchange: '',
+        nota: 0,
+        disable: true,
+        pass: '',
+        btnHide: false,
+        prontoPago: ''
 
     }
 
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
+    const password = 'lagomall'
 
     const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
+
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+    const [state, setState] = useState(defaultState);
+    const today = new Date();
+
+    useEffect(function () {
+        
+        generateToken(user.token)  // for all requests
+
+
+        axios.get(`/lagomalldata/last`)
+            .then((res) => {
+
+                if (today.getDate() >res.data[0].prontoPagoDay){
+
+                    setState({...state,  prontoPago: res.data[0].prontoPagoDay, btnHide: true })
+
+                }else{
+                    
+                    setState({...state,  prontoPago: res.data[0].prontoPagoDay, disable: false, })
+                }
+              
+
+            })
+            .catch((error) =>
+                console.log(error)
+            )
+        //eslint-disable-next-line
+    }, [])
+
+    console.log(state.btnHide);
 
     const validaCampos = () => {
         if (state.local === '' || state.referencia === '' || state.amount === '') {
@@ -51,7 +91,6 @@ function RegistrarPago() {
     }
 
 
-    const [state, setState] = useState(defaultState);
 
 
     const onInputChange = e => {
@@ -98,6 +137,22 @@ function RegistrarPago() {
 
     }
 
+    const disableBtn = () => {
+        setState({ ...state, disable: false })
+    }
+
+    const validatePass =()=>{
+        if (state.pass === password){
+            disableBtn()
+            handleClose2()
+        }else {
+            swal({
+                title: 'Error',
+                text: 'Clave incorrecta',
+                icon: 'error'
+            });
+        }
+    }
 
     const onSubmit = async e => {
 
@@ -110,7 +165,8 @@ function RegistrarPago() {
                 {
                     code: state.code,
                     bank: state.bank,
-                    amountUSD: state.amount,
+                    amountUSD: (state.amount) ,
+                    nota: (state.nota),
                     referenceNumber: state.reference,
                     exchangeRate: state.exchange,
                     paymentUSD: state.pay,
@@ -172,13 +228,13 @@ function RegistrarPago() {
 
         <div className="m-0 justify-content-center">
 
-            {user.master ? <NavbarMaster/> : <NavbarLoged/>}
+            {user.master ? <NavbarMaster /> : <NavbarLoged />}
 
             <Row>
 
                 <Col xs={6}>
 
-                    <Form  className="col-auto" id = "formRegistrar">
+                    <Form className="col-auto" id="formRegistrar">
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
                             <h1 className="title"><b>Realizar pago</b></h1>
@@ -191,8 +247,8 @@ function RegistrarPago() {
                         </Form.Group>
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
-                                <Form.Label>Fecha</Form.Label>
-                                <Form.Control type="date"  placeholder="fecha" name="date" onChange={onInputChange} />
+                            <Form.Label>Fecha</Form.Label>
+                            <Form.Control type="date" placeholder="fecha" name="date" onChange={onInputChange} />
                         </Form.Group>
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
@@ -200,6 +256,16 @@ function RegistrarPago() {
                             <Form.Control type="text" pattern="[0-9.]{0,13}" placeholder="Ingresar monto" name="amount" value={state.amount} onChange={onUSDChange} />
                         </Form.Group>
 
+                        <Form.Group className="formregistrar" controlId="formBasicEmail">
+                            <Form.Label>Nota de debito</Form.Label>
+                            <Form.Control type="text" placeholder="Ingresar nota de debito" pattern="[0-9.]{0,13}" name="nota" value={state.nota} onChange={onInputChange} disabled={state.disable} />
+                        </Form.Group>
+                  {          state.btnHide?
+                        <Button className="boton" variant="primary" onClick={  handleShow2 }   >
+                            Desbloquear
+                        </Button>
+                        :null
+                    }
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
                             <Form.Label>Tasa de cambio</Form.Label>
                             <Form.Control type="text" pattern="[0-9.]{0,13}" placeholder="Ingresar tasa de cambio" name="exchange" value={state.exchange} onChange={onUSDChange} />
@@ -221,13 +287,13 @@ function RegistrarPago() {
                         </Form.Group>
 
 
-                        <Form.Group  className="checkboxes" controlId="formBasicCheckbox">
+                        <Form.Group className="checkboxes" controlId="formBasicCheckbox">
                             <Form.Check type="checkbox" label="Pago en dolares" onChange={onCheck} />
 
                         </Form.Group>
 
 
-                        <Form.Group  className="checkboxes" controlId="formBasicCheckbox">
+                        <Form.Group className="checkboxes" controlId="formBasicCheckbox">
                             <Button className="boton" variant="primary" onClick={validaCampos}>
                                 Procesar pago
                             </Button>
@@ -242,8 +308,31 @@ function RegistrarPago() {
                                     <Button variant="secondary" onClick={handleClose}>
                                         Cerrar
                                     </Button>
-                                    <Button variant="primary"  onClick={onSubmit} type="submit">
+                                    <Button variant="primary" onClick={onSubmit} type="submit">
                                         Procesar pago
+                                    </Button>
+                                </Modal.Footer>
+                            </Modal>
+
+
+                            <Modal show={show2} onHide={handleClose2}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Autorizacion</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>Para realizar un pago con ProntoPago luego de la fecha pautada debe ingresar una contraseña <b> {state.code} </b> Por <br />
+
+                                    <Form.Group className="formregistrar" controlId="formBasicEmail">
+
+                                        <Form.Control type="password" placeholder="Ingresar contraseña" name="pass" onChange={onInputChange} />
+                                    </Form.Group>
+
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleClose2}>
+                                        Cerrar
+                                    </Button>
+                                    <Button variant="primary" onClick={validatePass} type="submit">
+                                        Autorizar
                                     </Button>
                                 </Modal.Footer>
                             </Modal>
