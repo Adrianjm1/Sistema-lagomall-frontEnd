@@ -40,7 +40,7 @@ export const NavbarLoged = () => {
                         </Navbar.Brand>
 
                         <Navbar.Brand href="/admin/month">
-                            <b>Buscar pagos</b>
+                            <b>Pagos y deudas</b>
                         </Navbar.Brand>
 
                         <Button onClick={handleLogOut}>

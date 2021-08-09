@@ -16,12 +16,15 @@ const date = new Date()
 const defaultState = {
     datosDias: [],
     datosMeses: [],
+    deudas: [],
     pagoBSdias: '',
     pagoBDmeses: '',
     pagoUSDdias: '',
     pagoUSDmeses: '',
     name: '',
 }
+
+const meses = ['Enero','Febrero','Marzo','Abril','Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 
 function PaymentsByMonth() {
@@ -106,6 +109,25 @@ function PaymentsByMonth() {
 
     }
 
+    const onChangeDeuda = (e) => {
+
+        const month = e.target.value;
+
+        const mes = month.slice(5, 7);
+        const year = month.slice(0, 4);
+
+        axios.get(`/deudas/getDeudas?month=${mes}-${year}`)
+            .then((res) => {
+
+                setState({ ...state, deudas: res.data})
+
+            })
+            .catch((error) =>
+                console.log(error)
+            )
+
+    }
+
 
     return (
         <>
@@ -129,7 +151,7 @@ function PaymentsByMonth() {
                     </thead>
                     <tbody>
                         <tr>
-                        <td>{state.pagoUSDdias}</td>
+                            <td>{state.pagoUSDdias}</td>
                             <td>{parseFloat(state.pagoBSdias).toFixed(2)}</td>
                         </tr>
                     </tbody>
@@ -231,6 +253,44 @@ function PaymentsByMonth() {
                         }
                     </tbody>
                 </Table>
+
+
+                <hr />
+
+
+                <Form>
+
+                    <h2>Deudas de meses anteriores</h2>
+
+                    <Form.Label className="label-date">Ingresa la fecha</Form.Label>
+
+                    <Form.Control type="month" className="getPayments" onChange={onChangeDeuda} />
+
+                </Form>
+
+                <Table className="margintable" striped bordered hover size="sm" >
+                    <thead>
+                        <tr className='first'>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Mes</th>
+                            <th>Deuda ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            state.deudas.map(data => (
+                                <tr key={data.id}>
+                                    <td>{data.locale.code}</td>
+                                    <td>{data.locale.name}</td>
+                                    <td>{`${meses[parseInt(data.month.slice(0, 2)) - 1]} ${data.month.slice(3, 7)}`}</td>
+                                    <td>{data.amountUSD}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </Table>
+
             </Container>
 
         </>

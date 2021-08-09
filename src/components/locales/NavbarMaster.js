@@ -40,7 +40,7 @@ export const NavbarMaster = () => {
                         </Navbar.Brand>
 
                         <Navbar.Brand href="/master/month">
-                            <b>Buscar pagos</b>
+                            <b>Pagos y deudas</b>
                         </Navbar.Brand>
 
                         <Button onClick={handleLogOut}>
