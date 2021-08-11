@@ -9,7 +9,7 @@ export default class Footer extends Component {
         return (
             <div>
                 <Card className='sty'>
-                <Card.Body   className='footer-c'><b>© Centro comercial Lago Mall. Todos los derechos reservados</b></Card.Body>
+                <Card.Body   className='footer-c'><b>© Centro Comercial Lago Mall. Todos los derechos reservados.</b></Card.Body>
                 </Card>
             </div>
         )

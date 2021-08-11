@@ -11,6 +11,7 @@ import { AuthContext } from '../auth/AuthContext';
 import '../../assets/css/registrar.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
+import RegistrarDeuda from './RegistrarDeuda';
 
 
 
@@ -237,7 +238,7 @@ function RegistrarPago() {
                     <Form className="col-auto" id="formRegistrar">
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
-                            <h1 className="title"><b>Realizar pago</b></h1>
+                            <h1 className="title"><b>Registrar pago</b></h1>
                             <br />
                         </Form.Group>
 
@@ -302,7 +303,7 @@ function RegistrarPago() {
                                 <Modal.Header closeButton>
                                     <Modal.Title>Confirmacion</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body>Esta seguro/a que quiere procesar el pago al local <b> {state.code} </b> Por <br />
+                                <Modal.Body>Esta seguro/a que quiere procesar el pago al local <b> {state.code} </b> por <br />
                                     <b>{state.amount}$</b>  <br /> {state.pay === true ? 'Pagado en dolares' : 'Pagado en bolivares'}  </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={handleClose}>
@@ -353,7 +354,9 @@ function RegistrarPago() {
 
             </Row>
 
+            <hr />
 
+                <RegistrarDeuda />
 
         </ div>
     )

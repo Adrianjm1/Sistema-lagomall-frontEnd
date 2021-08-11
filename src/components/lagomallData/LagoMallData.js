@@ -232,7 +232,7 @@ const LagoMallData = () => {
 
                     <Form.Group as={Row}  id="formulariolg">
                         <Form.Label column sm={4}>
-                            <b>Ponrto pago vence el dia</b>
+                            <b>Pronto pago vence el dia</b>
                         </Form.Label>
                         <Col sm={2}>
                         <Form.Control className="pronto" type="text" value={`${state.pronto}`} disabled />

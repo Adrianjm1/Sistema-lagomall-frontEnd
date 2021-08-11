@@ -15,6 +15,7 @@ body{
 
 .title{
     color: #013E7C;
+    text-align: center;
 }
 
 .payment, .payment-1{
@@ -42,3 +43,9 @@ body{
     left: 100px;
     
 }
+
+.deudas{
+    width: 50%;
+}
+  
+  
