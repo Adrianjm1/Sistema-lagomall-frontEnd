@@ -31,3 +31,32 @@
 .getPayments{
     width: 20%;
 }
+
+.grupoBtns{
+    left: 300px;
+}
+
+
+.btnPP{
+    background: #20252b;
+    border:  solid black 0.6px;
+    border-radius: 10px;
+
+}
+
+
+.btnPP:hover{
+
+    border: solid black 0.6px;
+    border-radius: 10px;
+    color: white;
+}
+
+.btnPP:hover:active{
+    background: red ;
+
+}
+
+#busqueda {
+    width: 25%;
+}

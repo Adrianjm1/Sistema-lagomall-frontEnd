@@ -165,7 +165,7 @@ function RegistrarPago() {
             const res = await axios.post('/payments/make',
                 {
                     code: state.code,
-                    bank: state.bank,
+                    bank: state.bank.toUpperCase(),
                     amountUSD: (state.amount) ,
                     nota: (state.nota),
                     referenceNumber: state.reference,
