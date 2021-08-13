@@ -140,13 +140,13 @@ function Oldtable() {
 
             <Form inline >
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
-                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    {/* <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
                     <Button className="sinDeuda" onClick={conDeuda}>Locales solventes</Button>
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
                     <Button  className="conDeuda" onClick={sinDeuda}>Locales insolventes</Button>
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
                     <Button  className="restart" onClick={restart}>Mostrar todos</Button>
-                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p> */}
                     <>
                         <DatePicker
 

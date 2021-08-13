@@ -192,7 +192,7 @@ function PaymentsByMonth() {
 
                         <Form.Label className="label-date">Ingresa la fecha</Form.Label>
                         <Form.Control type="date" className="getPayments" onChange={OnChangeDate} />
-                        <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
+                        <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
 
                         <Table className="margintable" striped bordered hover size="sm" >
                             <thead>
@@ -258,7 +258,7 @@ function PaymentsByMonth() {
                             <Form.Label className="label-date">Ingresa la fecha</Form.Label>
 
                             <Form.Control type="month" className="getPayments" onChange={OnChangeMonth} />
-                            <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
+                            <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
 
                         </Form>
 
