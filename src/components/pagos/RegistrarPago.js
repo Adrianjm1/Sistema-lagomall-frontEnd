@@ -52,22 +52,22 @@ function RegistrarPago() {
     const today = new Date();
 
     useEffect(function () {
-        
+
         generateToken(user.token)  // for all requests
 
 
         axios.get(`/lagomalldata/last`)
             .then((res) => {
 
-                if (today.getDate() > res.data[0].prontoPagoDay){
+                if (today.getDate() > res.data[0].prontoPagoDay) {
 
-                    setState({...state,  prontoPago: res.data[0].prontoPagoDay, btnHide: true })
+                    setState({ ...state, prontoPago: res.data[0].prontoPagoDay, btnHide: true })
 
-                }else{
-                    
-                    setState({...state,  prontoPago: res.data[0].prontoPagoDay, disable: false, })
+                } else {
+
+                    setState({ ...state, prontoPago: res.data[0].prontoPagoDay, disable: false, })
                 }
-              
+
 
             })
             .catch((error) =>
@@ -79,10 +79,10 @@ function RegistrarPago() {
     console.log(state.btnHide);
 
     const validaCampos = () => {
-        if (state.local === '' || state.referencia === '' || state.amount === '') {
+        if (state.code === '' || state.reference === '' || state.amount === '' || parseInt(state.amount) < 1 || state.bank === '' || state.exchange === '' || state.date === '' || state.descripcion === '') {
             swal({
                 title: 'Error',
-                text: 'Error campos sin completar',
+                text: 'Error al ingresar los campos',
                 icon: 'error'
             });
 
@@ -105,6 +105,12 @@ function RegistrarPago() {
             console.log(isValid);
 
         }
+
+    }
+
+    const onBankChange = e => {
+
+        setState({ ...state, bank: e.target.value.toUpperCase() });
 
     }
 
@@ -142,11 +148,11 @@ function RegistrarPago() {
         setState({ ...state, disable: false })
     }
 
-    const validatePass =()=>{
-        if (state.pass === password){
+    const validatePass = () => {
+        if (state.pass === password) {
             disableBtn()
             handleClose2()
-        }else {
+        } else {
             swal({
                 title: 'Error',
                 text: 'Clave incorrecta',
@@ -166,7 +172,7 @@ function RegistrarPago() {
                 {
                     code: state.code,
                     bank: state.bank.toUpperCase(),
-                    amountUSD: (state.amount) ,
+                    amountUSD: (state.amount),
                     nota: (state.nota),
                     referenceNumber: state.reference,
                     exchangeRate: state.exchange,
@@ -261,12 +267,12 @@ function RegistrarPago() {
                             <Form.Label>Nota de debito</Form.Label>
                             <Form.Control type="text" placeholder="Ingresar nota de debito" pattern="[0-9.]{0,13}" name="nota" value={state.nota} onChange={onInputChange} disabled={state.disable} />
                         </Form.Group>
-                  {          state.btnHide?
-                        <Button className="boton" variant="primary" onClick={  handleShow2 }   >
-                            Desbloquear
-                        </Button>
-                        :null
-                    }
+                        {state.btnHide ?
+                            <Button className="boton" variant="primary" onClick={handleShow2}   >
+                                Desbloquear
+                            </Button>
+                            : null
+                        }
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
                             <Form.Label>Tasa de cambio</Form.Label>
                             <Form.Control type="text" pattern="[0-9.]{0,13}" placeholder="Ingresar tasa de cambio" name="exchange" value={state.exchange} onChange={onUSDChange} />
@@ -274,7 +280,7 @@ function RegistrarPago() {
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
                             <Form.Label>Banco</Form.Label>
-                            <Form.Control type="text" placeholder="Ingresar banco" name="bank" onChange={onInputChange} />
+                            <Form.Control type="text" placeholder="Ingresar banco" name="bank" onChange={onBankChange} />
                         </Form.Group>
 
                         <Form.Group className="formregistrar" controlId="formBasicEmail">
@@ -356,7 +362,7 @@ function RegistrarPago() {
 
             <hr />
 
-                <RegistrarDeuda />
+            <RegistrarDeuda />
 
         </ div>
     )

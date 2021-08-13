@@ -63,8 +63,6 @@ const LagoMallData = () => {
 
         if (isValid === true) {
 
-            console.log(e.target.value);
-
             setState({ ...state, [e.target.name]: e.target.value });
 
         } else {
@@ -79,89 +77,86 @@ const LagoMallData = () => {
 
         generateToken(user.token)  // for all requests
 
-        swal({
-            text: "Desea agregar nuevos datos del mes " + state.month + " \n  " + "Punto de equilibrio: " + state.breakeven + ' \n ' + "Descuento: " + state.descuento,
-            buttons: ["No", "Si"]
-        }).then(respuesta => {
-            if (respuesta) {
-                
+        if (parseInt(state.pronto) < 0 || parseInt(state.pronto) > 28 || (state.month + '-') == '-') {
 
-                let mess = state.month + '-02'
+            swal({
+                title: 'Error',
+                text: 'Verifica bien los campos',
+                icon: 'error'
+            });
 
-                axios.post('/lagomalldata/make',
-                    {
-                        breakeven: state.breakeven,
-                        month: mess,
-                        discount: state.descuento,
-                        meter: 18030,
-                        prontoPagoDay: state.pronto
-                        
-                        
+        } else {
 
-                    }).then(res => {
+            swal({
+                text: "Desea agregar nuevos datos del mes " + state.month + " \n  " + "Punto de equilibrio: " + state.breakeven + ' \n ' + "Descuento: " + state.descuento,
+                buttons: ["No", "Si"]
 
-                        axios.get('/lagomalldata/last')
-                            .then((resps) => {
-                                setState({
-                                    ...state,
-                                    idLG: resps.data.id
-                                    
-                                })
 
-                                axios.patch('/local/up',
-                                    {
-                                        month: state.month,
-                                        idLGData: state.idLG,
-                                       
-                                    }).then(respu => {
-                                        count++
+            }).then(respuesta => {
+                if (respuesta) {
 
-                                        setState({ ...state, render: count })
 
-                                        if (respu) {
+                    let mess = state.month + '-02'
 
-                                            swal({
-                                                title: 'Realizado',
-                                                text: 'Nuevos cobros generados con exito',
-                                                icon: 'success'
-                                            });
+                    axios.post('/lagomalldata/make',
+                        {
+                            breakeven: state.breakeven,
+                            month: mess,
+                            discount: state.descuento,
+                            meter: 18030,
+                            prontoPagoDay: state.pronto
 
-                                            setTimeout(function () { handleClose() }, 1500);
+
+
+                        }).then(res => {
+
+                            axios.get('/lagomalldata/last')
+                                .then((resps) => {
+                                    setState({
+                                        ...state,
+                                        idLG: resps.data.id
+
+                                    })
+
+                                    axios.patch('/local/up',
+                                        {
+                                            month: state.month,
+                                            idLGData: state.idLG,
+
+                                        }).then(respu => {
+                                            count++
+
+                                            setState({ ...state, render: count })
+
+                                            if (respu) {
+
+                                                swal({
+                                                    title: 'Realizado',
+                                                    text: 'Nuevos cobros generados con exito',
+                                                    icon: 'success'
+                                                });
+
+                                                setTimeout(function () { handleClose() }, 1500);
+                                            }
+
                                         }
+                                        )
+                                        .catch((error) => console.log(error))
 
-                                    }
-                                    )
-                                    .catch((error) => console.log(error))
-
-
-
-
-
-                            }).catch((error) => {
-                                console.log(error);
-                            });
+                                }).catch((error) => {
+                                    console.log(error);
+                                });
 
 
-                    }).catch((error) =>
-                        console.log(error)
-                    );
+                        }).catch((error) =>
+                            console.log(error)
+                        );
+
+                }
+            })
 
 
-
-
-
-
-
-            }
-        })
-
-
-        // console.log(
-
-        //     state.breakeven + '  ' + state.descuento +  '  ' + state.month
-        // );
-
-
+        }
 
     }
 
@@ -195,9 +190,9 @@ const LagoMallData = () => {
 
 
 
-                <Form  className="mt-5" >
+                <Form className="mt-5" >
 
-                    <Form.Group as={Row}  id="formulariolg">
+                    <Form.Group as={Row} id="formulariolg">
                         <Form.Label column sm={4}>
                             <b>Metraje del Centro Comercial</b>
                         </Form.Label>
@@ -206,7 +201,7 @@ const LagoMallData = () => {
                         </Col>
                     </Form.Group>
 
-                    <Form.Group as={Row}  id="formulariolg">
+                    <Form.Group as={Row} id="formulariolg">
                         <Form.Label column sm={4}>
                             <b>Punto de Equilibrio</b>
                         </Form.Label>
@@ -230,13 +225,13 @@ const LagoMallData = () => {
                         </Col>
                     </Form.Group>
 
-                    <Form.Group as={Row}  id="formulariolg">
+                    <Form.Group as={Row} id="formulariolg">
                         <Form.Label column sm={4}>
                             <b>Pronto pago vence el dia</b>
                         </Form.Label>
                         <Col sm={2}>
-                        <Form.Control className="pronto" type="text" value={`${state.pronto}`} disabled />
-                        
+                            <Form.Control className="pronto" type="text" value={`${state.pronto}`} disabled />
+
                         </Col>
                     </Form.Group>
 
@@ -257,13 +252,13 @@ const LagoMallData = () => {
                         <Form>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label>Punto de equilibrio</Form.Label>
-                                <Form.Control type="text" placeholder="Punto de equilibrio" name="breakeven" onChange={onInputChange} />
+                                <Form.Control type="text" placeholder="Ingrese el punto de equilibrio" pattern="[0-9.]{0,13}" name="breakeven" value={state.breakeven} onChange={onInputChange} />
                                 <Form.Label>Descuento</Form.Label>
-                                <Form.Control type="text" placeholder="Descuento" name="descuento" onChange={onInputChange} />
+                                <Form.Control type="text" placeholder="Ingrese el descuento" pattern="[0-9.]{0,13}" name="descuento" value={state.descuento} onChange={onInputChange} />
                                 <Form.Label>Mes</Form.Label>
-                                <Form.Control type="month" placeholder="Descuento" name="month" onChange={onInputChange} />
+                                <Form.Control type="month" placeholder="Ingrese el mes" name="month" onChange={onInputChange} />
                                 <Form.Label>Dia maximo pronto pago</Form.Label>
-                                <Form.Control type="text" placeholder="Prontopago" name="pronto" onChange={onInputChange} />
+                                <Form.Control type="text" placeholder="Ingrese el día" pattern="[0-9]{0,13}" name="pronto" value={state.pronto} onChange={onInputChange} />
 
 
                             </Form.Group>
