@@ -58,6 +58,21 @@ body{
 
 }
 
+.btnPPP{
+    background: #20252b;
+    border:  solid black 0.6px;
+    border-radius: 10px;
+
+}
+
+
+.btnPPP:hover{
+
+    border: solid black 0.6px;
+    border-radius: 10px;
+    color: white;
+}
+
 
 
 .btnPPP:hover{

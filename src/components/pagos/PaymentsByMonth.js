@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react'
 import axios, { generateToken } from '../../config/axios'
-import { Table, Container, Form, ButtonGroup, Button , FormControl} from "react-bootstrap";
+import { Table, Container, Form, ButtonGroup, Button, FormControl } from "react-bootstrap";
 import { AuthContext } from '../auth/AuthContext';
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../assets/css/paymentsDetails.css';
@@ -55,10 +55,12 @@ function PaymentsByMonth() {
                 axios.get(`/payments/get/monthly?month=${date.getMonth() + 1}&year=${date.getFullYear()}`)
                     .then((resp) => {
 
-                        setState({ ...state, datosDias: res.data.pagos, pagoBSdias: res.data.totalBS, pagoUSDdias: res.data.totalUSD, datosMeses: resp.data.pagos, pagoBSmeses: resp.data.totalBS, pagoUSDmeses: resp.data.totalUSD, 
+                        setState({
+                            ...state, datosDias: res.data.pagos, pagoBSdias: res.data.totalBS, pagoUSDdias: res.data.totalUSD, datosMeses: resp.data.pagos, pagoBSmeses: resp.data.totalBS, pagoUSDmeses: resp.data.totalUSD,
                             locales: res.data.data.map(
                                 item => ({ ...item, bank: item.bank.toUpperCase() }) // Todos los code a uppercase una sola vez
-                            ) })
+                            )
+                        })
 
                     })
                     .catch((error) =>
@@ -77,25 +79,25 @@ function PaymentsByMonth() {
         //eslint-disable-next-line
     }, [])
 
-    
+
     const datosDias = useMemo(function () {
         if (state.busqueda.length) {
             return state.datosDias.filter(local => local.bank.includes(state.busqueda))
-        } 
+        }
         return state.datosDias
     }, [state])
 
     const datosMeses = useMemo(function () {
         if (state.busqueda.length) {
             return state.datosMeses.filter(local => local.bank.includes(state.busqueda))
-        } 
+        }
         return state.datosMeses
     }, [state])
 
     const deudas = useMemo(function () {
         if (state.busqueda.length) {
             return state.deudas.filter(local => local.bank.includes(state.busqueda))
-        } 
+        }
         return state.deudas
     }, [state])
 
@@ -164,15 +166,19 @@ function PaymentsByMonth() {
     }
 
     const porDia = () => {
-        setState({ ...state, porDia: true, porMes:false, deudaPorMes:false })
+        setState({ ...state, porDia: true, porMes: false, deudaPorMes: false })
     }
 
     const porMes = () => {
-        setState({ ...state, porDia: false, porMes:true, deudaPorMes:false })
+        setState({ ...state, porDia: false, porMes: true, deudaPorMes: false })
     }
 
     const porDeuda = () => {
-        setState({ ...state, porDia: false, porMes:false, deudaPorMes:true })
+        setState({ ...state, porDia: false, porMes: false, deudaPorMes: true })
+    }
+
+    const onSubmitBank = (e) => {
+        e.preventDefault();
     }
 
     return (
@@ -187,7 +193,7 @@ function PaymentsByMonth() {
                 </ButtonGroup>
 
                 {state.porDia ?
-                    <Form>
+                    <Form onSubmit={onSubmitBank}>
                         <h2>Pagos por día</h2>
 
                         <Form.Label className="label-date">Ingresa la fecha</Form.Label>
@@ -251,14 +257,19 @@ function PaymentsByMonth() {
 
                 {state.porMes ?
                     <>
-                        <Form>
+                        <Form onSubmit={onSubmitBank}>
 
                             <h2>Pagos por mes</h2>
 
                             <Form.Label className="label-date">Ingresa la fecha</Form.Label>
 
                             <Form.Control type="month" className="getPayments" onChange={OnChangeMonth} />
-                            <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
+
+                            <br />
+
+                            <Form.Label className="label-date">Banco</Form.Label>
+
+                            <FormControl type="text" placeholder="Ingrese el banco" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
 
                         </Form>
 

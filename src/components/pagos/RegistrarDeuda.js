@@ -47,11 +47,11 @@ function RegistrarDeuda() {
 
     }, [])
 
-    const validaCampos = () => {
-        if (state.local === '' || state.referencia === '' || state.amount === '') {
+    const validaCamposDeuda = () => {
+        if (state.codeDeuda === '' || state.referenceDeuda === '' || state.amountDeuda === '' || parseInt(state.amountDeuda) < 1 || state.bankDeuda === '' || state.exchangeDeuda === '' || state.dateDeuda === '' || state.mesDeuda === '') {
             swal({
                 title: 'Error',
-                text: 'Error campos sin completar',
+                text: 'Error al ingresar los campos',
                 icon: 'error'
             });
 
@@ -95,6 +95,12 @@ function RegistrarDeuda() {
             setState({ ...state, [e.target.name]: e.target.value });
 
         }
+
+    }
+
+    const onBankChangeDeuda = e => {
+
+        setState({ ...state, bankDeuda: e.target.value.toUpperCase() });
 
     }
 
@@ -217,7 +223,7 @@ function RegistrarDeuda() {
 
                 <Form.Group className="formregistrar" controlId="formBasicEmail">
                     <Form.Label>Banco</Form.Label>
-                    <Form.Control type="text" placeholder="Ingresar banco" name="bankDeuda" onChange={onInputChangeDeuda} />
+                    <Form.Control type="text" placeholder="Ingresar banco" name="bankDeuda" onChange={onBankChangeDeuda} />
                 </Form.Group>
 
                 <Form.Group className="formregistrar" controlId="formBasicEmail">
@@ -225,14 +231,14 @@ function RegistrarDeuda() {
                     <Form.Control type="text" placeholder="Ingresar referencia" name="referenceDeuda" onChange={onInputChangeDeuda} />
                 </Form.Group>
 
-                <Form.Group className="checkboxes" controlId="formBasicCheckbox">
+                <Form.Group className="checkboxesDeudas" controlId="formBasicCheckboxDeudas">
                     <Form.Check type="checkbox" label="Pago en dolares" onChange={onCheckDeuda} />
 
                 </Form.Group>
 
 
-                <Form.Group className="checkboxes" controlId="formBasicCheckbox">
-                    <Button className="boton" variant="primary" onClick={validaCampos}>
+                <Form.Group className="checkboxes" controlId="formBasicCheckboxDeudas">
+                    <Button className="boton" variant="primary" onClick={validaCamposDeuda}>
                         Procesar pago
                     </Button>
 

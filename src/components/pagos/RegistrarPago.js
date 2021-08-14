@@ -250,7 +250,7 @@ function RegistrarPago() {
 
             <ButtonGroup className="grupoBtns" aria-label="Basic example">
                 <Button onClick={pagoNormal} className="btnPPP" variant="secondary">Registrar pago</Button>
-                <Button onClick={pagoDeuda} className="btnPPP" variant="secondary">Pago de deudas</Button>
+                <Button onClick={ pagoDeuda} className="btnPPP" variant="secondary">Pago de deudas</Button>
             </ButtonGroup>
 
             {state.pagoNormal ?
@@ -386,14 +386,13 @@ function RegistrarPago() {
 
 
             <hr />
-            {state.pagoDeuda ?
+            {state.pagoDeuda?
+            
+        
             <RegistrarDeuda />
             :
             <p></p>
-            
-        
         }
-
 
         </ div>
     )
