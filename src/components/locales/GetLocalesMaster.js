@@ -70,7 +70,7 @@ function GetLocalesMaster() {
             return state.locales.filter(local => local.balance > -1)
         } else if (state.deuda === false) {
             return state.locales.filter(local => local.balance < 0)
-        }else if (state.deuda === ''){
+        } else if (state.deuda === '') {
             return state.locales
         }
 
@@ -85,18 +85,30 @@ function GetLocalesMaster() {
         setState({ ...state, deuda: false });
 
     }
-    const restart = ()=>{
+    const restart = () => {
         setState({ ...state, deuda: '' });
     }
-    // const locales = useMemo(function () {
-    //     if (state.busqueda.length) {
-    //         return state.locales.filter(local => local.code.includes(state.busqueda))
-    //     } else {
-    //         return state.locales.filter(local => local.code.includes(state.busqueda))
-    //     }
 
-    //     return state.locales
-    // }, [state])
+    const auxMes = () => [
+
+
+
+
+        axios.get('/lagomalldata/last')
+            .then((respuesta) => {
+                let mes = respuesta.month
+                console.log('asi es, yo soy el mes: ' + mes);
+
+
+
+            })
+            .catch((error) => console.log(error))
+
+
+
+
+
+    ]
 
 
     useEffect(function () {
@@ -104,27 +116,49 @@ function GetLocalesMaster() {
         axios.get('/local/table')
             .then((res) => {
 
-                axios.get(`/payments/sum/usd?month=${(date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : `${date.getMonth() + 1}`}&year=${date.getFullYear()}`)
-                    .then((resp) => {
 
-                        setState({
-                            ...state,
-                            total: res.data.deudas[0].total,
-                            totalPronto: res.data.deudas[0].totalPronto,
-                            totalPagado: resp.data.total,
-                            porcentajePagado: ((parseFloat(resp.data.total) * 100) / res.data.deudas[0].total),
-                            locales: res.data.data.map(
-                                item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
-                            )
-                        })
+                axios.get('/lagomalldata/last')
+                    .then((respuesta) => {
+                        
+                        
+                        let auxYear = respuesta.data[0].month
+                        let mes = auxYear.slice(5,7)
+                        let year = auxYear.slice(0,4)
+                        console.log(mes + ' aja y yo soy el year ' + year);
+                        
+                        
+                        axios.get(`/payments/sum/usd?month=${mes}&year=${year}`)
+                        .then((resp) => {
+                            
+                            
+                            
+
+
+
+
+                                setState({
+                                    ...state,
+                                    total: res.data.deudas[0].total,
+                                    totalPronto: res.data.deudas[0].totalPronto,
+                                    totalPagado: resp.data.total,
+                                    porcentajePagado: ((parseFloat(resp.data.total) * 100) / res.data.deudas[0].total),
+                                    locales: res.data.data.map(
+                                        item => ({ ...item, code: item.code.toUpperCase() }) // Todos los code a uppercase una sola vez
+                                    )
+                                })
+
+                            })
+                            .catch((error) => console.log(error))
+
+
 
                     })
                     .catch((error) => console.log(error))
 
-
             }
             )
             .catch((error) => console.log(error))
+
 
 
 
@@ -209,9 +243,9 @@ function GetLocalesMaster() {
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
                     <Button className="sinDeuda" onClick={conDeuda}>Locales solventes</Button>
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
-                    <Button  className="conDeuda" onClick={sinDeuda}>Locales insolventes</Button>
+                    <Button className="conDeuda" onClick={sinDeuda}>Locales insolventes</Button>
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
-                    <Button  className="restart" onClick={restart}>Mostrar todos</Button>
+                    <Button className="restart" onClick={restart}>Mostrar todos</Button>
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
                     <>
                         <DatePicker
@@ -252,7 +286,7 @@ function GetLocalesMaster() {
                     <br />
 
                     <Form.Label column sm={5}>
-                    <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado.toFixed(3)}%</b></p>
+                        <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado.toFixed(3)}%</b></p>
                     </Form.Label>
 
                     <Form.Label column sm={4}>

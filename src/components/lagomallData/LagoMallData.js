@@ -18,7 +18,8 @@ const LagoMallData = () => {
         month: '',
         render: '',
         idLG: 0,
-        pronto: ''
+        pronto: '',
+        render: 0
     };
     const [state, setState] = useState(defaultState);
 
@@ -54,7 +55,7 @@ const LagoMallData = () => {
             })
             .catch((error) => console.log(error))
 
-    }, [])
+    }, [state.render])
 
 
     const onInputChange = e => {
@@ -159,6 +160,8 @@ const LagoMallData = () => {
         }
 
     }
+
+
 
 
     const onConfirmation = () => {

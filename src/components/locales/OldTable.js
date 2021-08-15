@@ -190,7 +190,7 @@ function Oldtable() {
                     <br />
 
                     <Form.Label column sm={5}>
-                        <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado.toFixed(3)}%</b></p>
+                        <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado.toFixed(0)}%</b></p>
                     </Form.Label>
 
                     <Form.Label column sm={4}>
@@ -220,7 +220,7 @@ function Oldtable() {
                                     <td>{data.percentageOfCC}</td>
                                     <td>{data.monthlyUSD}</td>
                                     <td>{data.prontoPago}</td>
-                                    <td>{data.prontoPago}</td>
+
 
                                     <td className="detalles">
                                         {

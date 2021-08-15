@@ -67,9 +67,13 @@ function GetLocales() {
         return state.locales
     }, [state])
 
+    const fixState = ()=>{
+        setState({ ...state, total: 0, totalPronto:0, totalPagado:0, porcentajePagado:0})
+    }
+
 
     useEffect(function () {
-
+        
 
         generateToken(user.token)  // for all requests
         axios.get('/local/table')
