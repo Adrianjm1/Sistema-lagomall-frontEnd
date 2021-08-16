@@ -20,9 +20,12 @@ const defaultState = {
     locales: [],
     busqueda: '',
     pagoBSdias: '',
-    pagoBDmeses: '',
+    pagoBSmeses: '',
     pagoUSDdias: '',
     pagoUSDmeses: '',
+    sumatoriaTotalDias: '',
+    sumatoriaTotalMeses: '',
+    sumatoriaDeudas: '',
     name: '',
     porDia: true,
     porMes: false,
@@ -117,7 +120,7 @@ function PaymentsByMonth() {
         axios.get(`/payments/get/dayly?day=${dia}&month=${mes}&year=${year}`)
             .then((res) => {
 
-                setState({ ...state, datosDias: res.data.pagos, pagoBSdias: res.data.totalBS, pagoUSDdias: res.data.totalUSD })
+                setState({ ...state, datosDias: res.data.pagos, pagoBSdias: res.data.totalBS, pagoUSDdias: res.data.totalUSD, sumatoriaTotalDias: res.data.sumaTotal })
 
 
             })
@@ -137,7 +140,7 @@ function PaymentsByMonth() {
         axios.get(`/payments/get/monthly?month=${mes}&year=${year}`)
             .then((res) => {
 
-                setState({ ...state, datosMeses: res.data.pagos, pagoBSmeses: res.data.totalBS, pagoUSDmeses: res.data.totalUSD })
+                setState({ ...state, datosMeses: res.data.pagos, pagoBSmeses: res.data.totalBS, pagoUSDmeses: res.data.totalUSD, sumatoriaTotalMeses: res.data.sumaTotal })
 
             })
             .catch((error) =>
@@ -156,7 +159,7 @@ function PaymentsByMonth() {
         axios.get(`/deudas/getDeudas?month=${mes}-${year}`)
             .then((res) => {
 
-                setState({ ...state, deudas: res.data })
+                setState({ ...state, deudas: res.data.data, sumatoriaDeudas: res.data.sumDeudas })
 
             })
             .catch((error) =>
@@ -192,25 +195,34 @@ function PaymentsByMonth() {
                     <Button onClick={porDeuda} className="btnPP" variant="secondary">Deudas de meses anteriores</Button>
                 </ButtonGroup>
 
+                <p></p>
                 {state.porDia ?
                     <Form onSubmit={onSubmitBank}>
                         <h2>Pagos por día</h2>
 
                         <Form.Label className="label-date">Ingresa la fecha</Form.Label>
+
                         <Form.Control type="date" className="getPayments" onChange={OnChangeDate} />
+
+                        <br />
+
+                        <Form.Label className="label-date">Banco</Form.Label>
+
                         <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
 
                         <Table className="margintable" striped bordered hover size="sm" >
                             <thead>
                                 <tr className='first'>
-                                    <th>Total facturado en dolares ($)</th>
-                                    <th>Total factutado en bolívares (Bs.S)</th>
+                                    <th>Facturado en dolares ($)</th>
+                                    <th>Factutado en bolívares (Bs.S)</th>
+                                    <th>Total ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>{state.pagoUSDdias}</td>
                                     <td>{parseFloat(state.pagoBSdias).toFixed(2)}</td>
+                                    <td>{state.sumatoriaTotalDias}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -269,21 +281,23 @@ function PaymentsByMonth() {
 
                             <Form.Label className="label-date">Banco</Form.Label>
 
-                            <FormControl type="text" placeholder="Ingrese el banco" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
+                            <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
 
                         </Form>
 
                         <Table className="margintable" striped bordered hover size="sm" >
                             <thead>
                                 <tr className='first'>
-                                    <th>Total facturado en dolares ($)</th>
-                                    <th>Total factutado en bolívares (Bs.S)</th>
+                                    <th>Facturado en dolares ($)</th>
+                                    <th>Factutado en bolívares (Bs.S)</th>
+                                    <th>Total ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>{state.pagoUSDmeses}</td>
                                     <td>{parseFloat(state.pagoBSmeses).toFixed(2)}</td>
+                                    <td>{state.sumatoriaTotalMeses}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -340,6 +354,9 @@ function PaymentsByMonth() {
                             <Form.Control type="month" className="getPayments" onChange={onChangeDeuda} />
 
                         </Form>
+
+                        <p></p>
+                        <p>Total en deudas del mes: <b>{state.sumatoriaDeudas}</b></p>
 
                         <Table className="margintable" striped bordered hover size="sm" >
                             <thead>
