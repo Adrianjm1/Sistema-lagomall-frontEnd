@@ -38,6 +38,7 @@ const defaultState = {
 const rangeStatee = {
     rango1: '',
     rango2: '',
+    sumDeudasRango: '',
     deudasRango: [],
 }
 
@@ -185,7 +186,6 @@ function PaymentsByMonth() {
         const rango1 = rangeState.rango1;
         const rango2 = rangeState.rango2;
 
-
         const mes1 = rango1.slice(5, 7);
         const year1 = rango1.slice(0, 4);
 
@@ -194,18 +194,23 @@ function PaymentsByMonth() {
 
         // console.log(`Se va  ahacer la consulta de ${mes1}-${year1} - hasta ${mes2}-${year2}`);
 
-        const dataRango = axios.get(`/deudas/getDeudasRango?month1=${mes1}-${year1}&month2=${mes2}-${year2}`)
+        axios.get(`/deudas/getDeudasRango?month1=${mes1}-${year1}&month2=${mes2}-${year2}`)
             .then((res) => {
 
-                setRangeState({ ...rangeState, deudasRango: res.data })
+                let sum = 0;
+
+                for (let i = 0; i < res.data.length; i++) {
+
+                    sum = sum + parseFloat(res.data[i].deudaTotal);
+
+                }
+
+                setRangeState({ ...rangeState, deudasRango: res.data, sumDeudasRango: `${sum}` })
 
             })
             .catch((error) =>
                 console.log(error)
             )
-
-
-        console.log(rangeState.deudasRango);
     }
 
     const rango1 = (e) => {
@@ -225,9 +230,6 @@ function PaymentsByMonth() {
         }
 
     }
-
-
-
 
 
     const porDia = () => {
@@ -423,8 +425,8 @@ function PaymentsByMonth() {
                         </Form>
 
                         <hr />
- 
-          
+
+
 
                         <p></p>
                         <p>Total en deudas del mes: <b>{state.sumatoriaDeudas}</b></p>
@@ -468,7 +470,6 @@ function PaymentsByMonth() {
 
                         </Form>
 
-                        <hr />
                         <Form inline>
 
                             <Form.Label className="label-date">Establecer rango desde</Form.Label>
@@ -482,12 +483,14 @@ function PaymentsByMonth() {
                         </Form>
                         <hr />
 
+                        <p></p>
+                        <p>Total en deudas en el rango establecido: <b>{rangeState.sumDeudasRango}</b></p>
+
                         <Table className="margintable" striped bordered hover size="sm" >
                             <thead>
                                 <tr className='first'>
                                     <th>Código</th>
                                     <th>Nombre</th>
-                                    {/* <th>Meses</th> */}
                                     <th>Deuda ($)</th>
                                 </tr>
                             </thead>
@@ -497,7 +500,6 @@ function PaymentsByMonth() {
                                         <tr key={data.id}>
                                             <td>{data.locale.code}</td>
                                             <td>{data.locale.name}</td>
-                                            {/* <td>{`${meses[parseInt(data.month.slice(0, 2)) - 1]} ${data.month.slice(3, 7)}`}</td> */}
                                             <td>{data.deudaTotal}</td>
                                         </tr>
                                     ))
