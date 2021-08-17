@@ -29,7 +29,16 @@ const defaultState = {
     name: '',
     porDia: true,
     porMes: false,
-    deudaPorMes: false
+    deudaPorMes: false,
+    porRango: true
+
+
+}
+
+const rangeStatee = {
+    rango1: '',
+    rango2: '',
+    deudasRango: [],
 }
 
 const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -38,6 +47,8 @@ const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', '
 function PaymentsByMonth() {
 
     const [state, setState] = useState(defaultState);
+
+    const [rangeState, setRangeState] = useState(rangeStatee);
 
     // const [startDate, setStartDate] = useState(new Date());
 
@@ -168,16 +179,71 @@ function PaymentsByMonth() {
 
     }
 
+
+    const onChangeDeudaRango = () => {
+
+        const rango1 = rangeState.rango1;
+        const rango2 = rangeState.rango2;
+
+
+        const mes1 = rango1.slice(5, 7);
+        const year1 = rango1.slice(0, 4);
+
+        const mes2 = rango2.slice(5, 7);
+        const year2 = rango2.slice(0, 4);
+
+        // console.log(`Se va  ahacer la consulta de ${mes1}-${year1} - hasta ${mes2}-${year2}`);
+
+        const dataRango = axios.get(`/deudas/getDeudasRango?month1=${mes1}-${year1}&month2=${mes2}-${year2}`)
+            .then((res) => {
+
+                setRangeState({ ...rangeState, deudasRango: res.data })
+
+            })
+            .catch((error) =>
+                console.log(error)
+            )
+
+
+        console.log(rangeState.deudasRango);
+    }
+
+    const rango1 = (e) => {
+        setRangeState({ ...rangeState, [e.target.name]: e.target.value });
+        console.log(e.target.value);
+    }
+
+
+    const establecer = () => {
+        if (rangeState.rango1 === '' || rangeState.rango2 === '') {
+            console.log('TROLEANDO a mi pana');
+        } else {
+            console.log('Desde ' + meses[parseInt(rangeState.rango1.slice(5, 7) - 1)] + ' ' + rangeState.rango1.slice(0, 4) + '  Hasta ' + meses[parseInt(rangeState.rango2.slice(5, 7) - 1)] + ' ' + rangeState.rango2.slice(0, 4));
+            onChangeDeudaRango();
+
+
+        }
+
+    }
+
+
+
+
+
     const porDia = () => {
-        setState({ ...state, porDia: true, porMes: false, deudaPorMes: false })
+        setState({ ...state, porDia: true, porMes: false, deudaPorMes: false, porRango: false })
     }
 
     const porMes = () => {
-        setState({ ...state, porDia: false, porMes: true, deudaPorMes: false })
+        setState({ ...state, porDia: false, porMes: true, deudaPorMes: false, porRango: false })
     }
 
     const porDeuda = () => {
-        setState({ ...state, porDia: false, porMes: false, deudaPorMes: true })
+        setState({ ...state, porDia: false, porMes: false, deudaPorMes: true, porRango: false })
+    }
+
+    const porDeudaRango = () => {
+        setState({ ...state, porDia: false, porMes: false, deudaPorMes: false, porRango: true })
     }
 
     const onSubmitBank = (e) => {
@@ -193,6 +259,7 @@ function PaymentsByMonth() {
                     <Button onClick={porDia} className="btnPP" variant="secondary">Pagos por dia</Button>
                     <Button onClick={porMes} className="btnPP" variant="secondary">Pagos por mes</Button>
                     <Button onClick={porDeuda} className="btnPP" variant="secondary">Deudas de meses anteriores</Button>
+                    <Button onClick={porDeudaRango} className="btnPP" variant="secondary">Deudas por rango</Button>
                 </ButtonGroup>
 
                 <p></p>
@@ -355,6 +422,10 @@ function PaymentsByMonth() {
 
                         </Form>
 
+                        <hr />
+ 
+          
+
                         <p></p>
                         <p>Total en deudas del mes: <b>{state.sumatoriaDeudas}</b></p>
 
@@ -382,7 +453,71 @@ function PaymentsByMonth() {
                         </Table>
                     </>
                     :
-                    <p></p>}
+                    <p></p>
+
+                }
+
+
+
+                {state.porRango ?
+                    <>
+
+                        <Form>
+
+                            <h2>Deudas por rango</h2>
+
+                        </Form>
+
+                        <hr />
+                        <Form inline>
+
+                            <Form.Label className="label-date">Establecer rango desde</Form.Label>
+
+                            <Form.Control type="month" name="rango1" className="getPayments" onChange={rango1} />                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+                            <Form.Label className="label-date">Hasta </Form.Label>                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                            <Form.Control type="month" name="rango2" className="getPayments" onChange={rango1} />                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                            <Button onClick={establecer}>Establecer</Button>
+
+                        </Form>
+                        <hr />
+
+                        <Table className="margintable" striped bordered hover size="sm" >
+                            <thead>
+                                <tr className='first'>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    {/* <th>Meses</th> */}
+                                    <th>Deuda ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    rangeState.deudasRango.map(data => (
+                                        <tr key={data.id}>
+                                            <td>{data.locale.code}</td>
+                                            <td>{data.locale.name}</td>
+                                            {/* <td>{`${meses[parseInt(data.month.slice(0, 2)) - 1]} ${data.month.slice(3, 7)}`}</td> */}
+                                            <td>{data.deudaTotal}</td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </Table> </> :
+                    <p></p>
+
+
+                }
+
+
+
+
+
+
+
+
+
+
 
 
 
