@@ -11,6 +11,7 @@ import { AuthContext } from '../auth/AuthContext';
 import '../../assets/css/registrar.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
+import formatNumber from '../../helpers/helpers';
 import RegistrarDeuda from './RegistrarDeuda';
 
 
@@ -329,7 +330,7 @@ function RegistrarPago() {
                                         <Modal.Title>Confirmacion</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>Esta seguro/a que quiere procesar el pago al local <b> {state.code} </b> por <br />
-                                        <b>{state.amount}$</b>  <br /> {state.pay === true ? 'Pagado en dolares' : 'Pagado en bolivares'}  </Modal.Body>
+                                        <b>{formatNumber(parseFloat(state.amount))}$</b>  <br /> {state.pay === true ? 'Pagado en dolares' : 'Pagado en bolivares'}  </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={handleClose}>
                                             Cerrar

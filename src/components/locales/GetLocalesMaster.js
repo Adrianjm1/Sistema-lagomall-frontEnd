@@ -6,6 +6,7 @@ import LagoMallData from '../lagomallData/LagoMallData';
 import DatePicker from 'react-datepicker';
 import { AuthContext } from '../auth/AuthContext';
 import { useReactToPrint } from 'react-to-print';
+import formatNumber from '../../helpers/helpers';
 import swal from 'sweetalert';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -129,12 +130,6 @@ function GetLocalesMaster() {
                         
                         axios.get(`/payments/sum/usd?month=${mes}&year=${year}`)
                         .then((resp) => {
-                            
-                            
-                            
-
-
-
 
                                 setState({
                                     ...state,
@@ -272,25 +267,25 @@ function GetLocalesMaster() {
                 <div ref={componentRef}>
 
                     <Form.Label column sm={3}>
-                        <p> Monto total:   <b> {state.total}</b></p>
+                        <p> Monto total:   <b> {formatNumber(parseFloat(state.total))}</b></p>
                     </Form.Label>
 
                     <Form.Label column sm={3}>
-                        <p> Monto total pagado:   <b> {state.totalPagado}</b></p>
+                        <p> Monto total pagado:   <b> {formatNumber(parseFloat(state.totalPagado))}</b></p>
                     </Form.Label>
 
                     <Form.Label column sm={3}>
-                        <p> Monto restante por pagar:   <b> {state.total - state.totalPagado}</b></p>
+                        <p> Monto restante por pagar:   <b> {formatNumber(parseFloat(state.total) - parseFloat(state.totalPagado))}</b></p>
                     </Form.Label>
 
                     <br />
 
                     <Form.Label column sm={5}>
-                        <p> Porcentaje del monto total pagado:   <b> {state.porcentajePagado.toFixed(3)}%</b></p>
+                        <p> Porcentaje del monto total pagado:   <b> {formatNumber(parseFloat(state.porcentajePagado.toFixed(3)))}%</b></p>
                     </Form.Label>
 
                     <Form.Label column sm={4}>
-                        <p>  Monto total pronto pago: <b>{state.totalPronto}</b></p>
+                        <p>  Monto total pronto pago: <b>{formatNumber(parseFloat(state.totalPronto))}</b></p>
                     </Form.Label>
 
 
@@ -321,9 +316,9 @@ function GetLocalesMaster() {
                                         <td>{data.code}</td>
                                         <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
                                         <td>{data.percentageOfCC}</td>
-                                        <td >{data.monthlyUSD}</td>
-                                        <td>{data.prontoPago}</td>
-                                        <td>{data.balance}</td>
+                                        <td>{formatNumber(parseFloat(data.monthlyUSD))}</td>
+                                        <td>{formatNumber(parseFloat(data.prontoPago))}</td>
+                                        <td>{formatNumber(parseFloat(-data.balance))}</td>
                                         <td className="detalles">
                                             <Link className="btn" to={`/master/payments/${data.code}`}>
                                                 <Button className="see">Ver detalles</Button>

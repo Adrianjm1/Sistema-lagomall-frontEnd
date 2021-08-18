@@ -6,6 +6,7 @@ import { Table, Container, Card, Button, Modal, Form } from "react-bootstrap";
 import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
+import formatNumber from '../../helpers/helpers';
 import swal from 'sweetalert';
 
 
@@ -19,17 +20,6 @@ const defaultState = {
     saldoEdit: 0,
     idEdit: 0,
     upCode: '',
-
-}
-
-
-function getDecimal(data) {
-
-    let dato = data.split('.');
-
-    let datos = dato[1].slice(0, 2);
-
-    return (`${dato[0]}.${datos}`);
 
 }
 
@@ -75,6 +65,8 @@ function PaymentsDetails() {
 
         //eslint-disable-next-line
     }, [])
+
+
 
 
     const onInputChange = e => {
@@ -152,16 +144,16 @@ function PaymentsDetails() {
 
                                 <tr key={data.id}>
                                     <td>{data.date}</td>
-                                    <td>{data.amountUSD}</td>
-                                    <td>{data.referenceNumber == null ? "   -  " : getDecimal(data.amountBS)}</td>
+                                    <td>{formatNumber(parseFloat(-data.amountUSD))}</td>
+                                    <td>{data.referenceNumber == null ? "   -  " : formatNumber(parseFloat(data.amountBS))}</td>
                                     <td>{data.referenceNumber == null ? "   -   " : data.referenceNumber}</td>
                                     <td>{data.referenceNumber == null ? "   -   " : data.bank}</td>
-                                    <td>{data.referenceNumber == null ? "   -   " : getDecimal(data.exchangeRate)}</td>
+                                    <td>{data.referenceNumber == null ? "   -   " : formatNumber(parseFloat(data.exchangeRate))}</td>
                                     <td>{data.referenceNumber == null ? "   -   " : (data.paymentUSD === false ? 'No' : 'Si')}</td>
                                     <td>{data.description}</td>
-                                    <td>{data.restanteUSD}</td>
+                                    <td>{formatNumber(parseFloat(data.restanteUSD))}</td>
                                     <td>{data.admin.username}</td>
-                                    {code == '0000' ? <td><Button onClick={() => { handleShow(); editarSaldo(code, data.amountUSD, data.id) }} className="btn">Asignar</Button></td> : ''}
+                                    {code == '0000' && data.referenceNumber != null ? <td><Button onClick={() => { handleShow(); editarSaldo(code, data.amountUSD, data.id) }} className="btn">Asignar</Button></td> : ''}
 
                                 </tr>
                             ))
