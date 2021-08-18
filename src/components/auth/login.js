@@ -100,11 +100,11 @@ export const Login = ({history}) => {
                         
                         <Form onSubmit={onSubmitForm}>
                             <Form.Group controlId="formBasicUsername">
-                                <Form.Control type="text" placeholder="Enter username" name="username" onChange={onInputChange} />
+                                <Form.Control className="inputt" type="text" placeholder="Enter username" name="username" onChange={onInputChange} />
                             </Form.Group>
 
                             <Form.Group controlId="formBasicPassword">
-                                <Form.Control type="password" placeholder="Password" name="password" onChange={onInputChange} />
+                                <Form.Control  type="password" placeholder="Password" name="password" onChange={onInputChange} />
                             </Form.Group>
 
                             <Button variant="primary btn-block" type="submit">Login</Button>
