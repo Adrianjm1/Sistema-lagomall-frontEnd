@@ -151,7 +151,7 @@ function PaymentsDetails() {
                                     <td>{data.referenceNumber == null ? "   -   " : formatNumber(parseFloat(data.exchangeRate))}</td>
                                     <td>{data.referenceNumber == null ? "   -   " : (data.paymentUSD === false ? 'No' : 'Si')}</td>
                                     <td>{data.description}</td>
-                                    <td>{formatNumber(parseFloat(data.restanteUSD))}</td>
+                                    <td>{formatNumber(parseFloat(data.restanteUSD * -1))}</td>
                                     <td>{data.admin.username}</td>
                                     {code == '0000' && data.referenceNumber != null ? <td><Button onClick={() => { handleShow(); editarSaldo(code, data.amountUSD, data.id) }} className="btn">Asignar</Button></td> : ''}
 

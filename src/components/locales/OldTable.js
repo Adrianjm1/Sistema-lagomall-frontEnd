@@ -222,7 +222,7 @@ function Oldtable() {
                                     <td>{data.prontoPago}</td>
 
 
-                                    <td className="detalles">
+                                    {/* <td className="detalles">
                                         {
                                             (user.master === true) ?
                                                 <Link className="btn" to={`/master/table/${queryDate}`}>
@@ -233,7 +233,7 @@ function Oldtable() {
                                                     <Button onClick={click} className="see">Buscar</Button>
                                                 </Link>
                                         }
-                                    </td>
+                                    </td> */}
                                 </tr>
                             ))
                         }

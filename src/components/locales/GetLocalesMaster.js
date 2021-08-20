@@ -7,6 +7,7 @@ import DatePicker from 'react-datepicker';
 import { AuthContext } from '../auth/AuthContext';
 import { useReactToPrint } from 'react-to-print';
 import formatNumber from '../../helpers/helpers';
+import ReactToPrint from 'react-to-print';
 import swal from 'sweetalert';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -41,15 +42,24 @@ function getDecimal(data) {
 }
 
 
-const date = new Date();
+const datex = new Date();
 
 function GetLocalesMaster() {
 
     let codeToEdit = '';
+    // const C1 = useRef();
+    // const C2 = useRef();
+    // const C3 = useRef();
+
+    // const probando = () => {
+    //     C3.current = C1.current
+    // }
+
+
 
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
+        content: () => (componentRef.current)
     });
 
     const [show, setShow] = useState(false);
@@ -120,16 +130,16 @@ function GetLocalesMaster() {
 
                 axios.get('/lagomalldata/last')
                     .then((respuesta) => {
-                        
-                        
+
+
                         let auxYear = respuesta.data[0].month
-                        let mes = auxYear.slice(5,7)
-                        let year = auxYear.slice(0,4)
-                        console.log(mes + ' aja y yo soy el year ' + year);
-                        
-                        
+                        let mes = auxYear.slice(5, 7)
+                        let year = auxYear.slice(0, 4)
+
+
+
                         axios.get(`/payments/sum/usd?month=${mes}&year=${year}`)
-                        .then((resp) => {
+                            .then((resp) => {
 
                                 setState({
                                     ...state,
@@ -223,7 +233,7 @@ function GetLocalesMaster() {
 
 
     const [startDate, setStartDate] = useState(new Date());
-    const [queryDate, setQueryDate] = useState();
+    const [queryDate, setQueryDate] = useState( (datex.getFullYear() + '-' + (1 + datex.getMonth()))  );
 
 
 
@@ -233,7 +243,17 @@ function GetLocalesMaster() {
 
             <Container >
                 <LagoMallData />
+{/* 
+                <div>
+                    <ReactToPrint
+                        trigger={() => <button>Print this out!</button>}
+                        content={() => componentRef.current}
+                    />
+
+                </div> */}
+
                 <Form inline >
+
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
                     <Button className="sinDeuda" onClick={conDeuda}>Locales solventes</Button>
@@ -292,10 +312,13 @@ function GetLocalesMaster() {
 
                     <br></br>
                     <br />
-                    <Button onClick={handlePrint} className="see">Generar PDF</Button>
+                    <Button onClick={() => {
+                        handlePrint();
+
+                    }} className="see">Generar PDF</Button>
 
                     <br />                    <br />
-                    <Table striped bordered hover size="sm">
+                    <Table className="tablaMaster" striped bordered hover size="sm">
                         <thead>
 
                             <tr className='first'>

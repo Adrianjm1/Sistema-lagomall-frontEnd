@@ -7,12 +7,21 @@
     color: white;
 }
 
+.tablaMaster {
+    justify-content: center;
+}
 
 .table th, .table td {
-   
+
      vertical-align: middle; 
 
 }
+
+
+.table td {
+    text-align: right; 
+}
+
 
 .conDeuda {
     background: red;

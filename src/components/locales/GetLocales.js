@@ -129,7 +129,7 @@ function GetLocales() {
 
 
     const [startDate, setStartDate] = useState(new Date());
-    const [queryDate, setQueryDate] = useState();
+    const [queryDate, setQueryDate] = useState( (date.getFullYear() + '-' + (1 + date.getMonth()))  );
 
     return (
         <>
