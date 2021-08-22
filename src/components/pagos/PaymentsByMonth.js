@@ -483,7 +483,7 @@ function PaymentsByMonth() {
                         <hr />
 
                         <p></p>
-                        <p>Total en deudas en el rango establecido: <b>{formatNumber(parseFloat(rangeState.sumDeudasRango))}</b></p>
+                        <p>Total en deudas en el rango establecido: <b>{formatNumber((parseFloat(rangeState.sumDeudasRango)*-1))}</b></p>
 
                         <Table className="margintable" striped bordered hover size="sm" >
                             <thead>

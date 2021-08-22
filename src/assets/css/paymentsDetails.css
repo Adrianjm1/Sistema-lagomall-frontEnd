@@ -13,6 +13,10 @@
     margin-bottom: 100px;
 }
 
+.margintable td {
+width: 80px;
+}
+
 .titlePayments {
     text-align: center;
     color: black;
@@ -59,4 +63,15 @@
 
 #busqueda {
     width: 25%;
+}
+
+
+.anular {
+    background: red;
+    border: 1px solid black;
+}
+
+.anular:hover {
+    background: red;
+    border: 1px solid black;
 }

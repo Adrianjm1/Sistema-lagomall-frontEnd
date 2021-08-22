@@ -78,9 +78,9 @@ function GetLocalesMaster() {
         if (state.busqueda.length) {
             return state.locales.filter(local => local.code.includes(state.busqueda))
         } else if (state.deuda === true) {
-            return state.locales.filter(local => local.balance > -1)
+            return state.locales.filter(local => local.balance < 1)
         } else if (state.deuda === false) {
-            return state.locales.filter(local => local.balance < 0)
+            return state.locales.filter(local => local.balance > 0)
         } else if (state.deuda === '') {
             return state.locales
         }
@@ -233,7 +233,7 @@ function GetLocalesMaster() {
 
 
     const [startDate, setStartDate] = useState(new Date());
-    const [queryDate, setQueryDate] = useState( (datex.getFullYear() + '-' + (1 + datex.getMonth()))  );
+    const [queryDate, setQueryDate] = useState((datex.getFullYear() + '-' + (1 + datex.getMonth())));
 
 
 
@@ -243,7 +243,7 @@ function GetLocalesMaster() {
 
             <Container >
                 <LagoMallData />
-{/* 
+                {/* 
                 <div>
                     <ReactToPrint
                         trigger={() => <button>Print this out!</button>}
@@ -256,9 +256,9 @@ function GetLocalesMaster() {
 
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
-                    <Button className="sinDeuda" onClick={conDeuda}>Locales solventes</Button>
+                    <Button className="sinDeuda" onClick={sinDeuda}>Locales solventes</Button>
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
-                    <Button className="conDeuda" onClick={sinDeuda}>Locales insolventes</Button>
+                    <Button className="conDeuda" onClick={conDeuda}>Locales insolventes</Button>
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
                     <Button className="restart" onClick={restart}>Mostrar todos</Button>
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>

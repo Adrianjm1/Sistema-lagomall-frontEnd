@@ -11,6 +11,9 @@ import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
 import '../../assets/css/locales.css';
 import { useReactToPrint } from 'react-to-print';
 
+
+import { saveAs } from 'file-saver';
+
 const date = new Date();
 
 const defaultState = {
@@ -23,7 +26,8 @@ const defaultState = {
     totalPagado: 0,
     totalPronto: 0,
     porcentajePagado: 0,
-    deuda: ''
+    deuda: '',
+    pdff: ''
 };
 
 function getDecimal(data) {
@@ -58,23 +62,23 @@ function GetLocales() {
         if (state.busqueda.length) {
             return state.locales.filter(local => local.code.includes(state.busqueda))
         } else if (state.deuda === true) {
-            return state.locales.filter(local => local.balance > -1)
+            return state.locales.filter(local => local.balance < 1)
         } else if (state.deuda === false) {
-            return state.locales.filter(local => local.balance < 0)
-        }else if (state.deuda === ''){
+            return state.locales.filter(local => local.balance > 0)
+        } else if (state.deuda === '') {
             return state.locales
         }
 
         return state.locales
     }, [state])
 
-    const fixState = ()=>{
-        setState({ ...state, total: 0, totalPronto:0, totalPagado:0, porcentajePagado:0})
+    const fixState = () => {
+        setState({ ...state, total: 0, totalPronto: 0, totalPagado: 0, porcentajePagado: 0 })
     }
 
 
     useEffect(function () {
-        
+
 
         generateToken(user.token)  // for all requests
         axios.get('/local/table')
@@ -106,6 +110,13 @@ function GetLocales() {
     }, [])
 
 
+    const pdfff = () => {
+        axios.get('/local/table/pdf', {responseType:'blob'})
+            .then((res) =>{
+                saveAs(res.data, 'Prueba.pdf');
+            })       
+            .catch((error) => console.log(error))      
+    }
 
 
     const handleChange = e => {
@@ -121,15 +132,15 @@ function GetLocales() {
         setState({ ...state, deuda: false });
 
     }
-    const restart = ()=>{
+    const restart = () => {
         setState({ ...state, deuda: '' });
     }
-    
+
 
 
 
     const [startDate, setStartDate] = useState(new Date());
-    const [queryDate, setQueryDate] = useState( (date.getFullYear() + '-' + (1 + date.getMonth()))  );
+    const [queryDate, setQueryDate] = useState((date.getFullYear() + '-' + (1 + date.getMonth())));
 
     return (
         <>
@@ -137,14 +148,14 @@ function GetLocales() {
 
             <Container>
 
-            <Form inline >
+                <Form inline >
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
-                    <Button className="sinDeuda" onClick={conDeuda}>Locales solventes</Button>
+                    <Button className="sinDeuda" onClick={ sinDeuda}>Locales solventes</Button>
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
-                    <Button  className="conDeuda" onClick={sinDeuda}>Locales insolventes</Button>
+                    <Button className="conDeuda" onClick={ conDeuda}>Locales insolventes</Button>
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
-                    <Button  className="restart" onClick={restart}>Mostrar todos</Button>
+                    <Button className="restart" onClick={restart}>Mostrar todos</Button>
                     <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
                     <>
                         <DatePicker
@@ -167,74 +178,76 @@ function GetLocales() {
 
 
                 </Form>
-                <div ref={componentRef}>
-
-                <Form.Label column sm={3}>
-                        <p> Monto total:   <b> {formatNumber(parseFloat(state.total))}</b></p>
-                    </Form.Label>
-
-                    <Form.Label column sm={3}>
-                        <p> Monto total pagado:   <b> {formatNumber(parseFloat(state.totalPagado))}</b></p>
-                    </Form.Label>
-
-                    <Form.Label column sm={3}>
-                        <p> Monto restante por pagar:   <b> {formatNumber(parseFloat(state.total) - parseFloat(state.totalPagado))}</b></p>
-                    </Form.Label>
-
-                    <br />
-
-                    <Form.Label column sm={5}>
-                        <p> Porcentaje del monto total pagado:   <b> {formatNumber(parseFloat(state.porcentajePagado.toFixed(3)))}%</b></p>
-                    </Form.Label>
-
-                    <Form.Label column sm={4}>
-                        <p>  Monto total pronto pago: <b>{formatNumber(parseFloat(state.totalPronto))}</b></p>
-                    </Form.Label>
 
 
-                    <br></br>
-                    <br />
-                    <Button onClick={handlePrint} className="see">Generar PDF</Button>
+                    <div ref={componentRef}>
+                    <a href={state.pdff} download={state.pdff}> Click on me!</a>
+                        <Form.Label column sm={3}>
+                            <p> Monto total:   <b> {formatNumber(parseFloat(state.total))}</b></p>
+                        </Form.Label>
 
-                    <br />                    <br />
-                    <Table striped bordered hover size="sm">
-                        <thead>
+                        <Form.Label column sm={3}>
+                            <p> Monto total pagado:   <b> {formatNumber(parseFloat(state.totalPagado))}</b></p>
+                        </Form.Label>
 
-                            <tr className='first'>
-                                <th>Locales</th>
-                                <th>Propietarios</th>
-                                <th>% Según documento de condominio</th>
-                                <th>Cuota total en $</th>
-                                <th>Pronto Pago</th>
-                                <th>Saldo</th>
-                            </tr>
-                        </thead>
+                        <Form.Label column sm={3}>
+                            <p> Monto restante por pagar:   <b> {formatNumber(parseFloat(state.total) - parseFloat(state.totalPagado))}</b></p>
+                        </Form.Label>
 
+                        <br />
 
-                        <tbody>
-                            {
-                                locales.map(data => (
-                                    <tr key={data.code}>
-                                        <td>{data.code}</td>
-                                        <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
-                                        <td>{data.percentageOfCC}</td>
-                                        <td>{formatNumber(parseFloat(data.monthlyUSD))}</td>
-                                        <td>{formatNumber(parseFloat(data.prontoPago))}</td>
-                                        <td>{formatNumber(parseFloat(-data.balance))}</td>
-                                        <td className="detalles">
-                                            <Link className="btn" to={`/admin/payments/${data.code}`}>
-                                                <Button className="see">Ver detalles</Button>
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
+                        <Form.Label column sm={5}>
+                            <p> Porcentaje del monto total pagado:   <b> {formatNumber(parseFloat(state.porcentajePagado.toFixed(3)))}%</b></p>
+                        </Form.Label>
 
-                    </Table>
+                        <Form.Label column sm={4}>
+                            <p>  Monto total pronto pago: <b>{formatNumber(parseFloat(state.totalPronto))}</b></p>
+                        </Form.Label>
 
 
-                </div>
+                        <br></br>
+                        <br />
+                        <Button onClick={pdfff} className="see">Generar PDF</Button>
+
+                        <br />                    <br />
+                        <Table striped bordered hover size="sm">
+                            <thead>
+
+                                <tr className='first'>
+                                    <th>Locales</th>
+                                    <th>Propietarios</th>
+                                    <th>% Según documento de condominio</th>
+                                    <th>Cuota total en $</th>
+                                    <th>Pronto Pago</th>
+                                    <th>Saldo</th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                {
+                                    locales.map(data => (
+                                        <tr key={data.code}>
+                                            <td>{data.code}</td>
+                                            <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
+                                            <td>{data.percentageOfCC}</td>
+                                            <td>{formatNumber(parseFloat(data.monthlyUSD))}</td>
+                                            <td>{formatNumber(parseFloat(data.prontoPago))}</td>
+                                            <td>{formatNumber(parseFloat(-data.balance))}</td>
+                                            <td className="detalles">
+                                                <Link className="btn" to={`/admin/payments/${data.code}`}>
+                                                    <Button className="see">Ver detalles</Button>
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+
+                        </Table>
+
+
+                    </div>
 
 
 
@@ -242,7 +255,7 @@ function GetLocales() {
             </Container>
 
         </>
-    )
+            )
 }
 
-export default GetLocales;
+            export default GetLocales;

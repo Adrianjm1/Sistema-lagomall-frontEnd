@@ -20,6 +20,7 @@ const defaultState = {
     saldoEdit: 0,
     idEdit: 0,
     upCode: '',
+    toDelete: ''
 
 }
 
@@ -66,7 +67,47 @@ function PaymentsDetails() {
         //eslint-disable-next-line
     }, [])
 
+    const setDelete = (datos) => {
 
+
+
+    }
+
+    const deleteP = (datos) => {
+
+        swal({
+            text: "Esta accion no se puede revertir, esta seguro que quiere continuar?",
+            buttons: ["No", "Si"]
+        }).then(res => {
+            if (res) {
+               
+                
+                        setState({ ...state, toDelete: datos })
+                        console.log(state.toDelete);
+                        axios.delete(`/payments/delete/${state.toDelete}`)
+                            .then((res) => {
+                
+                                setState({ ...state, toDelete: '' })
+
+
+                                swal({
+                                    text: "Pago anulado con exito!, tiene bugs xd",
+                                })
+                
+                
+                            })
+                            .catch((error) =>
+                                console.log(error)
+                            )
+
+            } else {
+
+            }
+        })
+
+
+
+    }
 
 
     const onInputChange = e => {
@@ -153,7 +194,8 @@ function PaymentsDetails() {
                                     <td>{data.description}</td>
                                     <td>{formatNumber(parseFloat(data.restanteUSD * -1))}</td>
                                     <td>{data.admin.username}</td>
-                                    {code == '0000' && data.referenceNumber != null ? <td><Button onClick={() => { handleShow(); editarSaldo(code, data.amountUSD, data.id) }} className="btn">Asignar</Button></td> : ''}
+                                    {code === '0000' && data.referenceNumber != null ? <td><Button onClick={() => { handleShow(); editarSaldo(code, data.amountUSD, data.id) }} className="btn">Asignar</Button></td> : null}
+                                    <td> <Button className="anular" onClick={() => deleteP(data.id)}>Anular</Button></td>
 
                                 </tr>
                             ))
