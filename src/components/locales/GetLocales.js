@@ -30,22 +30,6 @@ const defaultState = {
     pdff: ''
 };
 
-function getDecimal(data) {
-
-    // let strDato = data.toString();
-    // let dato = strDato.split('.');
-
-    // let datos = dato[1].slice(0,4);
-
-    // return (`${dato[0]}.${datos}`);
-
-    let dato = data.toFixed(2)
-
-
-    return dato;
-
-}
-
 
 function GetLocales() {
 
