@@ -7,11 +7,16 @@ import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
 import formatNumber from '../../helpers/helpers';
+
+
+import { saveAs } from 'file-saver';
+
 /* import { useHistory, useParams, Link } from 'react-router-dom';
  */
 
 
 const date = new Date()
+const today = `${date.getDate()}-${date.getMonth()}`
 
 
 const defaultState = {
@@ -31,7 +36,10 @@ const defaultState = {
     porDia: true,
     porMes: false,
     deudaPorMes: false,
-    porRango: true
+    porRango: false,
+    pdfDay: '',
+    pdfMonth: '',
+    pdfDeuda: ''
 
 
 }
@@ -41,6 +49,8 @@ const rangeStatee = {
     rango2: '',
     sumDeudasRango: '',
     deudasRango: [],
+    pdfDeudaRango: '',
+    pdfDeudaRango2: ''
 }
 
 const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -133,7 +143,7 @@ function PaymentsByMonth() {
         axios.get(`/payments/get/dayly?day=${dia}&month=${mes}&year=${year}`)
             .then((res) => {
 
-                setState({ ...state, datosDias: res.data.pagos, pagoBSdias: res.data.totalBS, pagoUSDdias: res.data.totalUSD, sumatoriaTotalDias: res.data.sumaTotal })
+                setState({ ...state, datosDias: res.data.pagos, pagoBSdias: res.data.totalBS, pagoUSDdias: res.data.totalUSD, sumatoriaTotalDias: res.data.sumaTotal, pdfDay: month })
 
 
             })
@@ -153,7 +163,7 @@ function PaymentsByMonth() {
         axios.get(`/payments/get/monthly?month=${mes}&year=${year}`)
             .then((res) => {
 
-                setState({ ...state, datosMeses: res.data.pagos, pagoBSmeses: res.data.totalBS, pagoUSDmeses: res.data.totalUSD, sumatoriaTotalMeses: res.data.sumaTotal })
+                setState({ ...state, datosMeses: res.data.pagos, pagoBSmeses: res.data.totalBS, pagoUSDmeses: res.data.totalUSD, sumatoriaTotalMeses: res.data.sumaTotal, pdfMonth: month })
 
             })
             .catch((error) =>
@@ -172,7 +182,7 @@ function PaymentsByMonth() {
         axios.get(`/deudas/getDeudas?month=${mes}-${year}`)
             .then((res) => {
 
-                setState({ ...state, deudas: res.data.data, sumatoriaDeudas: res.data.sumDeudas })
+                setState({ ...state, deudas: res.data.data, sumatoriaDeudas: res.data.sumDeudas, pdfDeuda: month })
 
             })
             .catch((error) =>
@@ -206,7 +216,7 @@ function PaymentsByMonth() {
 
                 }
 
-                setRangeState({ ...rangeState, deudasRango: res.data, sumDeudasRango: `${sum}` })
+                setRangeState({ ...rangeState, deudasRango: res.data, sumDeudasRango: `${sum}`,  })
 
             })
             .catch((error) =>
@@ -253,6 +263,80 @@ function PaymentsByMonth() {
         e.preventDefault();
     }
 
+
+    const pdfff = () => {
+
+
+        const dia = state.pdfDay.slice(8, 10);
+        const mes = state.pdfDay.slice(5, 7);
+        const year = state.pdfDay.slice(0, 4);
+
+
+        axios.get(`/pdf/pagos/dia?day=${dia}&month=${mes}&year=${year}`, { responseType: 'blob' })
+            .then((res) => {
+                saveAs(res.data, `PagoPorDia-${today}.pdf`);
+            })
+            .catch((error) => console.log(error))
+    }
+
+    const pdfff2 = () => {
+
+        const mes = state.pdfDay.slice(5, 7);
+        const year = state.pdfDay.slice(0, 4);
+
+        axios.get(`/pdf/pagos/mes?month=${mes}&year=${year}`, { responseType: 'blob' })
+            .then((res) => {
+                saveAs(res.data, `PagoPorMes-${today}.pdf`);
+            })
+            .catch((error) => console.log(error))
+    }
+
+
+    const pdfff3 = () => {
+        const mes = state.pdfDeuda.slice(5, 7);
+        const year = state.pdfDeuda.slice(0, 4);
+
+        const SMES = `${mes}-${year}`
+
+        console.log(mes);
+
+        axios.get(`/pdf/deudas/mes?month=${SMES}`, { responseType: 'blob' })
+            .then((res) => {
+                saveAs(res.data, `Deudas-${today}.pdf`);
+            })
+            .catch((error) => console.log(error))
+    }
+
+
+    const pdfff4 = () => {
+
+        const rg1 = rangeState.rango1.slice(0,4)
+        const rg2 = rangeState.rango1.slice(5,8)
+        const mes1 = rg2 +'-'+ rg1  
+
+        const rg12 = rangeState.rango2.slice(0,4)
+        const rg22 = rangeState.rango2.slice(5,8)
+        const mes2 = rg22 +'-'+ rg12
+
+
+
+
+        // console.log(mes1);
+        // console.log(mes2);
+        // const mes = state.pdfDeuda.slice(5, 7);
+        // const year = state.pdfDeuda.slice(0, 4);
+
+
+        axios.get(`/pdf/deudas/rango?month1=${mes1}&month2=${mes2}`, { responseType: 'blob' })
+            .then((res) => {
+                saveAs(res.data, `DeudaRango-${today}.pdf`);
+            })
+            .catch((error) => console.log(error))
+    }
+
+
+
+
     return (
         <>
             {user.master ? <NavbarMaster /> : <NavbarLoged />}
@@ -279,6 +363,9 @@ function PaymentsByMonth() {
                         <Form.Label className="label-date">Banco</Form.Label>
 
                         <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
+
+                        <br />
+                        <Button onClick={pdfff} className="see">Generar PDF</Button>
 
                         <Table className="margintable" striped bordered hover size="sm" >
                             <thead>
@@ -352,6 +439,9 @@ function PaymentsByMonth() {
                             <Form.Label className="label-date">Banco</Form.Label>
 
                             <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
+
+                            <br />
+                        <Button onClick={pdfff2} className="see">Generar PDF</Button>
 
                         </Form>
 
@@ -432,6 +522,9 @@ function PaymentsByMonth() {
                         <p></p>
                         <p>Total en deudas del mes: <b>{formatNumber(parseFloat(state.sumatoriaDeudas))}</b></p>
 
+                        <br />
+                        <Button onClick={pdfff3} className="see">Generar PDF</Button>
+
                         <Table className="margintable" striped bordered hover size="sm" >
                             <thead>
                                 <tr className='first'>
@@ -483,7 +576,10 @@ function PaymentsByMonth() {
                         <hr />
 
                         <p></p>
-                        <p>Total en deudas en el rango establecido: <b>{formatNumber((parseFloat(rangeState.sumDeudasRango)*-1))}</b></p>
+                        <p>Total en deudas en el rango establecido: <b>{formatNumber((parseFloat(rangeState.sumDeudasRango) * -1))}</b></p>
+
+                        <br />
+                        <Button onClick={pdfff4} className="see">Generar PDF</Button>
 
                         <Table className="margintable" striped bordered hover size="sm" >
                             <thead>

@@ -15,6 +15,8 @@ import { useReactToPrint } from 'react-to-print';
 import { saveAs } from 'file-saver';
 
 const date = new Date();
+const today = `${date.getDate()}-${date.getMonth()}`
+
 
 const defaultState = {
     name: 'React',
@@ -95,9 +97,9 @@ function GetLocales() {
 
 
     const pdfff = () => {
-        axios.get('/local/table/pdf', {responseType:'blob'})
+        axios.get('/pdf/table', {responseType:'blob'})
             .then((res) =>{
-                saveAs(res.data, 'Prueba.pdf');
+                saveAs(res.data, `Cobranza${today}.pdf`);
             })       
             .catch((error) => console.log(error))      
     }
