@@ -99,10 +99,6 @@ function PaymentsByMonth() {
             )
 
 
-
-
-
-        //eslint-disable-next-line
     }, [])
 
 
@@ -127,9 +123,54 @@ function PaymentsByMonth() {
         return state.deudas
     }, [state])
 
-    const handleChangeB = e => {
+    const handleChangeBDias = e => {
         console.log(e.target.value.toUpperCase());
-        setState({ ...state, busqueda: e.target.value.toUpperCase() });
+
+        let suma = 0;
+        let sumaBS = 0;
+        let sumaUSD = 0;
+        let datos = state.datosDias.filter(local => local.bank.includes(e.target.value.toUpperCase()));
+
+        datos.map(data => {
+
+            if(data.paymentUSD === true){
+                sumaUSD = sumaUSD + parseFloat(data.amountUSD);
+            }else{
+                sumaBS = sumaBS + (parseFloat(data.amountUSD) * parseFloat(data.exchangeRate));
+            }
+
+            suma = suma + parseFloat(data.amountUSD);
+
+        });
+
+        setState({ ...state, busqueda: e.target.value.toUpperCase(), pagoBSdias: sumaBS, pagoUSDdias: sumaUSD, sumatoriaTotalDias: suma  });
+
+
+    }
+
+    const handleChangeBMeses = e => {
+        console.log(e.target.value.toUpperCase());
+
+        let suma = 0;
+        let sumaBS = 0;
+        let sumaUSD = 0;
+        let datos = state.datosMeses.filter(local => local.bank.includes(e.target.value.toUpperCase()));
+
+        datos.map(data => {
+
+            if(data.paymentUSD === true){
+                sumaUSD = sumaUSD + parseFloat(data.amountUSD);
+            }else{
+                sumaBS = sumaBS + (parseFloat(data.amountUSD) * parseFloat(data.exchangeRate));
+            }
+
+            suma = suma + parseFloat(data.amountUSD);
+
+        });
+
+        setState({ ...state, busqueda: e.target.value.toUpperCase(), pagoBSmeses: sumaBS, pagoUSDmeses: sumaUSD, sumatoriaTotalMeses: suma  });
+
+
     }
 
     const OnChangeDate = (e) => {
@@ -362,7 +403,7 @@ function PaymentsByMonth() {
 
                         <Form.Label className="label-date">Banco</Form.Label>
 
-                        <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
+                        <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeBDias} />
 
                         <br />
                         <Button onClick={pdfff} className="see">Generar PDF</Button>
@@ -438,7 +479,7 @@ function PaymentsByMonth() {
 
                             <Form.Label className="label-date">Banco</Form.Label>
 
-                            <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeB} />
+                            <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeBMeses} />
 
                             <br />
                         <Button onClick={pdfff2} className="see">Generar PDF</Button>
