@@ -74,34 +74,47 @@ function PaymentsDetails() {
     }
 
     const deleteP = (datos) => {
-
+        console.log(datos.id);
         swal({
             text: "Esta accion no se puede revertir, esta seguro que quiere continuar?",
             buttons: ["No", "Si"]
-        }).then(res => {
+        }).then((res) => {
             if (res) {
-               
-                
-                        setState({ ...state, toDelete: datos })
-                        console.log(state.toDelete);
-                        axios.delete(`/payments/delete/${state.toDelete}`)
-                            .then((res) => {
-                
-                                setState({ ...state, toDelete: '' })
+                console.log(state.toDelete);
 
 
-                                swal({
-                                    text: "Pago anulado con exito!, tiene bugs xd",
-                                })
-                
-                
+
+                axios.get(`/local/findOne?idLocal=${datos.idLocal}`)
+                    .then((respue) => {
+
+
+                        const balance =  parseInt(respue.data.balance ) - parseInt(datos.amountUSD);
+
+                        // (datos.amountUSD * -1) + respue.data.balance
+                        // parseInt(datos.amountUSD, base);
+                        console.log(datos.amountUSD);
+                        
+                        axios.patch('/local/upBalance',
+                            {
+                                code: respue.data.code,
+                                balance: balance
                             })
-                            .catch((error) =>
-                                console.log(error)
-                            )
+                            .then((resp) => {
 
+                                axios.delete(`/payments/delete/${datos.id}`)
+                                    .then((res) => {
+                                        swal({
+                                            text: "Pago anulado con exito!, tiene bugs xd",
+                                        })
+                                    })
+                                    .catch((error) =>
+                                        console.log(error)
+                                    )
+                            });
+                    })
+                    .catch((error) => console.log(error))
             } else {
-
+                console.log('No sirvio');
             }
         })
 
@@ -195,7 +208,7 @@ function PaymentsDetails() {
                                     <td>{formatNumber(parseFloat(data.restanteUSD * -1))}</td>
                                     <td>{data.admin.username}</td>
                                     {code === '0000' && data.referenceNumber != null ? <td><Button onClick={() => { handleShow(); editarSaldo(code, data.amountUSD, data.id) }} className="btn">Asignar</Button></td> : null}
-                                    <td> <Button className="anular" onClick={() => deleteP(data.id)}>Anular</Button></td>
+                                    <td> <Button className="anular" onClick={() => deleteP(data)}>Anular</Button></td>
 
                                 </tr>
                             ))
