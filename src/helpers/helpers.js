@@ -2,12 +2,12 @@ const formatNumber = (num) => {
     let cents = 0;
     let sign = 0;
 
-    if (!num || num == 'NaN') return '-';
-    if (num == 'Infinity') return '&#x221e;';
+    if (!num || num === 'NaN') return '-';
+    if (num === 'Infinity') return '&#x221e;';
     num = num.toString().replace(/\$|\,/g, '');
     if (isNaN(num))
         num = "0";
-    sign = (num == (num = Math.abs(num)));
+    sign = (num === (num = Math.abs(num)));
     num = Math.floor(num * 100 + 0.50000000001);
     cents = num % 100;
     num = Math.floor(num / 100).toString();

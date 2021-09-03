@@ -357,10 +357,10 @@ function PaymentsByMonth() {
 
     const pdfff2 = () => {
 
-        const mes = state.pdfDay.slice(5, 7);
-        const year = state.pdfDay.slice(0, 4);
+        const mes = state.pdfMonth.slice(5, 7);
+        const year = state.pdfMonth.slice(0, 4);
 
-        console.log(mes + '' + year);
+        // console.log(mes + ' aaaaa ' + year);
 
         axios.get(`/pdf/pagos/mes?month=${mes}&year=${year}`, { responseType: 'blob' })
             .then((res) => {
@@ -732,7 +732,7 @@ function PaymentsByMonth() {
                                 }
                             </tbody>
                         </Table> </> : 
-                    <p>Not found</p>
+                    <p></p>
 
 
                 }

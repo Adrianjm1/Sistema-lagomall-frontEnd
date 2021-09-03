@@ -113,17 +113,17 @@ function Oldtable() {
         setState({ ...state, busqueda: e.target.value.toUpperCase() });
     }
 
-    const conDeuda = () => {
-        setState({ ...state, deuda: true });
-    }
-    const sinDeuda = () => {
+    // const conDeuda = () => {
+    //     setState({ ...state, deuda: true });
+    // }
+    // const sinDeuda = () => {
 
-        setState({ ...state, deuda: false });
+    //     setState({ ...state, deuda: false });
 
-    }
-    const restart = ()=>{
-        setState({ ...state, deuda: '' });
-    }
+    // }
+    // const restart = ()=>{
+    //     setState({ ...state, deuda: '' });
+    // }
 
     const click = () => {
 
