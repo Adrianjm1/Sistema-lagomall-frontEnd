@@ -37,6 +37,7 @@ const defaultState = {
     porMes: false,
     deudaPorMes: false,
     porRango: false,
+    deudaDesde: false,
     pdfDay: '',
     pdfMonth: '',
     pdfDeuda: ''
@@ -50,7 +51,9 @@ const rangeStatee = {
     sumDeudasRango: '',
     deudasRango: [],
     pdfDeudaRango: '',
-    pdfDeudaRango2: ''
+    pdfDeudaRango2: '',
+    deudaDesde: [],
+
 }
 
 const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -133,9 +136,9 @@ function PaymentsByMonth() {
 
         datos.map(data => {
 
-            if(data.paymentUSD === true){
+            if (data.paymentUSD === true) {
                 sumaUSD = sumaUSD + parseFloat(data.amountUSD);
-            }else{
+            } else {
                 sumaBS = sumaBS + (parseFloat(data.amountUSD) * parseFloat(data.exchangeRate));
             }
 
@@ -143,7 +146,7 @@ function PaymentsByMonth() {
 
         });
 
-        setState({ ...state, busqueda: e.target.value.toUpperCase(), pagoBSdias: sumaBS, pagoUSDdias: sumaUSD, sumatoriaTotalDias: suma  });
+        setState({ ...state, busqueda: e.target.value.toUpperCase(), pagoBSdias: sumaBS, pagoUSDdias: sumaUSD, sumatoriaTotalDias: suma });
 
 
     }
@@ -158,9 +161,9 @@ function PaymentsByMonth() {
 
         datos.map(data => {
 
-            if(data.paymentUSD === true){
+            if (data.paymentUSD === true) {
                 sumaUSD = sumaUSD + parseFloat(data.amountUSD);
-            }else{
+            } else {
                 sumaBS = sumaBS + (parseFloat(data.amountUSD) * parseFloat(data.exchangeRate));
             }
 
@@ -168,7 +171,7 @@ function PaymentsByMonth() {
 
         });
 
-        setState({ ...state, busqueda: e.target.value.toUpperCase(), pagoBSmeses: sumaBS, pagoUSDmeses: sumaUSD, sumatoriaTotalMeses: suma  });
+        setState({ ...state, busqueda: e.target.value.toUpperCase(), pagoBSmeses: sumaBS, pagoUSDmeses: sumaUSD, sumatoriaTotalMeses: suma });
 
 
     }
@@ -257,13 +260,41 @@ function PaymentsByMonth() {
 
                 }
 
-                setRangeState({ ...rangeState, deudasRango: res.data, sumDeudasRango: `${sum}`,  })
+                setRangeState({ ...rangeState, deudasRango: res.data, sumDeudasRango: `${sum}`, })
 
             })
             .catch((error) =>
                 console.log(error)
             )
     }
+
+
+    const onChangeDeudaDesde = (e)=>{
+
+        
+        const month = e.target.value;
+
+        const mes = month.slice(5, 7);
+        const year = month.slice(0, 4);
+        const mesQuery = `${mes}-${year}`
+        console.log(mesQuery);
+
+        axios.get(`/deudas/getDeudasDesde?month=${mesQuery}`)
+            .then((res) => {
+
+                setRangeState({ ...rangeState, deudaDesde: res.data })
+
+            })
+            .catch((error) =>
+                console.log(error)
+            )
+
+
+            
+        
+    }
+
+
 
     const rango1 = (e) => {
         setRangeState({ ...rangeState, [e.target.name]: e.target.value });
@@ -285,19 +316,23 @@ function PaymentsByMonth() {
 
 
     const porDia = () => {
-        setState({ ...state, porDia: true, porMes: false, deudaPorMes: false, porRango: false })
+        setState({ ...state, porDia: true, porMes: false, deudaPorMes: false, porRango: false, deudaDesde: false })
     }
 
     const porMes = () => {
-        setState({ ...state, porDia: false, porMes: true, deudaPorMes: false, porRango: false })
+        setState({ ...state, porDia: false, porMes: true, deudaPorMes: false, porRango: false, deudaDesde: false })
     }
 
     const porDeuda = () => {
-        setState({ ...state, porDia: false, porMes: false, deudaPorMes: true, porRango: false })
+        setState({ ...state, porDia: false, porMes: false, deudaPorMes: true, porRango: false, deudaDesde: false })
     }
 
     const porDeudaRango = () => {
-        setState({ ...state, porDia: false, porMes: false, deudaPorMes: false, porRango: true })
+        setState({ ...state, porDia: false, porMes: false, deudaPorMes: false, porRango: true, deudaDesde: false })
+    }
+
+    const deudaDesde = () => {
+        setState({ ...state, porDia: false, porMes: false, deudaPorMes: false, porRango: false, deudaDesde: true })
     }
 
     const onSubmitBank = (e) => {
@@ -325,6 +360,8 @@ function PaymentsByMonth() {
         const mes = state.pdfDay.slice(5, 7);
         const year = state.pdfDay.slice(0, 4);
 
+        console.log(mes + '' + year);
+
         axios.get(`/pdf/pagos/mes?month=${mes}&year=${year}`, { responseType: 'blob' })
             .then((res) => {
                 saveAs(res.data, `PagoPorMes-${today}.pdf`);
@@ -351,13 +388,13 @@ function PaymentsByMonth() {
 
     const pdfff4 = () => {
 
-        const rg1 = rangeState.rango1.slice(0,4)
-        const rg2 = rangeState.rango1.slice(5,8)
-        const mes1 = rg2 +'-'+ rg1  
+        const rg1 = rangeState.rango1.slice(0, 4)
+        const rg2 = rangeState.rango1.slice(5, 8)
+        const mes1 = rg2 + '-' + rg1
 
-        const rg12 = rangeState.rango2.slice(0,4)
-        const rg22 = rangeState.rango2.slice(5,8)
-        const mes2 = rg22 +'-'+ rg12
+        const rg12 = rangeState.rango2.slice(0, 4)
+        const rg22 = rangeState.rango2.slice(5, 8)
+        const mes2 = rg22 + '-' + rg12
 
 
 
@@ -388,6 +425,7 @@ function PaymentsByMonth() {
                     <Button onClick={porMes} className="btnPP" variant="secondary">Pagos por mes</Button>
                     <Button onClick={porDeuda} className="btnPP" variant="secondary">Deudas de meses anteriores</Button>
                     <Button onClick={porDeudaRango} className="btnPP" variant="secondary">Deudas por rango</Button>
+                    <Button onClick={deudaDesde} className="btnPP" variant="secondary">Deudas desde un mes</Button>
                 </ButtonGroup>
 
                 <p></p>
@@ -482,7 +520,7 @@ function PaymentsByMonth() {
                             <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeBMeses} />
 
                             <br />
-                        <Button onClick={pdfff2} className="see">Generar PDF</Button>
+                            <Button onClick={pdfff2} className="see">Generar PDF</Button>
 
                         </Form>
 
@@ -647,6 +685,61 @@ function PaymentsByMonth() {
 
                 }
 
+
+                {state.deudaDesde ?
+                    <>
+
+                        <Form>
+
+                            <h2>Deudas desde algun mes</h2>
+
+                        </Form>
+
+                        <Form inline>
+
+                            <Form.Label className="label-date">Establecer morosos desde el mes de </Form.Label>
+
+                            <Form.Control type="month"className="getPayments" onChange={onChangeDeudaDesde} />                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+                            {/* <Button onClick={establecer}>Establecer</Button> */}
+
+                        </Form>
+                        <hr />
+
+                        <p></p>
+                        {/* <p>Total en deudas en el rango establecido: <b>{formatNumber((parseFloat(rangeState.sumDeudasRango) * -1))}</b></p> */}
+
+                        <br />
+                        <Button onClick={pdfff4} className="see">Generar PDF</Button>
+
+                        <Table className="margintable" striped bordered hover size="sm" >
+                            <thead>
+                                <tr className='first'>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Deuda ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    rangeState.deudaDesde.map(data => (
+                                        <tr key={data.id}>
+                                            <td>{data.locale.code}</td>
+                                            <td>{data.locale.name}</td>
+                                            <td>{formatNumber(parseFloat(data.deudaTotal))}</td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </Table> </> : 
+                    <p>Not found</p>
+
+
+                }
+
+
+
+                
 
 
 
