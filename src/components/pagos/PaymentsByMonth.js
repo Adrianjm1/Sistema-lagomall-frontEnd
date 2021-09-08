@@ -32,6 +32,8 @@ const defaultState = {
     sumatoriaTotalDias: '',
     sumatoriaTotalMeses: '',
     sumatoriaDeudas: '',
+    cuotaMes: '',
+    porcentajeMes: '',
     name: '',
     porDia: true,
     porMes: false,
@@ -221,16 +223,25 @@ function PaymentsByMonth() {
         const month = e.target.value;
 
         const mes = month.slice(5, 7);
+
         const year = month.slice(0, 4);
+
 
         axios.get(`/deudas/getDeudas?month=${mes}-${year}`)
             .then((res) => {
 
-                setState({ ...state, deudas: res.data.data, sumatoriaDeudas: res.data.sumDeudas, pdfDeuda: month })
+                if (res.data.ok == false) {
+                    setState({ ...state, deudas: [], cuotaMes: '', porcentajeMes: '', sumatoriaDeudas: '', pdfDeuda: '' })
+                } else{
+                    setState({ ...state, deudas: res.data.data, cuotaMes: res.data.suma, porcentajeMes: res.data.porcentaje, sumatoriaDeudas: res.data.sumDeudas, pdfDeuda: month })
+
+                }
 
             })
             .catch((error) =>
                 console.log(error)
+                //setState({ ...state, deudas: [], cuotaMes: '', porcentajeMes: '', sumatoriaDeudas: '', pdfDeuda: '' })
+
             )
 
     }
@@ -269,14 +280,14 @@ function PaymentsByMonth() {
     }
 
 
-    const onChangeDeudaDesde = (e)=>{
+    const onChangeDeudaDesde = (e) => {
 
-        
+
         const month = e.target.value;
 
         const mes = month.slice(5, 7);
         const year = month.slice(0, 4);
-        const mesQuery = `${mes}-${year}`
+        const mesQuery = `${mes}-${year}`;
         console.log(mesQuery);
 
         axios.get(`/deudas/getDeudasDesde?month=${mesQuery}`)
@@ -289,12 +300,7 @@ function PaymentsByMonth() {
                 console.log(error)
             )
 
-
-            
-        
     }
-
-
 
     const rango1 = (e) => {
         setRangeState({ ...rangeState, [e.target.name]: e.target.value });
@@ -599,7 +605,10 @@ function PaymentsByMonth() {
 
 
                         <p></p>
-                        <p>Total en deudas del mes: <b>{formatNumber(parseFloat(state.sumatoriaDeudas))}</b></p>
+                        <p>Total en deudas del mes: <b>{state.sumatoriaDeudas}$</b></p>
+                        <p>Cuota total del mes: <b>{state.cuotaMes}$</b></p>
+                        <p>Porcentaje pagado con respecto a la cuota total del mes: <b>{100 - parseFloat(state.porcentajeMes).toFixed(2)}%</b></p>
+
 
                         <br />
                         <Button onClick={pdfff3} className="see">Generar PDF</Button>
@@ -699,7 +708,7 @@ function PaymentsByMonth() {
 
                             <Form.Label className="label-date">Establecer morosos desde el mes de </Form.Label>
 
-                            <Form.Control type="month"className="getPayments" onChange={onChangeDeudaDesde} />                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                            <Form.Control type="month" className="getPayments" onChange={onChangeDeudaDesde} />                    <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
 
                             {/* <Button onClick={establecer}>Establecer</Button> */}
 
@@ -731,7 +740,7 @@ function PaymentsByMonth() {
                                     ))
                                 }
                             </tbody>
-                        </Table> </> : 
+                        </Table> </> :
                     <p></p>
 
 
@@ -739,7 +748,7 @@ function PaymentsByMonth() {
 
 
 
-                
+
 
 
 

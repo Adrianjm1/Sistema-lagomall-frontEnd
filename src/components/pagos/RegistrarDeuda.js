@@ -77,7 +77,8 @@ function RegistrarDeuda() {
 
     const onMonthChangeDeuda = e => {
 
-        const month = e.target.value.slice(5, 8);
+        const month = e.target.value.slice(5, 7);
+
         const year = e.target.value.slice(0, 4);
 
         setState({ ...state, mesDeuda: `${month}-${year}` });
