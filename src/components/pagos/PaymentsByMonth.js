@@ -7,6 +7,7 @@ import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
 import formatNumber from '../../helpers/helpers';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 
 import { saveAs } from 'file-saver';
@@ -234,7 +235,7 @@ function PaymentsByMonth() {
 
                 if (res.data.ok == false) {
                     setState({ ...state, deudas: [], cuotaMes: '', porcentajeMes: '', sumatoriaDeudas: '', pdfDeuda: '' })
-                } else{
+                } else {
                     setState({ ...state, deudas: res.data.data, cuotaMes: res.data.suma, porcentajeMes: res.data.porcentaje, sumatoriaDeudas: res.data.sumDeudas, pdfDeuda: month })
 
                 }
@@ -463,7 +464,22 @@ function PaymentsByMonth() {
                         <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeBDias} />
 
                         <br />
-                        <Button onClick={pdfff} className="see">Generar PDF</Button>
+
+                        <ButtonGroup>
+
+                            <Button onClick={pdfff} className="see">Generar PDF</Button>
+
+                            <div>
+                                <ReactHTMLTableToExcel
+                                    id="test-table-xls-button"
+                                    className="btn btn-success"
+                                    table="tablaPorDia"
+                                    filename="Tabla pagos por dia"
+                                    sheet="tablexls"
+                                    buttonText="Exportar a Excel" />
+                            </div>
+                        </ButtonGroup>
+
 
                         <Table className="margintable" striped bordered hover size="sm" >
                             <thead>
@@ -481,7 +497,7 @@ function PaymentsByMonth() {
                                 </tr>
                             </tbody>
                         </Table>
-                        <Table className="margintable" striped bordered hover size="sm" >
+                        <Table className="margintable" id="tablaPorDia" striped bordered hover size="sm" >
                             <thead>
                                 <tr className='first'>
                                     <th>Codigo</th>
@@ -539,7 +555,22 @@ function PaymentsByMonth() {
                             <FormControl type="text" placeholder="Busqueda por banco" className="mr-sm-2" id="busqueda" onChange={handleChangeBMeses} />
 
                             <br />
-                            <Button onClick={pdfff2} className="see">Generar PDF</Button>
+
+
+                            <ButtonGroup>
+
+                                <Button onClick={pdfff2} className="see">Generar PDF</Button>
+
+                                <div>
+                                    <ReactHTMLTableToExcel
+                                        id="test-table-xls-button"
+                                        className="btn btn-success"
+                                        table="tablaPorMes"
+                                        filename="Tabla pagos por mes"
+                                        sheet="tablexls"
+                                        buttonText="Exportar a Excel" />
+                                </div>
+                            </ButtonGroup>
 
                         </Form>
 
@@ -559,7 +590,7 @@ function PaymentsByMonth() {
                                 </tr>
                             </tbody>
                         </Table>
-                        <Table className="margintable" striped bordered hover size="sm" >
+                        <Table className="margintable" id="tablaPorMes" striped bordered hover size="sm" >
                             <thead>
                                 <tr className='first'>
                                     <th>Codigo</th>
@@ -624,9 +655,26 @@ function PaymentsByMonth() {
 
 
                         <br />
-                        <Button onClick={pdfff3} className="see">Generar PDF</Button>
 
-                        <Table className="margintable" striped bordered hover size="sm" >
+
+
+                        <ButtonGroup>
+
+                            <Button onClick={pdfff3} className="see">Generar PDF</Button>
+
+                            <div>
+                                <ReactHTMLTableToExcel
+                                    id="test-table-xls-button"
+                                    className="btn btn-success"
+                                    table="deudaPorMes"
+                                    filename="Tabla deudas por mes"
+                                    sheet="tablexls"
+                                    buttonText="Exportar a Excel" />
+                            </div>
+                        </ButtonGroup>
+
+
+                        <Table className="margintable" id="deudaPorMes" striped bordered hover size="sm" >
                             <thead>
                                 <tr className='first'>
                                     <th>Código</th>
@@ -680,9 +728,24 @@ function PaymentsByMonth() {
                         <p>Total en deudas en el rango establecido: <b>{formatNumber((parseFloat(rangeState.sumDeudasRango) * -1))}</b></p>
 
                         <br />
-                        <Button onClick={pdfff4} className="see">Generar PDF</Button>
 
-                        <Table className="margintable" striped bordered hover size="sm" >
+                        <ButtonGroup>
+
+                            <Button onClick={pdfff4} className="see">Generar PDF</Button>
+
+                            <div>
+                                <ReactHTMLTableToExcel
+                                    id="test-table-xls-button"
+                                    className="btn btn-success"
+                                    table="porRango"
+                                    filename="tabla deudas por rango"
+                                    sheet="tablexls"
+                                    buttonText="Exportar a Excel" />
+                            </div>
+                        </ButtonGroup>
+
+
+                        <Table className="margintable" id="porRango" striped bordered hover size="sm" >
                             <thead>
                                 <tr className='first'>
                                     <th>Código</th>
@@ -732,9 +795,23 @@ function PaymentsByMonth() {
                         {/* <p>Total en deudas en el rango establecido: <b>{formatNumber((parseFloat(rangeState.sumDeudasRango) * -1))}</b></p> */}
 
                         <br />
-                        <Button onClick={pdfff5} className="see">Generar PDF</Button>
 
-                        <Table className="margintable" striped bordered hover size="sm" >
+                        <ButtonGroup>
+
+                            <Button onClick={pdfff5} className="see">Generar PDF</Button>
+
+                            <div>
+                                <ReactHTMLTableToExcel
+                                    id="test-table-xls-button"
+                                    className="btn btn-success"
+                                    table="desde"
+                                    filename="tabla deuda desde"
+                                    sheet="tablexls"
+                                    buttonText="Exportar a Excel" />
+                            </div>
+                        </ButtonGroup>
+
+                        <Table className="margintable" id="desde" striped bordered hover size="sm" >
                             <thead>
                                 <tr className='first'>
                                     <th>Código</th>

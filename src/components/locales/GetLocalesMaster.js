@@ -10,8 +10,9 @@ import formatNumber from '../../helpers/helpers';
 import ReactToPrint from 'react-to-print';
 import swal from 'sweetalert';
 import "react-datepicker/dist/react-datepicker.css";
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
-import { Table, Container, Button, Form, FormControl, Modal } from "react-bootstrap";
+import { Table, Container, Button, Form, FormControl, Modal, ButtonGroup } from "react-bootstrap";
 
 import '../../assets/css/locales.css';
 
@@ -239,6 +240,7 @@ function GetLocalesMaster() {
 
                 </div> */}
 
+
                 <Form inline >
 
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
@@ -271,6 +273,8 @@ function GetLocalesMaster() {
 
                 </Form>
 
+
+
                 <div ref={componentRef}>
 
                     <Form.Label column sm={3}>
@@ -299,13 +303,28 @@ function GetLocalesMaster() {
 
                     <br></br>
                     <br />
-                    <Button onClick={() => {
-                        handlePrint();
 
-                    }} className="see">Generar PDF</Button>
+
+
+
+                    <ButtonGroup>
+                        <Button onClick={() => {
+                            handlePrint();
+
+                        }} className="see">Generar PDF</Button>
+                        <div>
+                            <ReactHTMLTableToExcel
+                                id="test-table-xls-button"
+                                className="btn btn-success"
+                                table="tablaMaster"
+                                filename="tablexls"
+                                sheet="tablexls"
+                                buttonText="Exportar a Excel" />
+                        </div>
+                    </ButtonGroup>
 
                     <br />                    <br />
-                    <Table className="tablaMaster" striped bordered hover size="sm">
+                    <Table className="tablaMaster" id="tablaMaster" striped bordered hover size="sm">
                         <thead>
 
                             <tr className='first'>
