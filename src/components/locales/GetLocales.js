@@ -219,7 +219,7 @@ function GetLocales() {
                                             <td>{data.percentageOfCC}</td>
                                             <td>{formatNumber(parseFloat(data.monthlyUSD))}</td>
                                             <td>{formatNumber(parseFloat(data.prontoPago))}</td>
-                                            <td>{formatNumber(parseFloat(-data.balance))}</td>
+                                            <td>{formatNumber(parseFloat(data.balance))}</td>
                                             <td className="detalles">
                                                 <Link className="btn" to={`/admin/payments/${data.code}`}>
                                                     <Button className="see">Ver detalles</Button>
