@@ -67,12 +67,6 @@ function PaymentsDetails() {
         //eslint-disable-next-line
     }, [])
 
-    const setDelete = (datos) => {
-
-
-
-    }
-
     const deleteP = (datos) => {
         console.log(datos.id);
         swal({

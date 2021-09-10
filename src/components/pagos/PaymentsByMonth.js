@@ -107,7 +107,7 @@ function PaymentsByMonth() {
             )
 
 
-    }, [])
+    }, [user.token, state])
 
 
     const datosDias = useMemo(function () {
@@ -124,12 +124,12 @@ function PaymentsByMonth() {
         return state.datosMeses
     }, [state])
 
-    const deudas = useMemo(function () {
-        if (state.busqueda.length) {
-            return state.deudas.filter(local => local.bank.includes(state.busqueda))
-        }
-        return state.deudas
-    }, [state])
+    // const deudas = useMemo(function () {
+    //     if (state.busqueda.length) {
+    //         return state.deudas.filter(local => local.bank.includes(state.busqueda))
+    //     }
+    //     return state.deudas
+    // }, [state])
 
     const handleChangeBDias = e => {
         console.log(e.target.value.toUpperCase());
@@ -148,6 +148,8 @@ function PaymentsByMonth() {
             }
 
             suma = suma + parseFloat(data.amountUSD);
+
+            return data;
 
         });
 
@@ -173,6 +175,9 @@ function PaymentsByMonth() {
             }
 
             suma = suma + parseFloat(data.amountUSD);
+
+
+            return data;
 
         });
 
@@ -233,7 +238,7 @@ function PaymentsByMonth() {
         axios.get(`/deudas/getDeudas?month=${mes}-${year}`)
             .then((res) => {
 
-                if (res.data.ok == false) {
+                if (res.data.ok === false) {
                     setState({ ...state, deudas: [], cuotaMes: '', porcentajeMes: '', sumatoriaDeudas: '', pdfDeuda: '' })
                 } else {
                     setState({ ...state, deudas: res.data.data, cuotaMes: res.data.suma, porcentajeMes: res.data.porcentaje, sumatoriaDeudas: res.data.sumDeudas, pdfDeuda: month })

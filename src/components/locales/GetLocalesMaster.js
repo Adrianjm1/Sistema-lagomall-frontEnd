@@ -6,8 +6,6 @@ import LagoMallData from '../lagomallData/LagoMallData';
 import DatePicker from 'react-datepicker';
 import { AuthContext } from '../auth/AuthContext';
 import { useReactToPrint } from 'react-to-print';
-import formatNumber from '../../helpers/helpers';
-import ReactToPrint from 'react-to-print';
 import swal from 'sweetalert';
 import "react-datepicker/dist/react-datepicker.css";
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
@@ -32,15 +30,6 @@ const defaultState = {
     deuda: ''
 
 };
-
-
-function getDecimal(data) {
-
-    const datos = data.toString();
-
-    return (datos.slice(0, 6));
-
-}
 
 
 const datex = new Date();

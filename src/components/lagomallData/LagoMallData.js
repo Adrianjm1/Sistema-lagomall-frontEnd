@@ -19,12 +19,10 @@ const LagoMallData = () => {
         render: '',
         idLG: 0,
         pronto: '',
-        render: 0
     };
     const [state, setState] = useState(defaultState);
 
     const { user } = useContext(AuthContext);
-    // const [startDate, setStartDate] = useState(new Date());
 
     const [show, setShow] = useState(false);
 
@@ -55,7 +53,7 @@ const LagoMallData = () => {
             })
             .catch((error) => console.log(error))
 
-    }, [state.render])
+    }, [state, user.token])
 
 
     const onInputChange = e => {
@@ -78,7 +76,7 @@ const LagoMallData = () => {
 
         generateToken(user.token)  // for all requests
 
-        if (parseInt(state.pronto) < 0 || parseInt(state.pronto) > 28 || (state.month + '-') == '-') {
+        if (parseInt(state.pronto) < 0 || parseInt(state.pronto) > 28 || (state.month + '-') === '-') {
 
             swal({
                 title: 'Error',
@@ -89,7 +87,7 @@ const LagoMallData = () => {
         } else {
 
             swal({
-                text: "Desea agregar nuevos datos del mes " + state.month + " \n  " + "Punto de equilibrio: " + state.breakeven + ' \n ' + "Descuento: " + state.descuento,
+                text: `Desea agregar nuevos datos del mes: ${state.month} \n Punto de equilibrio: ${state.breakeven} \n Descuento : ${state.descuento}`,
                 buttons: ["No", "Si"]
 
 

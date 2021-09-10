@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useParams, withRouter } from "react-router";
 import { NavbarLoged } from './NavbarLoged';
 import { NavbarMaster } from './NavbarMaster';
-import LagoMallData from '../lagomallData/LagoMallData';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -79,6 +78,8 @@ function Oldtable() {
 
                             sumaUSD += item.monthlyUSD;
                             sumaPronto += item.prontoPago;
+
+                            return item;
 
                         });
 
