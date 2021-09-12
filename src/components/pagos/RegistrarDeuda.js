@@ -1,6 +1,6 @@
 
 import React, { useState, useContext, useEffect } from 'react'
-import { Form, Col, Row, Button, Modal } from "react-bootstrap";
+import { Form, Button, Modal } from "react-bootstrap";
 import axios, { generateToken } from '../../config/axios';
 import swal from 'sweetalert';
 import formatNumber from '../../helpers/helpers';
@@ -28,25 +28,23 @@ function RegistrarDeuda() {
     }
 
     const { user } = useContext(AuthContext);
-    const password = 'lagomall'
 
     const [show, setShow] = useState(false);
-    const [show2, setShow2] = useState(false);
+    // const [show2, setShow2] = useState(false);
 
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const handleClose2 = () => setShow2(false);
-    const handleShow2 = () => setShow2(true);
+    // const handleClose2 = () => setShow2(false);
+    // const handleShow2 = () => setShow2(true);
     const [state, setState] = useState(defaultState);
-    const today = new Date();
 
     useEffect(function () {
 
         generateToken(user.token)  // for all requests
 
-    }, [])
+    }, [user.token])
 
     const validaCamposDeuda = () => {
         if (state.codeDeuda === '' || state.referenceDeuda === '' || state.amountDeuda === '' || parseInt(state.amountDeuda) < 1 || state.bankDeuda === '' || state.exchangeDeuda === '' || state.dateDeuda === '' || state.mesDeuda === '') {

@@ -9,7 +9,6 @@ import formatNumber from '../../helpers/helpers';
 import "react-datepicker/dist/react-datepicker.css";
 import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
 import '../../assets/css/locales.css';
-import { useReactToPrint } from 'react-to-print';
 
 
 import { saveAs } from 'file-saver';
@@ -36,11 +35,6 @@ const defaultState = {
 function GetLocales() {
 
     const componentRef = useRef();
-    const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
-    });
-
-
     const [state, setState] = useState(defaultState);
     const { user } = useContext(AuthContext);
 
@@ -58,9 +52,7 @@ function GetLocales() {
         return state.locales
     }, [state])
 
-    const fixState = () => {
-        setState({ ...state, total: 0, totalPronto: 0, totalPagado: 0, porcentajePagado: 0 })
-    }
+
 
 
     useEffect(function () {
@@ -219,7 +211,7 @@ function GetLocales() {
                                             <td>{data.percentageOfCC}</td>
                                             <td>{formatNumber(parseFloat(data.monthlyUSD))}</td>
                                             <td>{formatNumber(parseFloat(data.prontoPago))}</td>
-                                            <td>{formatNumber(parseFloat(-data.balance))}</td>
+                                            <td>{formatNumber(parseFloat(data.balance))}</td>
                                             <td className="detalles">
                                                 <Link className="btn" to={`/admin/payments/${data.code}`}>
                                                     <Button className="see">Ver detalles</Button>

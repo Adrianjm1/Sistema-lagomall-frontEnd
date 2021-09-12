@@ -6,12 +6,11 @@ import LagoMallData from '../lagomallData/LagoMallData';
 import DatePicker from 'react-datepicker';
 import { AuthContext } from '../auth/AuthContext';
 import { useReactToPrint } from 'react-to-print';
-import formatNumber from '../../helpers/helpers';
-import ReactToPrint from 'react-to-print';
 import swal from 'sweetalert';
 import "react-datepicker/dist/react-datepicker.css";
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
-import { Table, Container, Button, Form, FormControl, Modal } from "react-bootstrap";
+import { Table, Container, Button, Form, FormControl, Modal, ButtonGroup } from "react-bootstrap";
 
 import '../../assets/css/locales.css';
 
@@ -33,27 +32,9 @@ const defaultState = {
 };
 
 
-function getDecimal(data) {
-
-    const datos = data.toString();
-
-    return (datos.slice(0, 6));
-
-}
-
-
 const datex = new Date();
 
 function GetLocalesMaster() {
-
-    let codeToEdit = '';
-    // const C1 = useRef();
-    // const C2 = useRef();
-    // const C3 = useRef();
-
-    // const probando = () => {
-    //     C3.current = C1.current
-    // }
 
 
 
@@ -100,26 +81,22 @@ function GetLocalesMaster() {
         setState({ ...state, deuda: '' });
     }
 
-    const auxMes = () => [
+    // const auxMes = () => [
 
 
 
 
-        axios.get('/lagomalldata/last')
-            .then((respuesta) => {
-                let mes = respuesta.month
-                console.log('asi es, yo soy el mes: ' + mes);
+    //     axios.get('/lagomalldata/last')
+    //         .then((respuesta) => {
+    //             let mes = respuesta.month
+    //             console.log('asi es, yo soy el mes: ' + mes);
 
 
 
-            })
-            .catch((error) => console.log(error))
+    //         })
+    //         .catch((error) => console.log(error))
 
-
-
-
-
-    ]
+    // ]
 
 
     useEffect(function () {
@@ -252,6 +229,7 @@ function GetLocalesMaster() {
 
                 </div> */}
 
+
                 <Form inline >
 
                     <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" onChange={handleChange} />
@@ -284,41 +262,58 @@ function GetLocalesMaster() {
 
                 </Form>
 
+
+
                 <div ref={componentRef}>
 
                     <Form.Label column sm={3}>
-                        <p> Monto total:   <b> {formatNumber(parseFloat(state.total))}</b></p>
+                        <p> Monto total:   <b> {(parseFloat(state.total))}</b></p>
                     </Form.Label>
 
                     <Form.Label column sm={3}>
-                        <p> Monto total pagado:   <b> {formatNumber(parseFloat(state.totalPagado))}</b></p>
+                        <p> Monto total pagado:   <b> {(parseFloat(state.totalPagado))}</b></p>
                     </Form.Label>
 
                     <Form.Label column sm={3}>
-                        <p> Monto restante por pagar:   <b> {formatNumber(parseFloat(state.total) - parseFloat(state.totalPagado))}</b></p>
+                        <p> Monto restante por pagar:   <b> {(parseFloat(state.total) - parseFloat(state.totalPagado))}</b></p>
                     </Form.Label>
 
                     <br />
 
                     <Form.Label column sm={5}>
-                        <p> Porcentaje del monto total pagado:   <b> {formatNumber(parseFloat(state.porcentajePagado.toFixed(3)))}%</b></p>
+                        <p> Porcentaje del monto total pagado:   <b> {(parseFloat(state.porcentajePagado.toFixed(3)))}%</b></p>
                     </Form.Label>
 
                     <Form.Label column sm={4}>
-                        <p>  Monto total pronto pago: <b>{formatNumber(parseFloat(state.totalPronto))}</b></p>
+                        <p>  Monto total pronto pago: <b>{(parseFloat(state.totalPronto))}</b></p>
                     </Form.Label>
 
 
 
                     <br></br>
                     <br />
-                    <Button onClick={() => {
-                        handlePrint();
 
-                    }} className="see">Generar PDF</Button>
+
+
+
+                    <ButtonGroup>
+                        <Button onClick={() => {
+                            handlePrint();
+
+                        }} className="see">Generar PDF</Button>
+                        <div>
+                            <ReactHTMLTableToExcel
+                                id="test-table-xls-button"
+                                className="btn btn-success"
+                                table="tablaMaster"
+                                filename="tablexls"
+                                sheet="tablexls"
+                                buttonText="Exportar a Excel" />
+                        </div>
+                    </ButtonGroup>
 
                     <br />                    <br />
-                    <Table className="tablaMaster" striped bordered hover size="sm">
+                    <Table className="tablaMaster" id="tablaMaster" striped bordered hover size="sm">
                         <thead>
 
                             <tr className='first'>
@@ -339,9 +334,9 @@ function GetLocalesMaster() {
                                         <td>{data.code}</td>
                                         <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
                                         <td>{data.percentageOfCC}</td>
-                                        <td>{formatNumber(parseFloat(data.monthlyUSD))}</td>
-                                        <td>{formatNumber(parseFloat(data.prontoPago))}</td>
-                                        <td>{formatNumber(parseFloat(-data.balance))}</td>
+                                        <td>{(parseFloat(data.monthlyUSD))}</td>
+                                        <td>{(parseFloat(data.prontoPago))}</td>
+                                        <td>{(parseFloat(data.balance))}</td>
                                         <td className="detalles">
                                             <Link className="btn" to={`/master/payments/${data.code}`}>
                                                 <Button className="see">Ver detalles</Button>
