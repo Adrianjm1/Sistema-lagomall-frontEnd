@@ -7,8 +7,8 @@ import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
 import formatNumber from '../../helpers/helpers';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-
+/* import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+ */
 
 import { saveAs } from 'file-saver';
 
@@ -234,19 +234,17 @@ function PaymentsByMonth() {
 
         const year = month.slice(0, 4);
 
+        console.log(`${mes}-${year}`);
+
 
         axios.get(`/deudas/getDeudas?month=${mes}-${year}`)
             .then((res) => {
 
-<<<<<<< HEAD
-                if (res.data.ok == false) {
-                    setState({ ...state, deudas: [], cuotaMes: '', porcentajeMes: '', sumatoriaDeudas: '', pdfDeuda: '' })
-                } else{
-=======
                 if (res.data.ok === false) {
+                    console.log('false');
                     setState({ ...state, deudas: [], cuotaMes: '', porcentajeMes: '', sumatoriaDeudas: '', pdfDeuda: '' })
                 } else {
->>>>>>> 369da1eabc3869cf3f3404755ab7ee4b92b01e96
+                    console.log('true');
                     setState({ ...state, deudas: res.data.data, cuotaMes: res.data.suma, porcentajeMes: res.data.porcentaje, sumatoriaDeudas: res.data.sumDeudas, pdfDeuda: month })
 
                 }
@@ -481,13 +479,13 @@ function PaymentsByMonth() {
                             <Button onClick={pdfff} className="see">Generar PDF</Button>
 
                             <div>
-                                <ReactHTMLTableToExcel
+{/*                                 <ReactHTMLTableToExcel
                                     id="test-table-xls-button"
                                     className="btn btn-success"
                                     table="tablaPorDia"
                                     filename="Tabla pagos por dia"
                                     sheet="tablexls"
-                                    buttonText="Exportar a Excel" />
+                                    buttonText="Exportar a Excel" /> */}
                             </div>
                         </ButtonGroup>
 
@@ -573,13 +571,13 @@ function PaymentsByMonth() {
                                 <Button onClick={pdfff2} className="see">Generar PDF</Button>
 
                                 <div>
-                                    <ReactHTMLTableToExcel
+{/*                                     <ReactHTMLTableToExcel
                                         id="test-table-xls-button"
                                         className="btn btn-success"
                                         table="tablaPorMes"
                                         filename="Tabla pagos por mes"
                                         sheet="tablexls"
-                                        buttonText="Exportar a Excel" />
+                                        buttonText="Exportar a Excel" /> */}
                                 </div>
                             </ButtonGroup>
 
@@ -674,13 +672,13 @@ function PaymentsByMonth() {
                             <Button onClick={pdfff3} className="see">Generar PDF</Button>
 
                             <div>
-                                <ReactHTMLTableToExcel
+{/*                                 <ReactHTMLTableToExcel
                                     id="test-table-xls-button"
                                     className="btn btn-success"
                                     table="deudaPorMes"
                                     filename="Tabla deudas por mes"
                                     sheet="tablexls"
-                                    buttonText="Exportar a Excel" />
+                                    buttonText="Exportar a Excel" /> */}
                             </div>
                         </ButtonGroup>
 
@@ -701,7 +699,7 @@ function PaymentsByMonth() {
                                             <td>{data.locale.code}</td>
                                             <td>{data.locale.name}</td>
                                             <td>{`${meses[parseInt(data.month.slice(0, 2)) - 1]} ${data.month.slice(3, 7)}`}</td>
-                                            <td>{formatNumber(parseFloat(data.amountUSD))}</td>
+                                            <td>{parseFloat(data.amountUSD)}</td>
                                         </tr>
                                     ))
                                 }
@@ -745,13 +743,13 @@ function PaymentsByMonth() {
                             <Button onClick={pdfff4} className="see">Generar PDF</Button>
 
                             <div>
-                                <ReactHTMLTableToExcel
+{/*                                 <ReactHTMLTableToExcel
                                     id="test-table-xls-button"
                                     className="btn btn-success"
                                     table="porRango"
                                     filename="tabla deudas por rango"
                                     sheet="tablexls"
-                                    buttonText="Exportar a Excel" />
+                                    buttonText="Exportar a Excel" /> */}
                             </div>
                         </ButtonGroup>
 
@@ -812,13 +810,13 @@ function PaymentsByMonth() {
                             <Button onClick={pdfff5} className="see">Generar PDF</Button>
 
                             <div>
-                                <ReactHTMLTableToExcel
+{/*                                 <ReactHTMLTableToExcel
                                     id="test-table-xls-button"
                                     className="btn btn-success"
                                     table="desde"
                                     filename="tabla deuda desde"
                                     sheet="tablexls"
-                                    buttonText="Exportar a Excel" />
+                                    buttonText="Exportar a Excel" /> */}
                             </div>
                         </ButtonGroup>
 

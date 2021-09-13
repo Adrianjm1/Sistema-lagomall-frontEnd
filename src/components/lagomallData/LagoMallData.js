@@ -53,7 +53,7 @@ const LagoMallData = () => {
             })
             .catch((error) => console.log(error))
 
-    }, [state, user.token])
+    }, [])
 
 
     const onInputChange = e => {
@@ -66,6 +66,7 @@ const LagoMallData = () => {
 
         } else {
             console.log(isValid);
+            console.log(state.breakeven)
 
         }
 
@@ -120,7 +121,7 @@ const LagoMallData = () => {
                                     axios.patch('/local/up',
                                         {
                                             month: state.month,
-                                            idLGData: state.idLG,
+                                            idLGData: resps.data.id,
 
                                         }).then(respu => {
                                             count++
@@ -280,13 +281,6 @@ const LagoMallData = () => {
 
 
             </Container>
-
-
-
-
-
-
-
 
 
         </div>
