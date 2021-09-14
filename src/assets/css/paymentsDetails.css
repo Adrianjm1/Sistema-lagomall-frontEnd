@@ -13,8 +13,15 @@
     margin-bottom: 100px;
 }
 
-.margintable td {
-width: 80px;
+.margintable td p {
+    width: 135px;
+    
+}
+
+.margintable th {
+    justify-content: center;
+    text-align: center;
+    
 }
 
 .titlePayments {
