@@ -6,7 +6,6 @@ import 'react-datepicker/dist/react-datepicker.css'
 import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
-import formatNumber from '../../helpers/helpers';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 
@@ -500,9 +499,9 @@ function PaymentsByMonth() {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{formatNumber(parseFloat(state.pagoUSDdias))}</td>
-                                    <td>{formatNumber(parseFloat(state.pagoBSdias).toFixed(2))}</td>
-                                    <td>{formatNumber(parseFloat(state.sumatoriaTotalDias))}</td>
+                                    <td>{(parseFloat(state.pagoUSDdias))}</td>
+                                    <td>{(parseFloat(state.pagoBSdias).toFixed(2))}</td>
+                                    <td>{(parseFloat(state.sumatoriaTotalDias))}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -527,13 +526,13 @@ function PaymentsByMonth() {
                                         <tr key={data.id}>
                                             <td>{data.locale.code}</td>
                                             <td>{data.date}</td>
-                                            <td>{formatNumber(parseFloat(data.amountUSD))}</td>
-                                            <td>{formatNumber(parseFloat(data.amountBS).toFixed(2))}</td>
+                                            <td>{(parseFloat(data.amountUSD))}</td>
+                                            <td>{(parseFloat(data.amountBS).toFixed(2))}</td>
                                             <td>{data.referenceNumber}</td>
                                             <td>{data.bank}</td>
-                                            <td>{formatNumber(parseFloat(data.exchangeRate).toFixed(2))}</td>
+                                            <td>{(parseFloat(data.exchangeRate).toFixed(2))}</td>
                                             <td>{data.paymentUSD === false ? 'No' : 'Si'}</td>
-                                            <td>{formatNumber(parseFloat(data.restanteUSD))}</td>
+                                            <td>{(parseFloat(data.restanteUSD))}</td>
                                             <td>{data.admin.username}</td>
                                         </tr>
                                     ))
@@ -593,9 +592,9 @@ function PaymentsByMonth() {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{formatNumber(parseFloat(state.pagoUSDmeses))}</td>
-                                    <td>{formatNumber(parseFloat(state.pagoBSmeses).toFixed(2))}</td>
-                                    <td>{formatNumber(parseFloat(state.sumatoriaTotalMeses))}</td>
+                                    <td>{(parseFloat(state.pagoUSDmeses))}</td>
+                                    <td>{(parseFloat(state.pagoBSmeses).toFixed(2))}</td>
+                                    <td>{(parseFloat(state.sumatoriaTotalMeses))}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -620,13 +619,13 @@ function PaymentsByMonth() {
                                         <tr key={data.id}>
                                             <td>{data.locale.code}</td>
                                             <td>{data.date}</td>
-                                            <td>{formatNumber(parseFloat(data.amountUSD))}</td>
-                                            <td>{formatNumber(parseFloat(data.amountBS).toFixed(2))}</td>
+                                            <td>{(parseFloat(data.amountUSD))}</td>
+                                            <td>{(parseFloat(data.amountBS).toFixed(2))}</td>
                                             <td>{data.referenceNumber}</td>
                                             <td>{data.bank}</td>
-                                            <td>{formatNumber(parseFloat(data.exchangeRate).toFixed(2))}</td>
+                                            <td>{(parseFloat(data.exchangeRate).toFixed(2))}</td>
                                             <td>{data.paymentUSD === false ? 'No' : 'Si'}</td>
-                                            <td>{formatNumber(parseFloat(data.restanteUSD))}</td>
+                                            <td>{(parseFloat(data.restanteUSD))}</td>
                                             <td>{data.admin.username}</td>
                                         </tr>
                                     ))
@@ -734,7 +733,7 @@ function PaymentsByMonth() {
                         <hr />
 
                         <p></p>
-                        <p>Total en deudas en el rango establecido: <b>{formatNumber((parseFloat(rangeState.sumDeudasRango) * -1))}</b></p>
+                        <p>Total en deudas en el rango establecido: <b>{((parseFloat(rangeState.sumDeudasRango) * -1))}</b></p>
 
                         <br />
 

@@ -11,7 +11,6 @@ import { AuthContext } from '../auth/AuthContext';
 import '../../assets/css/registrar.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
-import formatNumber from '../../helpers/helpers';
 import RegistrarDeuda from './RegistrarDeuda';
 
 
@@ -181,6 +180,18 @@ function RegistrarPago() {
                 });
 
 
+                const mes = state.date.slice(5, 7);
+                const year = state.date.slice(0, 4);
+        
+                const deuda = await axios.post('/deudas/pagoMasDeuda', {
+                     code: state.code,
+                     month:`${mes}-${year}`,
+                     amountUSD: parseInt(state.amount) + parseInt(state.nota)
+                 })
+        
+
+    
+
             if (res.data.message) {
 
 
@@ -201,6 +212,8 @@ function RegistrarPago() {
                 setTimeout(function () { window.location.reload(); }, 3500);
 
             }
+
+
 
 
         }
@@ -229,6 +242,7 @@ function RegistrarPago() {
         // </Modal>
 
     }
+
 
 
     const pagoNormal = () => {
@@ -330,7 +344,7 @@ function RegistrarPago() {
                                         <Modal.Title>Confirmacion</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>Esta seguro/a que quiere procesar el pago al local <b> {state.code} </b> por <br />
-                                        <b>{formatNumber(parseFloat(state.amount))}$</b>  <br /> {state.pay === true ? 'Pagado en dolares' : 'Pagado en bolivares'}  </Modal.Body>
+                                        <b>{(parseFloat(state.amount))}$</b>  <br /> {state.pay === true ? 'Pagado en dolares' : 'Pagado en bolivares'}  </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={handleClose}>
                                             Cerrar
@@ -338,6 +352,7 @@ function RegistrarPago() {
                                         <Button variant="primary" onClick={onSubmit} type="submit">
                                             Procesar pago
                                         </Button>
+
                                     </Modal.Footer>
                                 </Modal>
 
