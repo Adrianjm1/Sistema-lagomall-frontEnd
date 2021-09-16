@@ -193,13 +193,13 @@ function PaymentsDetails() {
                                 <tr key={data.id}>
                                     <td><p>{data.date}</p> </td>
                                     <td>{(parseFloat(-data.amountUSD))}</td>
-                                    <td>{data.referenceNumber == null ? "   -  " : formatNumber(parseFloat(data.amountBS))}</td>
+                                    <td>{data.referenceNumber == null ? "   -  " : parseFloat(data.amountBS)}</td>
                                     <td>{data.referenceNumber == null ? "   -   " : data.referenceNumber}</td>
                                     <td>{data.referenceNumber == null ? "   -   " : data.bank}</td>
-                                    <td>{data.referenceNumber == null ? "   -   " : formatNumber(parseFloat(data.exchangeRate))}</td>
+                                    <td>{data.referenceNumber == null ? "   -   " : parseFloat(data.exchangeRate)}</td>
                                     <td>{data.referenceNumber == null ? "   -   " : (data.paymentUSD === false ? 'No' : 'Si')}</td>
                                     <td><p> {data.description}  </p> </td>
-                                    <td>{(parseFloat(data.restanteUSD))}</td>
+                                    <td>{code == '0000' ? "   -   " : parseFloat(data.restanteUSD)}</td>
                                     <td>{data.admin.username}</td>
                                     {code === '0000' && data.referenceNumber != null ? <td><Button onClick={() => { handleShow(); editarSaldo(code, data.amountUSD, data.id) }} className="btn">Asignar</Button></td> : null}
                                     <td> <Button className="anular" onClick={() => deleteP(data)}>Anular</Button></td>

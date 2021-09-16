@@ -8,8 +8,8 @@ import { AuthContext } from '../auth/AuthContext';
 import { useReactToPrint } from 'react-to-print';
 import swal from 'sweetalert';
 import "react-datepicker/dist/react-datepicker.css";
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-
+/* import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+ */
 import { Table, Container, Button, Form, FormControl, Modal, ButtonGroup } from "react-bootstrap";
 
 import '../../assets/css/locales.css';
@@ -302,13 +302,13 @@ function GetLocalesMaster() {
 
                         }} className="see">Generar PDF</Button>
                         <div>
-                            {<ReactHTMLTableToExcel
+{/*                             {<ReactHTMLTableToExcel
                                 id="test-table-xls-button"
                                 className="btn btn-success"
                                 table="tablaMaster"
                                 filename="tablexls"
                                 sheet="tablexls"
-                                buttonText="Exportar a Excel" />}
+                                buttonText="Exportar a Excel" />} */}
                         </div>
                     </ButtonGroup>
 

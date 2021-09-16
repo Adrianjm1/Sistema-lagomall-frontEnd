@@ -10,8 +10,8 @@ import formatNumber from '../../helpers/helpers';
 import "react-datepicker/dist/react-datepicker.css";
 import { Table, Container, Button, Form, FormControl, ButtonGroup } from "react-bootstrap";
 import '../../assets/css/locales.css';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-
+/* import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+ */
 
 import { saveAs } from 'file-saver';
 
@@ -171,13 +171,13 @@ function GetLocales() {
 
                         }} className="see">Generar PDF</Button>
                         <div>
-                            {<ReactHTMLTableToExcel
+{/*                             {<ReactHTMLTableToExcel
                                 id="test-table-xls-button"
                                 className="btn btn-success"
                                 table="tablaMaster"
                                 filename="tablexls"
                                 sheet="tablexls"
-                                buttonText="Exportar a Excel" />}
+                                buttonText="Exportar a Excel" />} */}
                         </div>
                     </ButtonGroup>
                     <br/>
