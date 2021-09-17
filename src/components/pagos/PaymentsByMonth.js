@@ -657,9 +657,9 @@ function PaymentsByMonth() {
 
 
                         <p></p>
-                        <p>Total en deudas del mes: <b>{state.sumatoriaDeudas}$</b></p>
                         <p>Cuota total del mes: <b>{state.cuotaMes}$</b></p>
-                        <p>Porcentaje pagado con respecto a la cuota total del mes: <b>{100 - parseFloat(state.porcentajeMes).toFixed(2)}%</b></p>
+                        <p>Total en deudas del mes: <b>{state.sumatoriaDeudas}$</b></p>
+                        <p>Porcentaje por pagar con respecto a la cuota total del mes: <b>{parseFloat(state.porcentajeMes).toFixed(2)}%</b></p>
 
 
                         <br />

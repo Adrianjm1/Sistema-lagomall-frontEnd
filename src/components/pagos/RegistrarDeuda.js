@@ -246,7 +246,7 @@ function RegistrarDeuda() {
                         <Modal.Header closeButton>
                             <Modal.Title>Confirmacion</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>Esta seguro/a que quiere procesar el pago a la <b>DEUDA</b> del local <b> {state.codeDeuda} </b> de <b> {state.mesDeuda} </b> por <b>{formatNumber(parseFloat(state.amountDeuda))}$</b> 
+                        <Modal.Body>Esta seguro/a que quiere procesar el pago a la <b>DEUDA</b> del local <b> {state.codeDeuda} </b> de <b> {state.mesDeuda} </b> por <b>{parseFloat(state.amountDeuda)}$</b> 
                         <br /> {state.payDeuda === true ? 'Pagado en dolares' : 'Pagado en bolivares'}  </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>
