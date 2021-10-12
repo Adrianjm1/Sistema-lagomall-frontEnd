@@ -95,6 +95,12 @@ const LagoMallData = () => {
             }).then(respuesta => {
                 if (respuesta) {
 
+                    swal({
+                        title: 'Mensaje',
+                        text: 'Por favor espere, este proceso puede tardar unos segundos',
+                        icon: 'info'
+                    });
+
 
                     let mess = state.month + '-02'
 

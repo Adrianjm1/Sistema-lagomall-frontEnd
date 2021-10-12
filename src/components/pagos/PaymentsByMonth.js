@@ -6,8 +6,8 @@ import 'react-datepicker/dist/react-datepicker.css'
 import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
-/* import ReactHTMLTableToExcel from 'react-html-table-to-excel';
- */
+ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+ 
 
 import { saveAs } from 'file-saver';
 
@@ -478,13 +478,13 @@ function PaymentsByMonth() {
                             <Button onClick={pdfff} className="see">Generar PDF</Button>
 
                             <div>
-{/*                                 {<ReactHTMLTableToExcel
+                                {<ReactHTMLTableToExcel
                                     id="test-table-xls-button"
                                     className="btn btn-success"
                                     table="tablaPorDia"
                                     filename="Tabla pagos por dia"
                                     sheet="tablexls"
-                                    buttonText="Exportar a Excel" />} */}
+                                    buttonText="Exportar a Excel" />}
                             </div>
                         </ButtonGroup>
 
@@ -493,7 +493,7 @@ function PaymentsByMonth() {
                             <thead>
                                 <tr className='first'>
                                     <th>Facturado en dolares ($)</th>
-                                    <th>Factutado en bolívares (Bs.S)</th>
+                                    <th>Facturado en bolívares (Bs.S)</th>
                                     <th>Total ($)</th>
                                 </tr>
                             </thead>
@@ -570,13 +570,13 @@ function PaymentsByMonth() {
                                 <Button onClick={pdfff2} className="see">Generar PDF</Button>
 
                                 <div>
-{/*                                     {<ReactHTMLTableToExcel
+                                    {<ReactHTMLTableToExcel
                                         id="test-table-xls-button"
                                         className="btn btn-success"
                                         table="tablaPorMes"
                                         filename="Tabla pagos por mes"
                                         sheet="tablexls"
-                                        buttonText="Exportar a Excel" />} */}
+                                        buttonText="Exportar a Excel" />}
                                 </div>
                             </ButtonGroup>
 
@@ -586,14 +586,14 @@ function PaymentsByMonth() {
                             <thead>
                                 <tr className='first'>
                                     <th>Facturado en dolares ($)</th>
-                                    <th>Factutado en bolívares (Bs.S)</th>
+                                    <th>Facturado en bolívares (Bs.S)</th>
                                     <th>Total ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>{(parseFloat(state.pagoUSDmeses))}</td>
-                                    <td>{(parseFloat(state.pagoBSmeses).toFixed(2))}</td>
+                                    <td>{(parseFloat(state.pagoBSmeses).toFixed(2) )}</td>
                                     <td>{(parseFloat(state.sumatoriaTotalMeses))}</td>
                                 </tr>
                             </tbody>
@@ -657,9 +657,11 @@ function PaymentsByMonth() {
 
 
                         <p></p>
-                        <p>Cuota total del mes: <b>{state.cuotaMes}$</b></p>
-                        <p>Total en deudas del mes: <b>{state.sumatoriaDeudas}$</b></p>
-                        <p>Porcentaje por pagar con respecto a la cuota total del mes: <b>{parseFloat(state.porcentajeMes).toFixed(2)}%</b></p>
+                        {/* <p>Cuota total del mes: <b>{state.cuotaMes}$</b></p> */}
+
+                        
+                        <p>Total en deudas del mes: <b>{(parseFloat(state.sumatoriaDeudas).toFixed(0))}$</b></p>
+                        {/* <p>Porcentaje por pagar con respecto a la cuota total del mes: <b>{parseFloat(state.porcentajeMes).toFixed(2)}%</b></p> */}
 
 
                         <br />
@@ -671,13 +673,13 @@ function PaymentsByMonth() {
                             <Button onClick={pdfff3} className="see">Generar PDF</Button>
 
                             <div>
-{/*                                 {<ReactHTMLTableToExcel
+                                {<ReactHTMLTableToExcel
                                     id="test-table-xls-button"
                                     className="btn btn-success"
                                     table="deudaPorMes"
                                     filename="Tabla deudas por mes"
                                     sheet="tablexls"
-                                    buttonText="Exportar a Excel" />} */}
+                                    buttonText="Exportar a Excel" />}
                             </div>
                         </ButtonGroup>
 
@@ -698,7 +700,7 @@ function PaymentsByMonth() {
                                             <td>{data.locale.code}</td>
                                             <td>{data.locale.name}</td>
                                             <td>{`${meses[parseInt(data.month.slice(0, 2)) - 1]} ${data.month.slice(3, 7)}`}</td>
-                                            <td>{parseFloat(data.amountUSD)}</td>
+                                            <td>{parseFloat(data.amountUSD).toFixed(0)}</td>
                                         </tr>
                                     ))
                                 }
@@ -742,13 +744,13 @@ function PaymentsByMonth() {
                             <Button onClick={pdfff4} className="see">Generar PDF</Button>
 
                             <div>
-{/*                                 {<ReactHTMLTableToExcel
+                                {<ReactHTMLTableToExcel
                                     id="test-table-xls-button"
                                     className="btn btn-success"
                                     table="porRango"
                                     filename="tabla deudas por rango"
                                     sheet="tablexls"
-                                    buttonText="Exportar a Excel" />} */}
+                                    buttonText="Exportar a Excel" />}
                             </div>
                         </ButtonGroup>
 
@@ -809,13 +811,13 @@ function PaymentsByMonth() {
                             <Button onClick={pdfff5} className="see">Generar PDF</Button>
 
                             <div>
-{/*                                 {<ReactHTMLTableToExcel
+                                {<ReactHTMLTableToExcel
                                     id="test-table-xls-button"
                                     className="btn btn-success"
                                     table="desde"
                                     filename="tabla deuda desde"
                                     sheet="tablexls"
-                                    buttonText="Exportar a Excel" />} */}
+                                    buttonText="Exportar a Excel" />}
                             </div>
                         </ButtonGroup>
 
