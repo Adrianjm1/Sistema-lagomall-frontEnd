@@ -11,6 +11,7 @@ import { Table, Container, Button, Form, FormControl } from "react-bootstrap";
 
 import '../../assets/css/locales.css';
 import { AuthContext } from '../auth/AuthContext';
+import numberWithCommas from '../../helpers/helpers';
 
 const defaultState = {
     name: 'React',
@@ -219,8 +220,8 @@ function Oldtable() {
                                     <td>{data.code}</td>
                                     <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
                                     <td>{data.percentageOfCC}</td>
-                                    <td>{data.monthlyUSD}</td>
-                                    <td>{data.prontoPago}</td>
+                                    <td>{numberWithCommas(data.monthlyUSD)}</td>
+                                    <td>{numberWithCommas(data.prontoPago)}</td>
 
 
                                     {/* <td className="detalles">

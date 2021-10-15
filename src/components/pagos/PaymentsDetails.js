@@ -20,13 +20,21 @@ const defaultState = {
     saldoEdit: 0,
     idEdit: 0,
     upCode: '',
-    toDelete: ''
+    toDelete: '',
+    idOwner: ''
 
+}
+
+const datosLocalState = {
+    owner: '',
+    ownerLast: '',
+    phone: ''
 }
 
 function PaymentsDetails() {
 
     const [state, setState] = useState(defaultState);
+    const [datoState, setDatoState] = useState(datosLocalState);
 
     const { user } = useContext(AuthContext);
     let code = useParams().code
@@ -43,6 +51,28 @@ function PaymentsDetails() {
         return state.datos
     }, [state])
 
+    const OwnerSetter = ()=>{
+
+        console.log('Me ejecuto bro');
+
+        axios.get(`/owner/1`)
+        .then((res) => {
+            // console.log(res.data);
+            console.log(res.data);
+            setDatoState({ ...datoState, owner: res.data.firstName, ownerLast: res.data.lastName, phone: res.data.phone })
+
+            // console.log(res.data[0].locale.code);
+
+            // console.log(res.data);
+
+        })
+        .catch((error) =>
+            console.log(error)
+        )
+
+
+    }
+
     useEffect(function () {
 
 
@@ -51,12 +81,15 @@ function PaymentsDetails() {
         axios.get(`/payments/${code}`)
             .then((res) => {
                 // console.log(res.data);
-                setState({ ...state, datos: res.data, code: code, name: res.data[0].locale.name })
+                setState({ ...state, datos: res.data, code: code, name: res.data[0].locale.name, idOwner: res.data[0].locale.idOwner })
 
                 // console.log(res.data[0].locale.code);
 
                 // console.log(res.data);
 
+            })
+            .then(()=>{
+                OwnerSetter();
             })
             .catch((error) =>
                 console.log(error)
@@ -168,7 +201,7 @@ function PaymentsDetails() {
 
             <Container>
                 <Card className="titlePayments">
-                    <Card.Body>Detalles de pago del local  {`${code} - ${state.name} `}</Card.Body>
+                    <Card.Body>Detalles de pago del local  {`${code} - ${state.name}`} <br/> {`Propietario: ${datoState.owner} ${datoState.ownerLast}`} <br/> {`Telefono: ${datoState.phone} `}</Card.Body>
                 </Card>
                 <Table className="margintable" striped bordered hover size="sm" >
                     <thead>

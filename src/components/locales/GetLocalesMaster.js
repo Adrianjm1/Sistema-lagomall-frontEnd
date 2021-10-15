@@ -9,8 +9,8 @@ import { AuthContext } from '../auth/AuthContext';
 import { useReactToPrint } from 'react-to-print';
 import swal from 'sweetalert';
 import "react-datepicker/dist/react-datepicker.css";
-/* import ReactHTMLTableToExcel from 'react-html-table-to-excel';
- */
+/*  import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+ */ 
 import { Table, Container, Button, Form, FormControl, Modal, ButtonGroup } from "react-bootstrap";
 
 import '../../assets/css/locales.css';
@@ -323,6 +323,7 @@ function GetLocalesMaster() {
                                 <th>% Según documento de condominio</th>
                                 <th>Cuota total en $</th>
                                 <th>Pronto Pago</th>
+                                <th>Descuento Pronto Pago</th>
                                 <th>Deuda</th>
                             </tr>
                         </thead>
@@ -337,14 +338,15 @@ function GetLocalesMaster() {
                                         <td>{data.percentageOfCC}</td>
                                         <td>{numberWithCommas(parseFloat(data.monthlyUSD))}</td>
                                         <td>{numberWithCommas(parseFloat(data.prontoPago))}</td>
+                                        <td>{numberWithCommas(parseFloat(data.monthlyUSD))-(parseFloat(data.prontoPago))    }</td>
                                         <td>{numberWithCommas(parseFloat(data.balance))}</td>
                                         <td className="detalles">
                                             <Link className="btn" to={`/master/payments/${data.code}`}>
                                                 <Button className="see">Ver detalles</Button>
                                             </Link>
-
-                                            <Button onClick={() => { handleShow(); editarSaldo(data.code, data.balance) }} className="see">Editar saldo</Button>
                                         </td>
+                                        <td>      <Button onClick={() => { handleShow(); editarSaldo(data.code, data.balance) }} className="see">Editar saldo</Button>        </td>
+                                       
                                     </tr>
 
 

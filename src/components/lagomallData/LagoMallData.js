@@ -96,6 +96,12 @@ const LagoMallData = () => {
             }).then(respuesta => {
                 if (respuesta) {
 
+                    swal({
+                        title: 'Mensaje',
+                        text: 'Por favor espere, este proceso puede tardar unos segundos',
+                        icon: 'info'
+                    });
+
 
                     let mess = state.month + '-02'
 
@@ -209,7 +215,7 @@ const LagoMallData = () => {
                             <b>Punto de Equilibrio</b>
                         </Form.Label>
                         <Col sm={2}>
-                            <Form.Control type="text" value={`${state.breakeven}`} disabled />
+                            <Form.Control type="text" value={`${numberWithCommas(state.breakeven)}`} disabled />
                         </Col>
                     </Form.Group>
 
@@ -221,7 +227,7 @@ const LagoMallData = () => {
 
 
                         <Col sm={2}>
-                            <Form.Control type="text" className="ctotalc" value={`${condominio}`} name="condominio" disabled />
+                            <Form.Control type="text" className="ctotalc" value={`${numberWithCommas(condominio)}`} name="condominio" disabled />
                         </Col>
                         <Col sm={1}>
                             <Form.Control className="discount" type="text" value={`${state.descuento}`} disabled />

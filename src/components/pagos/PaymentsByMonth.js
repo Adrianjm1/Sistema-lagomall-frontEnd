@@ -495,15 +495,15 @@ function PaymentsByMonth() {
                             <thead>
                                 <tr className='first'>
                                     <th>Facturado en dolares ($)</th>
-                                    <th>Factutado en bolívares (Bs.S)</th>
+                                    <th>Facturado en bolívares (Bs.S)</th>
                                     <th>Total ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{numberWithCommas(parseFloat(state.pagoUSDdias))}</td>
-                                    <td>{numberWithCommas(parseFloat(state.pagoBSdias).toFixed(2))}</td>
-                                    <td>{numberWithCommas(parseFloat(state.sumatoriaTotalDias))}</td>
+                                    <td>{numberWithCommas(parseFloat(state.pagoUSDdias || 0))}</td>
+                                    <td>{numberWithCommas(parseFloat(state.pagoBSdias || 0).toFixed(2))}</td>
+                                    <td>{numberWithCommas(parseFloat(state.sumatoriaTotalDias || 0))}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -588,15 +588,15 @@ function PaymentsByMonth() {
                             <thead>
                                 <tr className='first'>
                                     <th>Facturado en dolares ($)</th>
-                                    <th>Factutado en bolívares (Bs.S)</th>
+                                    <th>Facturado en bolívares (Bs.S)</th>
                                     <th>Total ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{numberWithCommas(parseFloat(state.pagoUSDmeses))}</td>
-                                    <td>{numberWithCommas(parseFloat(state.pagoBSmeses).toFixed(2))}</td>
-                                    <td>{numberWithCommas(parseFloat(state.sumatoriaTotalMeses))}</td>
+                                    <td>{numberWithCommas(parseFloat(state.pagoUSDmeses || 0))}</td>
+                                    <td>{numberWithCommas(parseFloat(state.pagoBSmeses || 0).toFixed(2))}</td>
+                                    <td>{numberWithCommas(parseFloat(state.sumatoriaTotalMeses || 0))}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -655,6 +655,15 @@ function PaymentsByMonth() {
                         </Form>
 
                         <hr />
+
+
+
+                        <p></p>
+                        {/* <p>Cuota total del mes: <b>{state.cuotaMes}$</b></p> */}
+
+                        
+                        <p>Total en deudas del mes: <b>{(parseFloat(state.sumatoriaDeudas || 0).toFixed(0))}$</b></p>
+                        {/* <p>Porcentaje por pagar con respecto a la cuota total del mes: <b>{parseFloat(state.porcentajeMes).toFixed(2)}%</b></p> */}
 
 
                         <br />
@@ -728,7 +737,7 @@ function PaymentsByMonth() {
                         <hr />
 
                         <p></p>
-                        <p>Total en deudas en el rango establecido: <b>{numberWithCommas(parseFloat(rangeState.sumDeudasRango) * -1)}</b></p>
+                        <p>Total en deudas en el rango establecido: <b>{numberWithCommas(parseFloat(rangeState.sumDeudasRango || 0).toFixed(2))}$</b></p>
 
                         <br />
 
