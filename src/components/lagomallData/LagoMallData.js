@@ -4,6 +4,7 @@ import '../../assets/css/form.css';
 import axios, { generateToken } from '../../config/axios'
 import { AuthContext } from '../auth/AuthContext';
 import swal from 'sweetalert';
+import numberWithCommas from '../../helpers/helpers';
 import "react-datepicker/dist/react-datepicker.css";
 
 const LagoMallData = () => {
@@ -199,7 +200,7 @@ const LagoMallData = () => {
                             <b>Metraje del Centro Comercial</b>
                         </Form.Label>
                         <Col sm={2}>
-                            <Form.Control value={`${state.metros}`} disabled />
+                            <Form.Control value={`${numberWithCommas(state.metros)}`} disabled />
                         </Col>
                     </Form.Group>
 

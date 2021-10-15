@@ -6,6 +6,8 @@ import 'react-datepicker/dist/react-datepicker.css'
 import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
+import numberWithCommas from '../../helpers/helpers';
+
 /* import ReactHTMLTableToExcel from 'react-html-table-to-excel';
  */
 
@@ -499,9 +501,9 @@ function PaymentsByMonth() {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{(parseFloat(state.pagoUSDdias))}</td>
-                                    <td>{(parseFloat(state.pagoBSdias).toFixed(2))}</td>
-                                    <td>{(parseFloat(state.sumatoriaTotalDias))}</td>
+                                    <td>{numberWithCommas(parseFloat(state.pagoUSDdias))}</td>
+                                    <td>{numberWithCommas(parseFloat(state.pagoBSdias).toFixed(2))}</td>
+                                    <td>{numberWithCommas(parseFloat(state.sumatoriaTotalDias))}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -526,13 +528,13 @@ function PaymentsByMonth() {
                                         <tr key={data.id}>
                                             <td>{data.locale.code}</td>
                                             <td>{data.date}</td>
-                                            <td>{(parseFloat(data.amountUSD))}</td>
-                                            <td>{(parseFloat(data.amountBS).toFixed(2))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.amountUSD))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.amountBS).toFixed(2))}</td>
                                             <td>{data.referenceNumber}</td>
                                             <td>{data.bank}</td>
-                                            <td>{(parseFloat(data.exchangeRate).toFixed(2))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.exchangeRate).toFixed(2))}</td>
                                             <td>{data.paymentUSD === false ? 'No' : 'Si'}</td>
-                                            <td>{(parseFloat(data.restanteUSD))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.restanteUSD))}</td>
                                             <td>{data.admin.username}</td>
                                         </tr>
                                     ))
@@ -592,9 +594,9 @@ function PaymentsByMonth() {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{(parseFloat(state.pagoUSDmeses))}</td>
-                                    <td>{(parseFloat(state.pagoBSmeses).toFixed(2))}</td>
-                                    <td>{(parseFloat(state.sumatoriaTotalMeses))}</td>
+                                    <td>{numberWithCommas(parseFloat(state.pagoUSDmeses))}</td>
+                                    <td>{numberWithCommas(parseFloat(state.pagoBSmeses).toFixed(2))}</td>
+                                    <td>{numberWithCommas(parseFloat(state.sumatoriaTotalMeses))}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -619,13 +621,13 @@ function PaymentsByMonth() {
                                         <tr key={data.id}>
                                             <td>{data.locale.code}</td>
                                             <td>{data.date}</td>
-                                            <td>{(parseFloat(data.amountUSD))}</td>
-                                            <td>{(parseFloat(data.amountBS).toFixed(2))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.amountUSD))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.amountBS).toFixed(2))}</td>
                                             <td>{data.referenceNumber}</td>
                                             <td>{data.bank}</td>
-                                            <td>{(parseFloat(data.exchangeRate).toFixed(2))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.exchangeRate).toFixed(2))}</td>
                                             <td>{data.paymentUSD === false ? 'No' : 'Si'}</td>
-                                            <td>{(parseFloat(data.restanteUSD))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.restanteUSD))}</td>
                                             <td>{data.admin.username}</td>
                                         </tr>
                                     ))
@@ -653,13 +655,6 @@ function PaymentsByMonth() {
                         </Form>
 
                         <hr />
-
-
-
-                        <p></p>
-                        <p>Cuota total del mes: <b>{state.cuotaMes}$</b></p>
-                        <p>Total en deudas del mes: <b>{state.sumatoriaDeudas}$</b></p>
-                        <p>Porcentaje por pagar con respecto a la cuota total del mes: <b>{parseFloat(state.porcentajeMes).toFixed(2)}%</b></p>
 
 
                         <br />
@@ -698,7 +693,7 @@ function PaymentsByMonth() {
                                             <td>{data.locale.code}</td>
                                             <td>{data.locale.name}</td>
                                             <td>{`${meses[parseInt(data.month.slice(0, 2)) - 1]} ${data.month.slice(3, 7)}`}</td>
-                                            <td>{parseFloat(data.amountUSD)}</td>
+                                            <td>{numberWithCommas(parseFloat(data.amountUSD))}</td>
                                         </tr>
                                     ))
                                 }
@@ -733,7 +728,7 @@ function PaymentsByMonth() {
                         <hr />
 
                         <p></p>
-                        <p>Total en deudas en el rango establecido: <b>{((parseFloat(rangeState.sumDeudasRango) * -1))}</b></p>
+                        <p>Total en deudas en el rango establecido: <b>{numberWithCommas(parseFloat(rangeState.sumDeudasRango) * -1)}</b></p>
 
                         <br />
 
@@ -767,7 +762,7 @@ function PaymentsByMonth() {
                                         <tr key={data.id}>
                                             <td>{data.locale.code}</td>
                                             <td>{data.locale.name}</td>
-                                            <td>{(parseFloat(data.deudaTotal))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.deudaTotal))}</td>
                                         </tr>
                                     ))
                                 }
@@ -833,7 +828,7 @@ function PaymentsByMonth() {
                                         <tr key={data.id}>
                                             <td>{data.locale.code}</td>
                                             <td>{data.locale.name}</td>
-                                            <td>{(parseFloat(data.deudaTotal))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.deudaTotal))}</td>
                                         </tr>
                                     ))
                                 }
@@ -843,20 +838,6 @@ function PaymentsByMonth() {
 
 
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             </Container>

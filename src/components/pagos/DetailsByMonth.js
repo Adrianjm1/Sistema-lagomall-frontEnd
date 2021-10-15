@@ -4,6 +4,7 @@ import { useHistory, useParams, Link } from 'react-router-dom';
 import { useParams, withRouter } from "react-router";
 import { AuthContext } from '../auth/AuthContext';
 import { Table, Container, Button, Card } from "react-bootstrap";
+import numberWithCommas from '../../helpers/helpers';
 import '../../assets/css/paymentsDetails.css';
 import { faFreeCodeCamp } from '@fortawesome/free-brands-svg-icons';
 
@@ -75,11 +76,11 @@ function PaymentsDetails() {
                             state.datos.map(data => (
                                 <tr key={data.id}>
                                     <td>{data.createdAt.slice(0, 10)}</td>
-                                    <td>{data.amountUSD}</td>
-                                    <td>{data.amountBS}</td>
+                                    <td>{numberWithCommas(data.amountUSD)}</td>
+                                    <td>{numberWithCommas(data.amountBS)}</td>
                                     <td>{data.referenceNumber}</td>
                                     <td>{data.bank}</td>
-                                    <td>{data.exchangeRate}</td>
+                                    <td>{numberWithCommas(data.exchangeRate)}</td>
                                     <td>{data.paymentUSD == false ? 'No' : 'Si'}</td>
                                     <td>{data.admin.username}</td>
                                     {/* <td><Link className="btn"><Button className="see">Editar</Button></Link></td> */}

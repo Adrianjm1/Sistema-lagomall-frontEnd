@@ -12,6 +12,7 @@ import '../../assets/css/registrar.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
 import RegistrarDeuda from './RegistrarDeuda';
+import numberWithCommas from '../../helpers/helpers';
 
 
 
@@ -344,7 +345,7 @@ function RegistrarPago() {
                                         <Modal.Title>Confirmacion</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>Esta seguro/a que quiere procesar el pago al local <b> {state.code} </b> por <br />
-                                        <b>{(parseFloat(state.amount))}$</b>  <br /> {state.pay === true ? 'Pagado en dolares' : 'Pagado en bolivares'}  </Modal.Body>
+                                        <b>{numberWithCommas(parseFloat(state.amount))}$</b>  <br /> {state.pay === true ? 'Pagado en dolares' : 'Pagado en bolivares'}  </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={handleClose}>
                                             Cerrar

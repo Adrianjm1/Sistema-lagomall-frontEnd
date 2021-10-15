@@ -6,7 +6,7 @@ import { Table, Container, Card, Button, Modal, Form } from "react-bootstrap";
 import '../../assets/css/paymentsDetails.css';
 import { NavbarLoged } from '../locales/NavbarLoged';
 import { NavbarMaster } from '../locales/NavbarMaster';
-import formatNumber from '../../helpers/helpers';
+import numberWithCommas from '../../helpers/helpers';
 import swal from 'sweetalert';
 
 
@@ -192,14 +192,14 @@ function PaymentsDetails() {
 
                                 <tr key={data.id}>
                                     <td><p>{data.date}</p> </td>
-                                    <td>{(parseFloat(-data.amountUSD))}</td>
-                                    <td>{data.referenceNumber == null ? "   -  " : parseFloat(data.amountBS)}</td>
+                                    <td>{numberWithCommas(parseFloat(-data.amountUSD))}</td>
+                                    <td>{data.referenceNumber == null ? "   -  " : numberWithCommas(parseFloat(data.amountBS))}</td>
                                     <td>{data.referenceNumber == null ? "   -   " : data.referenceNumber}</td>
                                     <td>{data.referenceNumber == null ? "   -   " : data.bank}</td>
-                                    <td>{data.referenceNumber == null ? "   -   " : parseFloat(data.exchangeRate)}</td>
+                                    <td>{data.referenceNumber == null ? "   -   " : numberWithCommas(parseFloat(data.exchangeRate))}</td>
                                     <td>{data.referenceNumber == null ? "   -   " : (data.paymentUSD === false ? 'No' : 'Si')}</td>
                                     <td><p> {data.description}  </p> </td>
-                                    <td>{code == '0000' ? "   -   " : parseFloat(data.restanteUSD)}</td>
+                                    <td>{code == '0000' ? "   -   " : numberWithCommas(parseFloat(data.restanteUSD))}</td>
                                     <td>{data.admin.username}</td>
                                     {code === '0000' && data.referenceNumber != null ? <td><Button onClick={() => { handleShow(); editarSaldo(code, data.amountUSD, data.id) }} className="btn">Asignar</Button></td> : null}
                                     <td> <Button className="anular" onClick={() => deleteP(data)}>Anular</Button></td>

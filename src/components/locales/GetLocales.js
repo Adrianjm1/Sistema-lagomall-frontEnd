@@ -6,7 +6,6 @@ import { NavbarMaster } from './NavbarMaster';
 import { AuthContext } from '../auth/AuthContext';
 import { useReactToPrint } from 'react-to-print';
 import DatePicker from 'react-datepicker';
-import formatNumber from '../../helpers/helpers';
 import "react-datepicker/dist/react-datepicker.css";
 import { Table, Container, Button, Form, FormControl, ButtonGroup } from "react-bootstrap";
 import '../../assets/css/locales.css';
@@ -14,6 +13,7 @@ import '../../assets/css/locales.css';
  */
 
 import { saveAs } from 'file-saver';
+import numberWithCommas from '../../helpers/helpers';
 
 const date = new Date();
 const today = `${date.getDate()}-${date.getMonth()}`
@@ -185,25 +185,25 @@ function GetLocales() {
 
 
                         <Form.Label column sm={3}>
-                            <p> Monto total:   <b> {(parseFloat(state.total))}</b></p>
+                            <p> Monto total:   <b> {numberWithCommas(parseFloat(state.total))}</b></p>
                         </Form.Label>
 
                         <Form.Label column sm={3}>
-                            <p> Monto total pagado:   <b> {(parseFloat(state.totalPagado))}</b></p>
+                            <p> Monto total pagado:   <b> {numberWithCommas(parseFloat(state.totalPagado))}</b></p>
                         </Form.Label>
 
                         <Form.Label column sm={3}>
-                            <p> Monto restante por pagar:   <b> {(parseFloat(state.total) - parseFloat(state.totalPagado))}</b></p>
+                            <p> Monto restante por pagar:   <b> {numberWithCommas(parseFloat(state.total) - parseFloat(state.totalPagado))}</b></p>
                         </Form.Label>
 
                         <br />
 
                         <Form.Label column sm={5}>
-                            <p> Porcentaje del monto total pagado:   <b> {(parseFloat(state.porcentajePagado.toFixed(3)))}%</b></p>
+                            <p> Porcentaje del monto total pagado:   <b> {numberWithCommas(parseFloat(state.porcentajePagado.toFixed(3)))}%</b></p>
                         </Form.Label>
 
                         <Form.Label column sm={4}>
-                            <p>  Monto total pronto pago: <b>{(parseFloat(state.totalPronto))}</b></p>
+                            <p>  Monto total pronto pago: <b>{numberWithCommas(parseFloat(state.totalPronto))}</b></p>
                         </Form.Label>
 
 
@@ -233,9 +233,9 @@ function GetLocales() {
                                             <td>{data.code}</td>
                                             <td>{`${data.owner.firstName} ${data.owner.lastName}`}</td>
                                             <td>{data.percentageOfCC}</td>
-                                            <td>{(parseFloat(data.monthlyUSD))}</td>
-                                            <td>{(parseFloat(data.prontoPago))}</td>
-                                            <td>{(parseFloat(data.balance))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.monthlyUSD))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.prontoPago))}</td>
+                                            <td>{numberWithCommas(parseFloat(data.balance))}</td>
                                             <td className="detalles">
                                                 <Link className="btn" to={`/admin/payments/${data.code}`}>
                                                     <Button className="see">Ver detalles</Button>
