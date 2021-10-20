@@ -12,6 +12,7 @@ import numberWithCommas from '../../helpers/helpers';
  */
 
 import { saveAs } from 'file-saver';
+import { URL_API } from '../../config/constant';
 
 /* import { useHistory, useParams, Link } from 'react-router-dom';
  */
@@ -199,7 +200,6 @@ function PaymentsByMonth() {
             .then((res) => {
 
                 setState({ ...state, datosDias: res.data.pagos, pagoBSdias: res.data.totalBS, pagoUSDdias: res.data.totalUSD, sumatoriaTotalDias: res.data.sumaTotal, pdfDay: month })
-
 
             })
             .catch((error) =>
