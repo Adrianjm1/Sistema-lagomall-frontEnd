@@ -32,6 +32,8 @@
     "sweetalert": "^2.1.2",
     "web-vitals": "^1.1.2"
   },
+
+  "homepage": "http://lagotest.infinityfreeapp.com/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
