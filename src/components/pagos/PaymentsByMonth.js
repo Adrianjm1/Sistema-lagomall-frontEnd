@@ -12,7 +12,6 @@ import numberWithCommas from '../../helpers/helpers';
  
 
 import { saveAs } from 'file-saver';
-import { URL_API } from '../../config/constant';
 
 /* import { useHistory, useParams, Link } from 'react-router-dom';
  */
@@ -243,10 +242,10 @@ function PaymentsByMonth() {
 
                 if (res.data.ok === false) {
                     console.log('false');
-                    setState({ ...state, deudas: [], cuotaMes: '', porcentajeMes: '', sumatoriaDeudas: '', pdfDeuda: '' })
+                    setState({ ...state, deudas: [], sumatoriaDeudas: '', pdfDeuda: '' })
                 } else {
                     console.log('true');
-                    setState({ ...state, deudas: res.data.data, cuotaMes: res.data.suma, porcentajeMes: res.data.porcentaje, sumatoriaDeudas: res.data.sumDeudas, pdfDeuda: month })
+                    setState({ ...state, deudas: res.data.data, sumatoriaDeudas: res.data.sumDeudas, pdfDeuda: month })
 
                 }
 
