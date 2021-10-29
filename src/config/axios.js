@@ -3,8 +3,8 @@ import axios from 'axios'
 
 const client = axios.create({
   // baseURL: 'http://localhost:5000/api', //Local
-  baseURL: 'https://test-lagomall.herokuapp.com/api',   //Pre-Production
-  // baseURL: 'https://condominio-cc-lagomall.herokuapp.com/api',   //Production
+  // baseURL: 'https://test-lagomall.herokuapp.com/api',   //Pre-Production
+  baseURL: 'https://condominio-cc-lagomall-back.herokuapp.com/api',   //Production
 });
 
 
