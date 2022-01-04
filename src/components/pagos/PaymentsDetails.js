@@ -21,7 +21,8 @@ const defaultState = {
     idEdit: 0,
     upCode: '',
     toDelete: '',
-    idOwner: ''
+    idOwner: '',
+    nota: ''
 
 }
 
@@ -101,13 +102,15 @@ function PaymentsDetails() {
     }, [])
 
     const deleteP = (datos) => {
-        console.log(datos.id);
+        console.log(datos);
         swal({
             text: "Esta accion no se puede revertir, esta seguro que quiere continuar?",
             buttons: ["No", "Si"]
         }).then((res) => {
             if (res) {
-                console.log(state.toDelete);
+               
+
+                console.log(`Se esta borrando  + ${parseInt(datos.amountUSD) + parseInt(datos.nota)}`);
 
 
 
@@ -115,11 +118,11 @@ function PaymentsDetails() {
                     .then((respue) => {
 
 
-                        const balance =  parseInt(respue.data.balance ) - parseInt(datos.amountUSD);
+                        const balance =  parseInt(respue.data.balance ) + parseInt(datos.amountUSD) + parseInt(datos.nota) ;
 
                         // (datos.amountUSD * -1) + respue.data.balance
                         // parseInt(datos.amountUSD, base);
-                        console.log(datos.amountUSD);
+                        console.log(`Se esta borrando ${respue.data.balance} + ${parseInt(datos.amountUSD) + parseInt(datos.nota)}`);
                         
                         axios.patch('/local/upBalance',
                             {
@@ -131,7 +134,7 @@ function PaymentsDetails() {
                                 axios.delete(`/payments/delete/${datos.id}`)
                                     .then((res) => {
                                         swal({
-                                            text: "Pago anulado con exito!, tiene bugs xd",
+                                            text: "Pago anulado con exito!",
                                         })
                                     })
                                     .catch((error) =>

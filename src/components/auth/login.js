@@ -60,11 +60,13 @@ export const Login = ({history}) => {
                         payload: {
                             name: data.data.usuario.username,
                             token: data.data.token,
-                            master: data.data.usuario.id === 1 ? true : false
+                            master: data.data.usuario.id === 1 || data.data.usuario.id ===2 ? true : false,
+
+
                         }
                     })
     
-                    if(data.data.usuario.id === 1){
+                    if(data.data.usuario.id === 1 || data.data.usuario.id === 2 ){
                         history.replace('/master');
     
                     } else{

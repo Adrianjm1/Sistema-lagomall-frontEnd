@@ -48,9 +48,9 @@ function GetLocales() {
         if (state.busqueda.length) {
             return state.locales.filter(local => local.code.includes(state.busqueda))
         } else if (state.deuda === true) {
-            return state.locales.filter(local => local.balance < 1)
-        } else if (state.deuda === false) {
             return state.locales.filter(local => local.balance > 0)
+        } else if (state.deuda === false) {
+            return state.locales.filter(local => local.balance < 1)
         } else if (state.deuda === '') {
             return state.locales
         }
